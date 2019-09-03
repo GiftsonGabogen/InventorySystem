@@ -1,0 +1,87 @@
+.Login {
+  display: grid;
+  height: 100vh;
+  width: 100%;
+}
+.Login > .Title {
+  display: grid;
+  align-content: center;
+  height: 6rem;
+  position: fixed;
+  width: 100%;
+  text-align: center;
+}
+.Login form {
+  align-self: center;
+  justify-self: center;
+  width: 40%;
+  padding: 1rem;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  box-shadow: 8px 8px 8px rgba(0, 0, 0, 0.2);
+}
+
+.Overview > .card > .card-body > .card-deck > .card > .card-body {
+  display: grid;
+  justify-items: center;
+  align-items: center;
+  padding: 2rem;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+}
+.Overview > .card > .card-body > .card-deck > .card > .card-body img {
+  grid-row: span 2;
+  grid-column: span 1;
+}
+
+.Navbar {
+  box-sizing: border-box;
+  height: 100%;
+  padding: 0.5rem 1rem;
+}
+.Navbar nav > div ul li {
+  padding: 0.2rem;
+}
+.Navbar nav > div ul button {
+  width: 100%;
+}
+.Navbar nav > div ul .btn:disabled {
+  opacity: 1;
+}
+.Navbar nav > div ul .sub-nav {
+  display: grid;
+  grid-template-columns: 1fr 8fr;
+  align-items: center;
+}
+.Navbar nav > div ul .sub-nav .badge {
+  width: 100%;
+  padding: 8px;
+}
+.Navbar nav > div ul .sub-nav .badge img {
+  max-width: 100%;
+}
+
+.Heading {
+  padding: 1rem;
+}
+.Heading div > h4 {
+  color: white;
+}
+
+.SearchBar {
+  width: 50%;
+  padding: 1rem 0;
+}
+
+body {
+  margin: 0;
+}
+
+.Home {
+  padding: 1rem;
+}
+
+.row {
+  margin: 0;
+}
+
+/*# sourceMappingURL=App.css.map */

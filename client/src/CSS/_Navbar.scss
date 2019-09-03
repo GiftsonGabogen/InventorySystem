@@ -1,0 +1,32 @@
+.Navbar {
+  box-sizing: border-box;
+  height: 100%;
+  padding: 0.5rem 1rem;
+  nav {
+    > div {
+      ul {
+        li {
+          padding: 0.2rem;
+        }
+        button {
+          width: 100%;
+        }
+        .btn:disabled {
+          opacity: 1;
+        }
+        .sub-nav {
+          display: grid;
+          grid-template-columns: 1fr 8fr;
+          align-items: center;
+          .badge {
+            width: 100%;
+            padding: 8px;
+            img {
+              max-width: 100%;
+            }
+          }
+        }
+      }
+    }
+  }
+}

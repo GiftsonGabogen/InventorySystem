@@ -1,0 +1,22 @@
+.Overview {
+  > .card {
+    > .card-body {
+      > .card-deck {
+        > .card {
+          > .card-body {
+            display: grid;
+            justify-items: center;
+            align-items: center;
+            padding: 2rem;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            img {
+              grid-row: span 2;
+              grid-column: span 1;
+            }
+          }
+        }
+      }
+    }
+  }
+}
