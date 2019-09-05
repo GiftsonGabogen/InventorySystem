@@ -9,6 +9,7 @@ export const UpdateItem = "updateItem";
 export const AddStock = "addStock";
 export const FetchCategories = "fetchCategories";
 export const AddCategory = "addCategory";
+export const DeleteCategory = "deleteCategory";
 
 export const Login = "login";
 export const Register = "register";

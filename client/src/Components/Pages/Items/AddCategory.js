@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { AddCategoryAction } from "../../../Actions/ItemActions";
+import { UnMountAlertAction } from "../../../Actions/UnMountActions";
 
 function mapStateToProps(state) {
   return {
@@ -9,6 +10,9 @@ function mapStateToProps(state) {
 }
 
 class AddCategory extends Component {
+  componentWillUnmount() {
+    this.props.UnMountAlertAction();
+  }
   AddCategoryHandler = e => {
     e.preventDefault();
     let Data = {
@@ -19,6 +23,20 @@ class AddCategory extends Component {
   render() {
     return (
       <div className="AddCategory">
+        {this.props.items.message === "" ? (
+          ""
+        ) : (
+          <div
+            className={`alert ${
+              this.props.items.Success === true
+                ? "alert-success"
+                : "alert-danger"
+            }`}
+            role="alert"
+          >
+            {this.props.items.message}
+          </div>
+        )}
         <form onSubmit={this.AddCategoryHandler}>
           <div className="form-group">
             <label htmlFor="Name">Name</label>
@@ -33,5 +51,5 @@ class AddCategory extends Component {
 
 export default connect(
   mapStateToProps,
-  { AddCategoryAction }
+  { AddCategoryAction, UnMountAlertAction }
 )(AddCategory);

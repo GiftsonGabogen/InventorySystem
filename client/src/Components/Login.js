@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { LoginAction } from "../Actions/CredentialActions";
+import { UnMountAlertAction } from "../Actions/UnMountActions";
 
 function mapStateToProps(state) {
   return {
@@ -10,6 +11,9 @@ function mapStateToProps(state) {
 }
 
 class Login extends Component {
+  componentWillUnmount() {
+    this.props.UnMountAlertAction();
+  }
   LoginHandler = e => {
     e.preventDefault();
     let Data = {
@@ -56,5 +60,5 @@ class Login extends Component {
 
 export default connect(
   mapStateToProps,
-  { LoginAction }
+  { LoginAction, UnMountAlertAction }
 )(Login);

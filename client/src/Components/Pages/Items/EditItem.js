@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import SearchBar from "../../Comps/SearchBar";
 import { UnMountAlertAction } from "../../../Actions/UnMountActions";
-import { EditItemAction } from "../../../Actions/ItemActions";
+import { EditItemAction, DeleteItemAction } from "../../../Actions/ItemActions";
 
 function mapStateToProps(state) {
   return {
@@ -24,6 +24,9 @@ class EditItem extends Component {
   componentWillUnmount() {
     this.props.UnMountAlertAction();
   }
+  ItemDeleteHandler = id => {
+    this.props.DeleteItemAction(id);
+  };
   EditItemHandler = e => {
     e.preventDefault();
     const { Name, Category, SellingPrice, Unit, id } = this.refs;
@@ -129,7 +132,7 @@ class EditItem extends Component {
                           ref="Category"
                           className="form-control custom-select"
                           onChange={this.CategoryHandler}
-                          defaultValue={this.state.Category}
+                          value={this.state.Category}
                         >
                           {this.props.items.categories.map((category, i) => (
                             <option value={category._id} key={i}>
@@ -161,7 +164,20 @@ class EditItem extends Component {
             </div>
           </div>
         </div>
-
+        {this.props.items.message === "" ? (
+          ""
+        ) : (
+          <div
+            className={`alert ${
+              this.props.items.Success === true
+                ? "alert-success"
+                : "alert-danger"
+            }`}
+            role="alert"
+          >
+            {this.props.items.message}
+          </div>
+        )}
         <SearchBar Categories={this.props.items.categories} />
         <table className="table table-striped">
           <thead>
@@ -173,6 +189,7 @@ class EditItem extends Component {
               <th scope="col">Selling Price</th>
               <th scope="col">Quantity</th>
               <th scope="col">Unit</th>
+              <th />
               <th />
             </tr>
           </thead>
@@ -194,7 +211,7 @@ class EditItem extends Component {
                     onClick={() =>
                       this.EditHandler(
                         item.Name,
-                        item.Category.Name,
+                        item.Category._id,
                         item.SellingPrice,
                         item.Unit,
                         item._id
@@ -202,6 +219,14 @@ class EditItem extends Component {
                     }
                   >
                     Edit
+                  </button>
+                </td>
+                <td>
+                  <button
+                    className="btn btn-danger"
+                    onClick={() => this.ItemDeleteHandler(item._id)}
+                  >
+                    Delete
                   </button>
                 </td>
               </tr>
@@ -215,5 +240,5 @@ class EditItem extends Component {
 
 export default connect(
   mapStateToProps,
-  { UnMountAlertAction, EditItemAction }
+  { UnMountAlertAction, EditItemAction, DeleteItemAction }
 )(EditItem);

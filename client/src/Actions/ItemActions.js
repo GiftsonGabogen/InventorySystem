@@ -3,11 +3,10 @@ import {
   FetchItems,
   UpdateItem,
   DeleteItem,
-  EditItem,
-  AddStock,
   AddCategory,
   FetchCategories,
-  FetchAll
+  FetchAll,
+  DeleteCategory
 } from "./Actions";
 
 import axios from "axios";
@@ -80,11 +79,25 @@ export const AddCategoryAction = data => dispatch => {
 
 export const DeleteItemAction = id => dispatch => {
   axios
-    .delete(`/api/items/${id}`)
-    .then(res => res.json())
+    .delete(`/api/items/${id}`, {
+      headers: { Authorization: "Bearer " + Token }
+    })
     .then(item =>
       dispatch({
         type: DeleteItem,
+        payload: item.data
+      })
+    );
+};
+
+export const DeleteCategoryAction = id => dispatch => {
+  axios
+    .delete(`/api/items/Category/${id}`, {
+      headers: { Authorization: "Bearer " + Token }
+    })
+    .then(item =>
+      dispatch({
+        type: DeleteCategory,
         payload: item.data
       })
     );
@@ -97,21 +110,20 @@ export const AddStockAction = data => dispatch => {
     })
     .then(item =>
       dispatch({
-        type: AddStock,
+        type: UpdateItem,
         payload: item.data
       })
     );
 };
 
 export const EditItemAction = data => dispatch => {
-  console.log(data);
   axios
     .put("/api/items/EditItem", data, {
       headers: { Authorization: "Bearer " + Token }
     })
     .then(item =>
       dispatch({
-        type: EditItem,
+        type: UpdateItem,
         payload: item.data
       })
     );

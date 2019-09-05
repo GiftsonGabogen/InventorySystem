@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import SearchBar from "../../Comps/SearchBar";
+import { UnMountAlertAction } from "../../../Actions/UnMountActions";
 
 function mapStateToProps(state) {
   return {
@@ -9,6 +10,9 @@ function mapStateToProps(state) {
 }
 
 class Items extends Component {
+  componentWillUnmount() {
+    this.props.UnMountAlertAction();
+  }
   render() {
     return (
       <div className="Items">
@@ -44,4 +48,7 @@ class Items extends Component {
   }
 }
 
-export default connect(mapStateToProps)(Items);
+export default connect(
+  mapStateToProps,
+  { UnMountAlertAction }
+)(Items);

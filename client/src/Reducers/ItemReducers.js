@@ -3,6 +3,7 @@ import {
   FetchItems,
   AddItem,
   DeleteItem,
+  DeleteCategory,
   AddStock,
   EditItem,
   UpdateItem,
@@ -30,8 +31,7 @@ export default (state = initialState, action) => {
           ...state,
           items: action.items.Items,
           categories: action.categories.Categories,
-          Success: true,
-          message: action.items.message + " " + action.categories.message
+          Success: true
         };
       } else {
         return {
@@ -102,10 +102,11 @@ export default (state = initialState, action) => {
         };
       }
     case AddCategory:
+      console.log(action.payload);
       if (action.payload.success === true) {
         return {
           ...state,
-          category: [...state.categories, action.payload.Category],
+          categories: [...state.categories, action.payload.Category],
           Success: true,
           message: action.payload.message
         };
@@ -122,6 +123,10 @@ export default (state = initialState, action) => {
         let FilteredItems = state.items.filter(
           item => item._id !== action.payload.Item._id
         );
+        let Category = state.categories.filter(
+          category => category._id === action.payload.Item.Category
+        );
+        action.payload.Item.Category = Category[0];
 
         return {
           ...state,
@@ -140,11 +145,29 @@ export default (state = initialState, action) => {
     case DeleteItem:
       if (action.payload.success === true) {
         let items = state.items.filter(
-          item => item.id !== action.payload.Item.id
+          item => item._id !== action.payload.Item._id
         );
         return {
           ...state,
           items: items,
+          Success: true,
+          message: action.payload.message
+        };
+      } else {
+        return {
+          ...state,
+          Success: false,
+          message: action.payload.message
+        };
+      }
+    case DeleteCategory:
+      if (action.payload.success === true) {
+        let categories = state.categories.filter(
+          category => category._id !== action.payload.Category._id
+        );
+        return {
+          ...state,
+          categories: categories,
           Success: true,
           message: action.payload.message
         };

@@ -1,11 +1,17 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { UnMountAlertAction } from "../Actions/UnMountActions";
 
 function mapStateToProps(state) {
-  return {};
+  return {
+    items: state.items
+  };
 }
 
 class Home extends Component {
+  componentWillUnmount() {
+    this.props.UnMountAlertAction();
+  }
   render() {
     return (
       <div className="Overview">
@@ -20,7 +26,7 @@ class Home extends Component {
                     className="w-50"
                     alt=""
                   />
-                  <h2>125</h2>
+                  <h2>{this.props.items.items.length}</h2>
                   <h2>Items</h2>
                 </div>
               </div>
@@ -46,4 +52,7 @@ class Home extends Component {
   }
 }
 
-export default connect(mapStateToProps)(Home);
+export default connect(
+  mapStateToProps,
+  { UnMountAlertAction }
+)(Home);

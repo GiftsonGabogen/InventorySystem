@@ -54,7 +54,7 @@ Router.get("/:id", (req, res) => {
         res.status(200).json({
           success: true,
           Item: result[0],
-          message: "Successfully Fetched Item"
+          message: `Successfully Fetched Item ${result.Name}`
         });
       }
     })
@@ -82,7 +82,7 @@ Router.post("/AddItem", AuthCheck, (req, res) => {
         .then(item => {
           if (item.length > 0) {
             res.status(200).json({
-              message: "Item is Already in the Inventory",
+              message: `Item ${Name} is Already in the Inventory`,
               success: false
             });
           } else {
@@ -100,7 +100,7 @@ Router.post("/AddItem", AuthCheck, (req, res) => {
               res.status(201).json({
                 success: true,
                 Item: result,
-                message: "Successfully Added Item"
+                message: `Successfully Added Item ${result.Name}`
               });
             });
           }
@@ -132,7 +132,7 @@ Router.post("/AddCategory", AuthCheck, (req, res) => {
 
           newCat.save().then(result => {
             res.status(200).json({
-              message: "Successfully Added Category",
+              message: `Successfully Added Category ${result.Name}`,
               success: true,
               Category: result
             });
@@ -172,7 +172,7 @@ Router.put("/AddStock", AuthCheck, (req, res) => {
           res.status(200).json({
             success: true,
             Item: result,
-            message: "Successfully Added Stock"
+            message: `Successfully Added Stock on ${result.Name}`
           });
         });
     })
@@ -199,10 +199,11 @@ Router.put("/EditItem", AuthCheck, (req, res) => {
   )
     .exec()
     .then(result => {
+      console.log(result);
       res.status(200).json({
         success: true,
         Item: result,
-        message: "Successfully Edited Item"
+        message: `Successfully Edited Item ${result.Name}`
       });
     })
     .catch(err => {
@@ -216,19 +217,38 @@ Router.put("/EditItem", AuthCheck, (req, res) => {
 
 Router.delete("/:id", AuthCheck, (req, res) => {
   const { id } = req.params;
-  Items.findByIdAndDelete(id, { new: true })
+  Items.findByIdAndDelete(id)
     .exec()
     .then(result => {
       res.status(201).json({
-        message: "Deleted Comment Successfully",
-        success: true
+        message: `Successfully Deleted Item ${result.Name}`,
+        success: true,
+        Item: result
       });
     })
     .catch(err => {
-      res.status(500).json({
+      res.status(200).json({
         success: false,
-        message: err.details[0].message,
-        message: "Successfully Deleted Item"
+        message: err.details[0].message
+      });
+    });
+});
+
+Router.delete("/Category/:id", AuthCheck, (req, res) => {
+  const { id } = req.params;
+  Category.findByIdAndDelete(id)
+    .exec()
+    .then(result => {
+      res.status(201).json({
+        message: `Successfully Deleted Item ${result.Name}`,
+        success: true,
+        Category: result
+      });
+    })
+    .catch(err => {
+      res.status(200).json({
+        success: false,
+        message: err.details[0].message
       });
     });
 });
