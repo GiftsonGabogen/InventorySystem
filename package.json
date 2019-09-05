@@ -7,6 +7,7 @@
     "bcryptjs": "latest",
     "body-parser": "latest",
     "concurrently": "^4.1.0",
+    "config": "^3.2.2",
     "express": "latest",
     "graphql": "latest",
     "joi": "^14.3.1",

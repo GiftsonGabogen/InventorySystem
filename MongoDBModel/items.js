@@ -10,7 +10,8 @@ const itemsSchema = new Schema({
     required: true
   },
   Category: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Category",
     required: true
   },
   Unit: {

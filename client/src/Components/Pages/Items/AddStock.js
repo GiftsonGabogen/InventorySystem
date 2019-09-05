@@ -2,16 +2,30 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import SearchBar from "../../Comps/SearchBar";
 import { UnMountAlertAction } from "../../../Actions/UnMountActions";
+import { AddStockAction } from "../../../Actions/ItemActions";
 
 function mapStateToProps(state) {
-  return {};
+  return {
+    items: state.items
+  };
 }
 
 class AddStock extends Component {
-componentWillUnmount() {
-  this.props.UnMountAlertAction()
-}
+  componentWillUnmount() {
+    this.props.UnMountAlertAction();
+  }
 
+  AddStockHandler = e => {
+    e.preventDefault();
+    const { Price, SellingPrice, Quantity, id } = this.refs;
+    let Data = {
+      Price: Price.value,
+      id: id.value,
+      SellingPrice: SellingPrice.value,
+      Quantity: Quantity.value
+    };
+    this.props.AddStockAction(Data);
+  };
 
   Price = e => {
     let PricePerUnit = 0;
@@ -51,10 +65,11 @@ componentWillUnmount() {
     });
   };
 
-  AddHandler = (Name, SellingPrice) => {
+  AddHandler = (Name, SellingPrice, id) => {
     this.setState({
       Name,
-      SellingPrice
+      SellingPrice,
+      id
     });
   };
 
@@ -75,56 +90,13 @@ componentWillUnmount() {
       PricePerUnit: 0,
       Price: 0,
       Quantity: 0,
+      id: "",
       Items: [],
-      Categories: [],
       SellingPrice: 0,
       Name: ""
     };
   }
 
-  componentDidMount() {
-    this.setState({
-      Items: [
-        {
-          Name: "Sky Flakes",
-          Category: "Biscuits",
-          Price: 5.0,
-          Quantity: 25,
-          SellingPrice: 12,
-          Unit: "Pieces"
-        },
-        {
-          Name: "Rebisco",
-          Category: "Biscuits",
-          Price: 5.0,
-          Quantity: 40,
-          SellingPrice: 12,
-          Unit: "Pieces"
-        },
-        {
-          Name: "Hansel",
-          Category: "Biscuits",
-          Price: 5.0,
-          Quantity: 10,
-          SellingPrice: 12,
-          Unit: "Pieces"
-        },
-        {
-          Name: "C2",
-          Category: "Drinks",
-          Price: 10.0,
-          Quantity: 12,
-          SellingPrice: 15,
-          Unit: "Pieces"
-        }
-      ],
-      Categories: [
-        { Name: "Biscuits" },
-        { Name: "Sandwich" },
-        { Name: "Drinks" }
-      ]
-    });
-  }
   render() {
     return (
       <div className="AddStock">
@@ -149,7 +121,8 @@ componentWillUnmount() {
                 </button>
               </div>
               <div className="modal-body">
-                <form>
+                <form onSubmit={this.AddStockHandler}>
+                  <input type="hidden" ref="id" value={this.state.id} />
                   <div className="form-group">
                     <div className="form-row">
                       <div className="form-group col-5">
@@ -177,7 +150,7 @@ componentWillUnmount() {
                         <input
                           type="number"
                           step="0.01"
-                          ref="Price"
+                          ref="PricePerUnit"
                           className="form-control"
                           value={this.state.PricePerUnit}
                           readOnly
@@ -207,7 +180,7 @@ componentWillUnmount() {
           </div>
         </div>
 
-        <SearchBar Categories={this.state.Categories} />
+        <SearchBar Categories={this.props.items.categories} />
         <table className="table table-striped">
           <thead>
             <tr>
@@ -222,11 +195,11 @@ componentWillUnmount() {
             </tr>
           </thead>
           <tbody>
-            {this.state.Items.map((item, i) => (
+            {this.props.items.items.map((item, i) => (
               <tr key={i}>
                 <th scope="row">{i + 1}</th>
                 <td>{item.Name}</td>
-                <td>{item.Category}</td>
+                <td>{item.Category.Name}</td>
                 <td>{item.Price.toFixed(2)}</td>
                 <td>{item.SellingPrice.toFixed(2)}</td>
                 <td>{item.Quantity}</td>
@@ -237,7 +210,7 @@ componentWillUnmount() {
                     data-toggle="modal"
                     data-target="#AddStockModal"
                     onClick={() =>
-                      this.AddHandler(item.Name, item.SellingPrice)
+                      this.AddHandler(item.Name, item.SellingPrice, item._id)
                     }
                   >
                     Add
@@ -252,4 +225,7 @@ componentWillUnmount() {
   }
 }
 
-export default connect(mapStateToProps,{UnMountAlertAction})(AddStock);
+export default connect(
+  mapStateToProps,
+  { UnMountAlertAction, AddStockAction }
+)(AddStock);

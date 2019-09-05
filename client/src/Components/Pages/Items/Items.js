@@ -3,65 +3,16 @@ import { connect } from "react-redux";
 import SearchBar from "../../Comps/SearchBar";
 
 function mapStateToProps(state) {
-  return {};
+  return {
+    items: state.items
+  };
 }
 
 class Items extends Component {
-  constructor(params) {
-    super(params);
-    this.state = {
-      Items: [],
-      Categories: []
-    };
-  }
-  componentDidMount() {
-    this.setState({
-      Items: [
-        {
-          Name: "Sky Flakes",
-          Category: "Biscuits",
-          Price: 5.0,
-          Quantity: 25,
-          SellingPrice: 12,
-          Unit: "Pieces"
-        },
-        {
-          Name: "Rebisco",
-          Category: "Biscuits",
-          Price: 5.0,
-          Quantity: 40,
-          SellingPrice: 12,
-          Unit: "Pieces"
-        },
-        {
-          Name: "Hansel",
-          Category: "Biscuits",
-          Price: 5.0,
-          Quantity: 10,
-          SellingPrice: 12,
-          Unit: "Pieces"
-        },
-        {
-          Name: "C2",
-          Category: "Drinks",
-          Price: 10.0,
-          Quantity: 12,
-          SellingPrice: 15,
-          Unit: "Pieces"
-        }
-      ],
-      Categories: [
-        { Name: "Biscuits" },
-        { Name: "Sandwich" },
-        { Name: "Drinks" }
-      ]
-    });
-  }
-
   render() {
     return (
       <div className="Items">
-        <SearchBar Categories={this.state.Categories} />
+        <SearchBar Categories={this.props.items.categories} />
         <table className="table table-striped">
           <thead>
             <tr>
@@ -75,11 +26,11 @@ class Items extends Component {
             </tr>
           </thead>
           <tbody>
-            {this.state.Items.map((item, i) => (
+            {this.props.items.items.map((item, i) => (
               <tr key={i}>
                 <th scope="row">{i + 1}</th>
                 <td>{item.Name}</td>
-                <td>{item.Category}</td>
+                <td>{item.Category.Name}</td>
                 <td>{item.Price.toFixed(2)}</td>
                 <td>{item.SellingPrice.toFixed(2)}</td>
                 <td>{item.Quantity}</td>

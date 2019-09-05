@@ -15,6 +15,7 @@ import AddItem from "./Components/Pages/Items/AddItem";
 import EditItem from "./Components/Pages/Items/EditItem";
 import AddStock from "./Components/Pages/Items/AddStock";
 import Category from "./Components/Pages/Items/Category";
+import AddCategory from "./Components/Pages/Items/AddCategory";
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
           <Route exact path="/Home/Items/Edit" component={EditItem} />
           <Route exact path="/Home/Items/AddStock" component={AddStock} />
           <Route exact path="/Home/Items/Category" component={Category} />
+          <Route exact path="/Home/Items/AddCategory" component={AddCategory} />
         </Switch>
       </div>
     </div>

@@ -2,12 +2,14 @@ const Joi = require("joi");
 const express = require("express");
 const Router = express.Router();
 const Items = require("../MongoDBModel/items");
+const Category = require("../MongoDBModel/categories");
 const mongoose = require("mongoose");
 const AuthCheck = require("../middleware/authCheck");
 
 //Get All Post
-Router.get("/", AuthCheck, (req, res) => {
+Router.get("/", (req, res) => {
   Items.find()
+    .populate("Category")
     .exec()
     .then(result => {
       res.status(200).json({
@@ -21,10 +23,26 @@ Router.get("/", AuthCheck, (req, res) => {
     });
 });
 
+Router.get("/Category", (req, res) => {
+  Category.find()
+    .exec()
+    .then(result => {
+      res.status(200).json({
+        success: true,
+        Categories: result,
+        message: "Successfully Fetched Categories"
+      });
+    })
+    .catch(err => {
+      res.status(200).json({ sucess: false });
+    });
+});
+
 //Get Specific Item
 Router.get("/:id", (req, res) => {
   const { id } = req.params;
   Items.find({ _id: id })
+    .populate("Category")
     .exec()
     .then(result => {
       if (result.length === 0) {
@@ -78,26 +96,52 @@ Router.post("/AddItem", AuthCheck, (req, res) => {
               Quantity: 0
             });
 
-            newItems
-              .save()
-              .then(result => {
-                res.status(201).json({
-                  success: true,
-                  Item: result,
-                  message: "Successfully Added Item"
-                });
-              })
-              .catch(err => {
-                res.status(200).json({ success: false, message: err });
+            newItems.save().then(result => {
+              res.status(201).json({
+                success: true,
+                Item: result,
+                message: "Successfully Added Item"
               });
+            });
           }
-        })
-        .catch(err => {
-          res.status(200).json({ success: false, message: err });
         });
     })
     .catch(err => {
       res.status(200).json({ success: false, message: err.details[0].message });
+    });
+});
+
+Router.post("/AddCategory", AuthCheck, (req, res) => {
+  const { Name } = req.body;
+  const schema = {
+    Name: Joi.string().required()
+  };
+  Joi.validate(req.body, schema)
+    .then(validated => {
+      Category.find({ Name: Name }).then(categ => {
+        if (categ.length > 0) {
+          res.status(200).json({
+            message: `There is Already a ${Name} Category`,
+            success: false
+          });
+        } else {
+          const newCat = new Category({
+            _id: new mongoose.Types.ObjectId(),
+            Name
+          });
+
+          newCat.save().then(result => {
+            res.status(200).json({
+              message: "Successfully Added Category",
+              success: true,
+              Category: result
+            });
+          });
+        }
+      });
+    })
+    .catch(err => {
+      res.status(200).json({ message: err.details[0].message, success: false });
     });
 });
 
@@ -106,43 +150,41 @@ Router.put("/AddStock", AuthCheck, (req, res) => {
   const schema = {
     Price: Joi.number().required(),
     Quantity: Joi.number().required(),
-    Unit: Joi.string().required()
+    SellingPrice: Joi.number().required(),
+    id: Joi.string().required()
   };
 
-  Joi.validate(req.body,schema).then(validated =>{
-    Items.findByIdAndUpdate(
-      id,
-      {
-        $set: {
-          Price,
-          SellingPrice,
-          Quantity
-        }
-      },
-      { new: true }
-    )
-      .exec()
-      .then(result => {
-        result.status(200).json({
-          success: true,
-          Item: result,
-          message: "Successfully Added Stock"
+  Joi.validate(req.body, schema)
+    .then(validated => {
+      Items.findByIdAndUpdate(
+        id,
+        {
+          $set: {
+            Price,
+            SellingPrice,
+            Quantity
+          }
+        },
+        { new: true }
+      )
+        .exec()
+        .then(result => {
+          res.status(200).json({
+            success: true,
+            Item: result,
+            message: "Successfully Added Stock"
+          });
         });
-      })
-      .catch(err => {
-        res.status(200).json({
-          success: false,
-          message: err
-        });
-      });
-  }).catch(err =>{
-    res.status(200).json({ success: false, message: err.details[0].message });
-  })
-  
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(200).json({ success: false, message: err.details[0].message });
+    });
 });
 
 Router.put("/EditItem", AuthCheck, (req, res) => {
   const { id, Name, Category, SellingPrice, Unit } = req.body;
+  console.log(SellingPrice);
   Items.findByIdAndUpdate(
     id,
     {
@@ -157,13 +199,14 @@ Router.put("/EditItem", AuthCheck, (req, res) => {
   )
     .exec()
     .then(result => {
-      result.status(200).json({
+      res.status(200).json({
         success: true,
         Item: result,
         message: "Successfully Edited Item"
       });
     })
     .catch(err => {
+      console.log(err);
       res.status(200).json({
         success: false,
         message: err
@@ -184,7 +227,7 @@ Router.delete("/:id", AuthCheck, (req, res) => {
     .catch(err => {
       res.status(500).json({
         success: false,
-        message: err,
+        message: err.details[0].message,
         message: "Successfully Deleted Item"
       });
     });

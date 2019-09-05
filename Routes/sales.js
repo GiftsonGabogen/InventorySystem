@@ -3,6 +3,7 @@ const Router = express.Router();
 const Sales = require("../MongoDBModel/sales");
 const mongoose = require("mongoose");
 const AuthCheck = require("../middleware/authCheck");
+const Joi = require("joi");
 
 //Get All Post
 Router.get("/", AuthCheck, (req, res) => {
@@ -46,22 +47,30 @@ Router.get("/:id", (req, res) => {
 
 Router.post("/", AuthCheck, (req, res) => {
   const { ItemName, ItemID, Quantity, Seller, PricePerUnit } = req.body;
-  const newSales = new Sales({
-    _id: new mongoose.Types.ObjectId(),
-    ItemName,
-    ItemID,
-    Quantity,
-    Seller,
-    PricePerUnit
-  });
+  const schema = {
+    ItemName: Joi.string().required(),
+    Category: Joi.string().required(),
+    Unit: Joi.string().required(),
+    Quantity: Joi.number().required(),
+    PricePerUnit: Joi.number().required()
+  };
+  Joi.validate(req.body, schema)
+    .then(validate => {
+      const newSales = new Sales({
+        _id: new mongoose.Types.ObjectId(),
+        ItemName,
+        ItemID,
+        Quantity,
+        Seller,
+        PricePerUnit
+      });
 
-  newSales
-    .save()
-    .then(result => {
-      res.status(201).json({ success: true, Sale: result });
+      newSales.save().then(result => {
+        res.status(201).json({ success: true, Sale: result });
+      });
     })
     .catch(err => {
-      res.status(200).json({ success: false, message: err });
+      res.status(200).json({ success: false, message: err.details[0].message });
     });
 });
 

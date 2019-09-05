@@ -2,76 +2,47 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import SearchBar from "../../Comps/SearchBar";
 import { UnMountAlertAction } from "../../../Actions/UnMountActions";
+import { EditItemAction } from "../../../Actions/ItemActions";
 
 function mapStateToProps(state) {
-  return {};
+  return {
+    items: state.items
+  };
 }
 
 class EditItem extends Component {
   constructor(params) {
     super(params);
     this.state = {
-      Items: [],
-      Categories: [],
       Name: "",
       Category: "",
       SellingPrice: 0,
-      Unit: ""
+      Unit: "",
+      id: ""
     };
   }
   componentWillUnmount() {
     this.props.UnMountAlertAction();
   }
-
-  componentDidMount() {
-    this.setState({
-      Items: [
-        {
-          Name: "Sky Flakes",
-          Category: "Biscuits",
-          Price: 5.0,
-          Quantity: 25,
-          SellingPrice: 12,
-          Unit: "Pieces"
-        },
-        {
-          Name: "Rebisco",
-          Category: "Biscuits",
-          Price: 5.0,
-          Quantity: 40,
-          SellingPrice: 12,
-          Unit: "Pieces"
-        },
-        {
-          Name: "Hansel",
-          Category: "Biscuits",
-          Price: 5.0,
-          Quantity: 10,
-          SellingPrice: 12,
-          Unit: "Pieces"
-        },
-        {
-          Name: "C2",
-          Category: "Drinks",
-          Price: 10.0,
-          Quantity: 12,
-          SellingPrice: 15,
-          Unit: "Pieces"
-        }
-      ],
-      Categories: [
-        { Name: "Biscuits" },
-        { Name: "Sandwich" },
-        { Name: "Drinks" }
-      ]
-    });
-  }
-  EditHandler = (Name, Category, SellingPrice, Unit) => {
+  EditItemHandler = e => {
+    e.preventDefault();
+    const { Name, Category, SellingPrice, Unit, id } = this.refs;
+    let Data = {
+      Name: Name.value,
+      Category: Category.value,
+      SellingPrice: SellingPrice.value,
+      Unit: Unit.value,
+      id: id.value
+    };
+    this.props.EditItemAction(Data);
+  };
+  EditHandler = (Name, Category, SellingPrice, Unit, id) => {
     this.setState({
       Name,
       SellingPrice,
       Category,
-      Unit
+      Unit,
+      id
     });
   };
 
@@ -127,9 +98,10 @@ class EditItem extends Component {
                 </button>
               </div>
               <div className="modal-body">
-                <form>
+                <form onSubmit={this.EditItemHandler}>
                   <div className="form-group">
                     <div className="form-group">
+                      <input type="hidden" ref="id" value={this.state.id} />
                       <label htmlFor="Name">Name</label>
                       <input
                         type="text"
@@ -157,10 +129,10 @@ class EditItem extends Component {
                           ref="Category"
                           className="form-control custom-select"
                           onChange={this.CategoryHandler}
-                          value={this.state.Category}
+                          defaultValue={this.state.Category}
                         >
-                          {this.state.Categories.map((category, i) => (
-                            <option value={category.Name} key={i}>
+                          {this.props.items.categories.map((category, i) => (
+                            <option value={category._id} key={i}>
                               {category.Name}
                             </option>
                           ))}
@@ -180,7 +152,7 @@ class EditItem extends Component {
 
                     <input
                       type="submit"
-                      value="Add"
+                      value="Edit"
                       className="btn btn-primary w-50"
                     />
                   </div>
@@ -190,7 +162,7 @@ class EditItem extends Component {
           </div>
         </div>
 
-        <SearchBar Categories={this.state.Categories} />
+        <SearchBar Categories={this.props.items.categories} />
         <table className="table table-striped">
           <thead>
             <tr>
@@ -205,11 +177,11 @@ class EditItem extends Component {
             </tr>
           </thead>
           <tbody>
-            {this.state.Items.map((item, i) => (
+            {this.props.items.items.map((item, i) => (
               <tr key={i}>
                 <th scope="row">{i + 1}</th>
                 <td>{item.Name}</td>
-                <td>{item.Category}</td>
+                <td>{item.Category.Name}</td>
                 <td>{item.Price.toFixed(2)}</td>
                 <td>{item.SellingPrice.toFixed(2)}</td>
                 <td>{item.Quantity}</td>
@@ -222,9 +194,10 @@ class EditItem extends Component {
                     onClick={() =>
                       this.EditHandler(
                         item.Name,
-                        item.Category,
+                        item.Category.Name,
                         item.SellingPrice,
-                        item.Unit
+                        item.Unit,
+                        item._id
                       )
                     }
                   >
@@ -242,5 +215,5 @@ class EditItem extends Component {
 
 export default connect(
   mapStateToProps,
-  { UnMountAlertAction }
+  { UnMountAlertAction, EditItemAction }
 )(EditItem);

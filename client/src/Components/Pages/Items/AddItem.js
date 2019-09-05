@@ -10,22 +10,6 @@ function mapStateToProps(state) {
 }
 
 class AddItem extends Component {
-  constructor(params) {
-    super(params);
-    this.state = {
-      Categories: []
-    };
-  }
-  componentDidMount() {
-    this.setState({
-      Categories: [
-        { Name: "Biscuits" },
-        { Name: "Sandwich" },
-        { Name: "Drinks" }
-      ]
-    });
-  }
-
   componentWillUnmount() {
     this.props.UnMountAlertAction();
   }
@@ -66,8 +50,8 @@ class AddItem extends Component {
             <div className="form-group col">
               <label htmlFor="SellingPrice">Category</label>
               <select className="custom-select" ref="Category">
-                {this.state.Categories.map((category, i) => (
-                  <option value={category.Name} key={i}>
+                {this.props.items.categories.map((category, i) => (
+                  <option value={category._id} key={i}>
                     {category.Name}
                   </option>
                 ))}

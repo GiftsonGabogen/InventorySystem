@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
+import { FetchAllAction } from "../../Actions/ItemActions";
 
 function mapStateToProps(state) {
   return {};
@@ -14,6 +15,7 @@ class Navbar extends Component {
     };
   }
   componentDidMount() {
+    this.props.FetchAllAction();
     this.setState({
       navs: [
         { Name: "Overview" },
@@ -24,6 +26,11 @@ class Navbar extends Component {
         { Name: "Edit Item", Image: "edit.png", link: "/Items/Edit" },
         { Name: "Add Stock", Image: "tag.png", link: "/Items/AddStock" },
         { Name: "Category", Image: "pie-chart.png", link: "/Items/Category" },
+        {
+          Name: "Add Category",
+          Image: "pie-chart.png",
+          link: "/Items/AddCategory"
+        },
         { Name: "Reports" }
       ]
     });
@@ -66,4 +73,7 @@ class Navbar extends Component {
   }
 }
 
-export default connect(mapStateToProps)(Navbar);
+export default connect(
+  mapStateToProps,
+  { FetchAllAction }
+)(Navbar);

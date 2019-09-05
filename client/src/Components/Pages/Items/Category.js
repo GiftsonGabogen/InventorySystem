@@ -3,28 +3,14 @@ import { connect } from "react-redux";
 import { UnMountAlertAction } from "../../../Actions/UnMountActions";
 
 function mapStateToProps(state) {
-  return {};
+  return {
+    items: state.items
+  };
 }
 
 class Category extends Component {
-  constructor(params) {
-    super(params);
-    this.state = {
-      Categories: []
-    };
-  }
   componentWillUnmount() {
     this.props.UnMountAlertAction();
-  }
-
-  componentDidMount() {
-    this.setState({
-      Categories: [
-        { Name: "Biscuits" },
-        { Name: "Sandwich" },
-        { Name: "Drinks" }
-      ]
-    });
   }
 
   render() {
@@ -39,7 +25,7 @@ class Category extends Component {
             </tr>
           </thead>
           <tbody>
-            {this.state.Categories.map((Category, i) => (
+            {this.props.items.categories.map((Category, i) => (
               <tr key={i}>
                 <th scope="row">{i + 1}</th>
                 <td>{Category.Name}</td>
