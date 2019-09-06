@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
 import { LoginAction } from "../Actions/CredentialActions";
 import { UnMountAlertAction } from "../Actions/UnMountActions";
 
@@ -11,6 +10,20 @@ function mapStateToProps(state) {
 }
 
 class Login extends Component {
+  componentDidUpdate() {
+    if (
+      this.props.credential.Login === true &&
+      this.props.credential.Type === "Admin"
+    ) {
+      window.location.pathname = "/Home";
+    } else if (
+      this.props.credential.Login === true &&
+      this.props.credential.Type === "Seller"
+    ) {
+      window.location.pathname = "/Store";
+    }
+  }
+
   componentWillUnmount() {
     this.props.UnMountAlertAction();
   }
@@ -26,7 +39,6 @@ class Login extends Component {
     return (
       <div className="Login">
         <div className="Title h1">WUP Inventory System</div>
-        <Link to="/Home">H</Link>
         <form onSubmit={this.LoginHandler}>
           {this.props.credential.message === "" ? (
             ""

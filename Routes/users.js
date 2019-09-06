@@ -10,6 +10,7 @@ const AuthCheck = require("../middleware/authCheck");
 const bcrypt = require("bcryptjs");
 
 const hashDate = new Date().toISOString();
+
 const fileFilter = (req, file, cb) => {
   if (
     file.mimetype ===
@@ -277,6 +278,10 @@ Router.delete("/:id", (req, res) => {
         message: err
       });
     });
+});
+
+Router.post("/AuthCheck", AuthCheck, (req, res) => {
+  res.status(200).json({ success: true, User: req.userData });
 });
 
 module.exports = Router;

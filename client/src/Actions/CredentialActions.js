@@ -1,6 +1,7 @@
-import { Login } from "./Actions";
+import { Login, AuthCheck } from "./Actions";
 
 import axios from "axios";
+let Token = localStorage.getItem("Authorization");
 
 export const LoginAction = data => dispatch => {
   axios.post(`/api/users/login`, data).then(user => {
@@ -11,4 +12,21 @@ export const LoginAction = data => dispatch => {
       payload: user.data
     });
   });
+};
+
+export const AuthCheckAction = () => dispatch => {
+  axios
+    .post(
+      `/api/users/AuthCheck`,
+      {},
+      {
+        headers: { Authorization: "Bearer " + Token }
+      }
+    )
+    .then(user => {
+      dispatch({
+        type: AuthCheck,
+        payload: user.data
+      });
+    });
 };

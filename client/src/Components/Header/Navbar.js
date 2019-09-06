@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { FetchAllAction } from "../../Actions/ItemActions";
+import { AuthCheckAction } from "../../Actions/CredentialActions";
 
 function mapStateToProps(state) {
   return {};
@@ -15,7 +15,7 @@ class Navbar extends Component {
     };
   }
   componentDidMount() {
-    this.props.FetchAllAction();
+    this.props.AuthCheckAction();
     this.setState({
       navs: [
         { Name: "Overview" },
@@ -75,5 +75,5 @@ class Navbar extends Component {
 
 export default connect(
   mapStateToProps,
-  { FetchAllAction }
+  { AuthCheckAction }
 )(Navbar);

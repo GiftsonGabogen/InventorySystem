@@ -1,10 +1,11 @@
-import { Login } from "../Actions/Actions";
+import { Login, AuthCheck } from "../Actions/Actions";
 
 const initialState = {
   Login: false,
   Success: false,
   message: "",
-  Username: ""
+  Username: "",
+  Type: ""
 };
 
 export default (state = initialState, action) => {
@@ -15,7 +16,8 @@ export default (state = initialState, action) => {
           ...state,
           Login: true,
           Success: true,
-          Username: action.payload.User.Username
+          Username: action.payload.User.Username,
+          Type: action.payload.User.Type
         };
       } else {
         return {
@@ -23,7 +25,21 @@ export default (state = initialState, action) => {
           message: action.payload.message
         };
       }
-
+    case AuthCheck:
+      if (action.payload.success === true) {
+        return {
+          ...state,
+          Login: true,
+          Success: true,
+          Username: action.payload.User.Username,
+          Type: action.payload.User.Type
+        };
+      } else {
+        return {
+          ...state,
+          message: action.payload.message
+        };
+      }
     default:
       return {
         ...state
