@@ -19,6 +19,30 @@ class StoreHome extends Component {
     }
     return (
       <div className="Home Store">
+        <div className="modal fade" id="SoldModal" tabIndex="-1">
+          <div className="modal-content">
+            <div className="modal-header">
+              <div className="modal-title">Sold</div>
+              <button
+                type="button"
+                className="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div className="modal-body">
+              <form>
+                <div className="form-group">
+                  <label htmlFor="Quantity">Quantity</label>
+                  <input type="number" ref="Quantity" step="0.01" id="" />
+                </div>
+                <input type="submit" className="btn btn-primary" value="Sold" />
+              </form>
+            </div>
+          </div>
+        </div>
         <table className="table table-striped">
           <thead>
             <tr>

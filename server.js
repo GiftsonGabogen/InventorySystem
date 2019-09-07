@@ -5,14 +5,8 @@ const itemsRouter = require("./Routes/items");
 const usersRouter = require("./Routes/users");
 const morgan = require("morgan");
 const mongoose = require("mongoose");
-
+const mongoURI = require("./config/keys").mongoURI;
 const app = express();
-var mongoURI = "";
-if (app.get("env") === "development") {
-  mongoURI = "mongodb://localhost:27017/Inventory";
-} else {
-  mongoURI = "";
-}
 
 mongoose
   .connect(

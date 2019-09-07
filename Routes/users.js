@@ -5,7 +5,7 @@ const User = require("../MongoDBModel/users");
 const mongoose = require("mongoose");
 const multer = require("multer");
 const JWT = require("jsonwebtoken");
-const JWTSecretKey = require("../JWTSecretKey");
+const JWTSecretKey = require("../config/keys").JWTSecretKey;
 const AuthCheck = require("../middleware/authCheck");
 const bcrypt = require("bcryptjs");
 
