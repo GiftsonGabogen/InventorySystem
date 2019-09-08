@@ -87,6 +87,7 @@ class EditItem extends Component {
       SellingPrice: 0,
       Unit: ""
     });
+    this.props.UnMountAlertAction();
   };
   SellingPriceHandler = e => {
     this.setState({
@@ -120,7 +121,23 @@ class EditItem extends Component {
           <div className="modal-dialog" role="document">
             <div className="modal-content">
               <div className="modal-header">
-                <h5 className="modal-title">Edit {this.state.Name}</h5>
+                <h5 className="modal-title">
+                  Edit {this.state.Name}
+                  {this.props.items.message === "" ? (
+                    ""
+                  ) : (
+                    <div
+                      className={`alert ${
+                        this.props.items.Success === true
+                          ? "alert-success"
+                          : "alert-danger"
+                      }`}
+                      role="alert"
+                    >
+                      {this.props.items.message}
+                    </div>
+                  )}
+                </h5>
                 <button
                   type="button"
                   className="close"
@@ -195,20 +212,7 @@ class EditItem extends Component {
             </div>
           </div>
         </div>
-        {this.props.items.message === "" ? (
-          ""
-        ) : (
-          <div
-            className={`alert ${
-              this.props.items.Success === true
-                ? "alert-success"
-                : "alert-danger"
-            }`}
-            role="alert"
-          >
-            {this.props.items.message}
-          </div>
-        )}
+
         <SearchBar
           onSearch={this.onSearch}
           Categories={this.props.items.categories}

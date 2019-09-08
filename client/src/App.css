@@ -41,6 +41,11 @@
 .Navbar nav > div ul li {
   padding: 0.2rem;
 }
+.Navbar nav > div ul li .active {
+  background: #007bff;
+  color: white;
+  border-radius: 3px;
+}
 .Navbar nav > div ul button {
   width: 100%;
 }

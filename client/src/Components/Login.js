@@ -29,12 +29,12 @@ class Login extends Component {
       this.props.credential.Type === "Admin" &&
       this.props.credential.Login === true
     ) {
-      return <Redirect to="/Home" />;
+      return <Redirect to="/Admin/Overview" />;
     } else if (
       this.props.credential.Type === "Seller" &&
       this.props.credential.Login === true
     ) {
-      return <Redirect to="/Store" />;
+      return <Redirect to="/Store/Home" />;
     } else {
       return (
         <div className="Login">

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 function mapStateToProps(state) {
   return {};
@@ -17,9 +17,9 @@ class Navbar extends Component {
     this.setState({
       navs: [
         { Name: "Overview" },
-        { Name: "Overview", Image: "magnifying-glass.png", link: "" },
+        { Name: "Overview", Image: "magnifying-glass.png", link: "/Overview" },
         { Name: "Inventory" },
-        { Name: "Items", Image: "shopping-bag.png", link: "/Items" },
+        { Name: "Items", Image: "shopping-bag.png", link: "/Items/All" },
         { Name: "Add Item", Image: "tag.png", link: "/Items/Add" },
         { Name: "Edit Item", Image: "edit.png", link: "/Items/Edit" },
         { Name: "Add Stock", Image: "tag.png", link: "/Items/AddStock" },
@@ -30,7 +30,7 @@ class Navbar extends Component {
           link: "/Items/AddCategory"
         },
         { Name: "Reports" },
-        { Name: "Sales", Image: "magnifying-glass.png", link: "/Sales" }
+        { Name: "Sales", Image: "magnifying-glass.png", link: "/Reports/Sales" }
       ]
     });
   }
@@ -58,9 +58,9 @@ class Navbar extends Component {
                     <span className="badge">
                       <img src={`./Images/${nav.Image}`} alt="" />
                     </span>
-                    <Link to={`/Home${nav.link}`} className="nav-link">
+                    <NavLink to={`/Admin${nav.link}`} className="nav-link">
                       {nav.Name}
-                    </Link>
+                    </NavLink>
                   </li>
                 )
               )}
