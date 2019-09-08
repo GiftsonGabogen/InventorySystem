@@ -7,17 +7,19 @@ const AuthCheck = require("../middleware/authCheck");
 const Joi = require("joi");
 
 //Get All Post
-Router.get("/", AuthCheck, (req, res) => {
+Router.get("/", (req, res) => {
   Sales.find()
     .exec()
     .then(result => {
+      console.log(result);
       res.status(200).json({
         success: true,
         Sales: result
       });
     })
     .catch(err => {
-      res.status(200).json({ sucess: false });
+      console.log(err);
+      res.status(200).json({ sucess: false, message: err.details[0].message });
     });
 });
 
@@ -66,13 +68,11 @@ Router.post("/", AuthCheck, (req, res) => {
       });
 
       newSales.save().then(result => {
-        res
-          .status(201)
-          .json({
-            success: true,
-            Sale: result,
-            message: `Sold Successfully ${Quantity} of ${ItemName}`
-          });
+        res.status(201).json({
+          success: true,
+          Sale: result,
+          message: `Sold Successfully ${Quantity} of ${ItemName}`
+        });
       });
     })
     .catch(err => {

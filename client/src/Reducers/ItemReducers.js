@@ -18,7 +18,8 @@ const initialState = {
   item: {},
   categories: [],
   Success: false,
-  message: ""
+  message: "",
+  Loaded: false
 };
 
 export default (state = initialState, action) => {
@@ -29,7 +30,8 @@ export default (state = initialState, action) => {
           ...state,
           items: action.items.Items,
           categories: action.categories.Categories,
-          Success: true
+          Success: true,
+          Loaded: true
         };
       } else {
         return {

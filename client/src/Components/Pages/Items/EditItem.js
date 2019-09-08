@@ -18,9 +18,40 @@ class EditItem extends Component {
       Category: "",
       SellingPrice: 0,
       Unit: "",
-      id: ""
+      id: "",
+      Items: []
     };
   }
+  componentDidMount() {
+    this.setState({
+      Items: this.props.items.items
+    });
+  }
+
+  onSearch = (Cat, Nam) => {
+    const Name = Nam.toLowerCase();
+    let Items;
+    if (Cat === "All" && Name === "") {
+      Items = this.props.items.items;
+    } else if (Cat === "All" && Name !== "") {
+      Items = this.props.items.items.filter(Item =>
+        Item.Name.toLowerCase().includes(Name)
+      );
+    } else if (Cat !== "All" && Name === "") {
+      Items = this.props.items.items.filter(
+        Item => Item.Category.Name.toLowerCase() === Cat.toLowerCase()
+      );
+    } else {
+      var preItems = this.props.items.items.filter(
+        Item => Item.Category.Name.toLowerCase() === Cat.toLowerCase()
+      );
+      Items = preItems.filter(Item => Item.Name.toLowerCase().includes(Name));
+    }
+
+    this.setState({
+      Items
+    });
+  };
   componentWillUnmount() {
     this.props.UnMountAlertAction();
   }
@@ -178,7 +209,10 @@ class EditItem extends Component {
             {this.props.items.message}
           </div>
         )}
-        <SearchBar Categories={this.props.items.categories} />
+        <SearchBar
+          onSearch={this.onSearch}
+          Categories={this.props.items.categories}
+        />
         <table className="table table-striped">
           <thead>
             <tr>
@@ -194,7 +228,7 @@ class EditItem extends Component {
             </tr>
           </thead>
           <tbody>
-            {this.props.items.items.map((item, i) => (
+            {this.state.Items.map((item, i) => (
               <tr key={i}>
                 <th scope="row">{i + 1}</th>
                 <td>{item.Name}</td>

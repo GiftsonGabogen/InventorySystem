@@ -16,6 +16,7 @@ export const FetchAllAction = () => dispatch => {
   axios.get("/api/items").then(items => {
     axios.get("/api/items/Category").then(categories => {
       axios.get("/api/sales").then(sales => {
+        console.log(sales.data);
         dispatch({
           type: FetchAll,
           items: items.data,
