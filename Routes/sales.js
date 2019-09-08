@@ -1,6 +1,7 @@
 const express = require("express");
 const Router = express.Router();
 const Sales = require("../MongoDBModel/sales");
+const Items = require("../MongoDBModel/items");
 const mongoose = require("mongoose");
 const AuthCheck = require("../middleware/authCheck");
 const Joi = require("joi");
@@ -8,7 +9,6 @@ const Joi = require("joi");
 //Get All Post
 Router.get("/", AuthCheck, (req, res) => {
   Sales.find()
-    .populate("Item")
     .exec()
     .then(result => {
       res.status(200).json({
@@ -47,30 +47,37 @@ Router.get("/:id", (req, res) => {
 
 Router.post("/", AuthCheck, (req, res) => {
   const { ItemName, ItemID, Quantity, Seller, PricePerUnit } = req.body;
-  const schema = {
-    ItemName: Joi.string().required(),
-    Category: Joi.string().required(),
-    Unit: Joi.string().required(),
-    Quantity: Joi.number().required(),
-    PricePerUnit: Joi.number().required()
-  };
-  Joi.validate(req.body, schema)
-    .then(validate => {
+
+  let Category;
+  Items.find({ _id: ItemID })
+    .populate("Category")
+    .exec()
+    .then(result => {
+      console.log(result[0]);
+      Category = result[0].Category.Name;
       const newSales = new Sales({
         _id: new mongoose.Types.ObjectId(),
         ItemName,
         ItemID,
         Quantity,
         Seller,
-        PricePerUnit
+        PricePerUnit,
+        Category
       });
 
       newSales.save().then(result => {
-        res.status(201).json({ success: true, Sale: result });
+        res
+          .status(201)
+          .json({
+            success: true,
+            Sale: result,
+            message: `Sold Successfully ${Quantity} of ${ItemName}`
+          });
       });
     })
     .catch(err => {
       res.status(200).json({ success: false, message: err.details[0].message });
+      console.log(err.details[0].message);
     });
 });
 

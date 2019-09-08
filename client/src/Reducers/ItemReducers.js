@@ -24,8 +24,6 @@ const initialState = {
 export default (state = initialState, action) => {
   switch (action.type) {
     case FetchAll:
-      console.log(action.items.Items);
-      console.log(action.categories.Categories);
       if (action.categories.success === true && action.items.success === true) {
         return {
           ...state,

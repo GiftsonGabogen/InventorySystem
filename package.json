@@ -22,7 +22,8 @@
   "scripts": {
     "start": "nodemon server",
     "client": "npm start --prefix client",
-    "dev": "concurrently \"npm start\" \"npm run client\""
+    "dev": "concurrently \"npm start\" \"npm run client\"",
+    "prod": "concurrently \" set NODE_ENV=production && nodemon server\" \" set NODE_ENV=production && npm start --prefix client\""
   },
   "author": "",
   "license": "ISC"

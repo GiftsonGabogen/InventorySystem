@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { AuthCheckAction } from "../../Actions/CredentialActions";
 
 function mapStateToProps(state) {
   return {};
@@ -15,7 +14,6 @@ class Navbar extends Component {
     };
   }
   componentDidMount() {
-    this.props.AuthCheckAction();
     this.setState({
       navs: [
         { Name: "Overview" },
@@ -31,7 +29,8 @@ class Navbar extends Component {
           Image: "pie-chart.png",
           link: "/Items/AddCategory"
         },
-        { Name: "Reports" }
+        { Name: "Reports" },
+        { Name: "Sales", Image: "magnifying-glass.png", link: "/Sales" }
       ]
     });
   }
@@ -73,7 +72,4 @@ class Navbar extends Component {
   }
 }
 
-export default connect(
-  mapStateToProps,
-  { AuthCheckAction }
-)(Navbar);
+export default connect(mapStateToProps)(Navbar);

@@ -15,4 +15,7 @@ export const Login = "login";
 export const Register = "register";
 export const AuthCheck = "authCheck";
 
+export const AddSold = "addSold";
+export const UpdateSales = "updateSales";
+
 export const UnMountAlert = "unMountAlert";

@@ -78,6 +78,8 @@ class AddStock extends Component {
       Name: "",
       SellingPrice: 0
     });
+    this.refs.Quantity.value = 0;
+    this.refs.Price.value = 0;
   };
   SellingPriceHandler = e => {
     this.setState({

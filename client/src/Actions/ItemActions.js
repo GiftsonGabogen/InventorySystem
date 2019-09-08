@@ -15,10 +15,13 @@ let Token = localStorage.getItem("Authorization");
 export const FetchAllAction = () => dispatch => {
   axios.get("/api/items").then(items => {
     axios.get("/api/items/Category").then(categories => {
-      dispatch({
-        type: FetchAll,
-        items: items.data,
-        categories: categories.data
+      axios.get("/api/sales").then(sales => {
+        dispatch({
+          type: FetchAll,
+          items: items.data,
+          categories: categories.data,
+          sales: sales.data
+        });
       });
     });
   });

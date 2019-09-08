@@ -3,6 +3,7 @@ const path = require("path");
 const bodyParser = require("body-parser");
 const itemsRouter = require("./Routes/items");
 const usersRouter = require("./Routes/users");
+const salesRouter = require("./Routes/sales");
 const morgan = require("morgan");
 const mongoose = require("mongoose");
 const mongoURI = require("./config/keys").mongoURI;
@@ -15,9 +16,10 @@ mongoose
   )
   .then(() => console.log("MongoDB Connected"))
   .catch(err => console.log(err));
-if (app.get("env") === "development") {
-  app.use(morgan("tiny"));
-}
+
+console.log(process.env.NODE_ENV);
+
+app.use(morgan("tiny"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 //makes userImageUpload Folder Accesible Even on Client Side
@@ -26,6 +28,7 @@ app.use(express.static(path.join(__dirname, "client/build")));
 
 app.use("/api/items", itemsRouter);
 app.use("/api/users", usersRouter);
+app.use("/api/sales", salesRouter);
 
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname + "/client/build/index.html"));

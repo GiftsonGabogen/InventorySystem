@@ -19,6 +19,7 @@ import Category from "./Components/Pages/Items/Category";
 import AddCategory from "./Components/Pages/Items/AddCategory";
 import StoreHome from "./Components/Store/StoreHome";
 import { FetchAllAction } from "./Actions/ItemActions";
+import { AuthCheckAction } from "./Actions/CredentialActions";
 
 function mapStateToProps(state) {
   return {
@@ -26,23 +27,21 @@ function mapStateToProps(state) {
     items: state.items
   };
 }
-let PrivateRoute;
+const PrivateRoute = ({ component: Component, credential, ...rest }) => (
+  <Route
+    {...rest}
+    render={props =>
+      credential.Login === true ? <Component {...props} /> : <Redirect to="/" />
+    }
+  />
+);
 
 class App extends React.Component {
-  componentDidMount() {
+  constructor(props) {
+    super(props);
+
     this.props.FetchAllAction();
-    PrivateRoute = ({ component: Component, ...rest }) => (
-      <Route
-        {...rest}
-        render={props =>
-          this.props.credentials.Login === true ? (
-            <Component {...props} />
-          ) : (
-            <Redirect to="/" />
-          )
-        }
-      />
-    );
+    this.props.AuthCheckAction();
   }
 
   render() {
@@ -54,18 +53,31 @@ class App extends React.Component {
         <Route exact path="/" component={Login} />
         <div className="Home col-9">
           <Switch>
-            <Route exact path="/Home" component={Home} />
-            <Route exact path="/Home/Items" component={Items} />
-            <Route exact path="/Home/Items/Add" component={AddItem} />
-            <Route exact path="/Home/Items/Edit" component={EditItem} />
-            <Route exact path="/Home/Items/AddStock" component={AddStock} />
-            <Route exact path="/Home/Items/Category" component={Category} />
-            <Route
+            <PrivateRoute exact path="/Home" component={Home} />
+            <PrivateRoute
+              credential={this.props.credentials}
+              exact
+              path="/Home/Items"
+              component={Items}
+            />
+            <PrivateRoute exact path="/Home/Items/Add" component={AddItem} />
+            <PrivateRoute exact path="/Home/Items/Edit" component={EditItem} />
+            <PrivateRoute
+              exact
+              path="/Home/Items/AddStock"
+              component={AddStock}
+            />
+            <PrivateRoute
+              exact
+              path="/Home/Items/Category"
+              component={Category}
+            />
+            <PrivateRoute
               exact
               path="/Home/Items/AddCategory"
               component={AddCategory}
             />
-            <Route exact path="/Store" component={StoreHome} />
+            <PrivateRoute exact path="/Store" component={StoreHome} />
           </Switch>
         </div>
       </div>
@@ -75,5 +87,5 @@ class App extends React.Component {
 
 export default connect(
   mapStateToProps,
-  { FetchAllAction }
+  { FetchAllAction, AuthCheckAction }
 )(App);
