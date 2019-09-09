@@ -153,27 +153,35 @@ Router.put("/AddStock", AuthCheck, (req, res) => {
     SellingPrice: Joi.number().required(),
     id: Joi.string().required()
   };
+  let newPrice = 0;
+  let newQuantity = 0;
 
   Joi.validate(req.body, schema)
     .then(validated => {
-      Items.findByIdAndUpdate(
-        id,
-        {
-          $set: {
-            Price,
-            SellingPrice,
-            Quantity
-          }
-        },
-        { new: true }
-      )
+      Items.findById(id)
         .exec()
-        .then(result => {
-          res.status(200).json({
-            success: true,
-            Item: result,
-            message: `Successfully Added Stock on ${result.Name}`
-          });
+        .then(find => {
+          newPrice = Number(Price) + Number(find.Price);
+          newQuantity = Number(Quantity) + Number(find.Quantity);
+          Items.findByIdAndUpdate(
+            id,
+            {
+              $set: {
+                Price: newPrice,
+                SellingPrice: SellingPrice,
+                Quantity: newQuantity
+              }
+            },
+            { new: true }
+          )
+            .exec()
+            .then(result => {
+              res.status(200).json({
+                success: true,
+                Item: result,
+                message: `Successfully Added Stock on ${result.Name}`
+              });
+            });
         });
     })
     .catch(err => {

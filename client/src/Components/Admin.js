@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from "react";
-import Home from "./Pages/Items/Items";
+import Home from "./Home";
 import Items from "./Pages/Items/Items";
 import AddItem from "./Pages/Items/AddItem";
 import EditItem from "./Pages/Items/EditItem";

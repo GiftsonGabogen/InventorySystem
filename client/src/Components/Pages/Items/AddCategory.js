@@ -13,6 +13,7 @@ class AddCategory extends Component {
   componentWillUnmount() {
     this.props.UnMountAlertAction();
   }
+  componentDidMount() {}
   AddCategoryHandler = e => {
     e.preventDefault();
     let Data = {

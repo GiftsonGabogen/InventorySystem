@@ -11,13 +11,37 @@ function mapStateToProps(state) {
 }
 
 class AddStock extends Component {
+  constructor(params) {
+    super(params);
+    this.state = {
+      PricePerUnit: 0,
+      Price: 0,
+      Quantity: 0,
+      id: "",
+      SellingPrice: 0,
+      Name: "",
+      Items: this.props.items.items
+    };
+  }
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      Items: nextProps.items.items
+    });
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    if (
+      this.state.Items === nextProps.items.items &&
+      this.state === nextState
+    ) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
   componentWillUnmount() {
     this.props.UnMountAlertAction();
-  }
-  componentDidMount() {
-    this.setState({
-      Items: this.props.items.items
-    });
   }
 
   onSearch = (Cat, Nam) => {
@@ -117,18 +141,6 @@ class AddStock extends Component {
       SellingPrice: e.target.value
     });
   };
-  constructor(params) {
-    super(params);
-    this.state = {
-      PricePerUnit: 0,
-      Price: 0,
-      Quantity: 0,
-      id: "",
-      Items: [],
-      SellingPrice: 0,
-      Name: ""
-    };
-  }
 
   render() {
     return (

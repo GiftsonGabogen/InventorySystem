@@ -13,13 +13,8 @@ class Items extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      Items: []
-    };
-  }
-  componentDidMount() {
-    this.setState({
       Items: this.props.items.items
-    });
+    };
   }
 
   onSearch = (Cat, Nam) => {

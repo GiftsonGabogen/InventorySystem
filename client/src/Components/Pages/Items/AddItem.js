@@ -13,6 +13,7 @@ class AddItem extends Component {
   componentWillUnmount() {
     this.props.UnMountAlertAction();
   }
+  componentDidUpdate() {}
 
   AddItemHandler = e => {
     e.preventDefault();

@@ -119,6 +119,8 @@ export default (state = initialState, action) => {
       }
 
     case UpdateItem:
+      console.log(state.items);
+      console.log(action.payload.Item.Category);
       if (action.payload.success === true) {
         let FilteredItems = state.items.filter(
           item => item._id !== action.payload.Item._id
@@ -127,7 +129,8 @@ export default (state = initialState, action) => {
           category => category._id === action.payload.Item.Category
         );
         action.payload.Item.Category = Category[0];
-
+        console.log(FilteredItems);
+        console.log(action.payload.Item.Category);
         return {
           ...state,
           items: [...FilteredItems, action.payload.Item],
@@ -144,9 +147,11 @@ export default (state = initialState, action) => {
 
     case DeleteItem:
       if (action.payload.success === true) {
+        console.log(state.items);
         let items = state.items.filter(
           item => item._id !== action.payload.Item._id
         );
+        console.log(items);
         return {
           ...state,
           items: items,

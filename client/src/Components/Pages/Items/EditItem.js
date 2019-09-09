@@ -12,6 +12,7 @@ function mapStateToProps(state) {
 
 class EditItem extends Component {
   constructor(params) {
+    console.log("Const");
     super(params);
     this.state = {
       Name: "",
@@ -19,13 +20,29 @@ class EditItem extends Component {
       SellingPrice: 0,
       Unit: "",
       id: "",
-      Items: []
+      Items: this.props.items.items
     };
   }
-  componentDidMount() {
+
+  componentWillReceiveProps(nextProps) {
     this.setState({
-      Items: this.props.items.items
+      Items: nextProps.items.items
     });
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    if (
+      this.state.Items === nextProps.items.items &&
+      this.state === nextState
+    ) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  componentWillUnmount() {
+    this.props.UnMountAlertAction();
   }
 
   onSearch = (Cat, Nam) => {
@@ -52,9 +69,6 @@ class EditItem extends Component {
       Items
     });
   };
-  componentWillUnmount() {
-    this.props.UnMountAlertAction();
-  }
   ItemDeleteHandler = id => {
     this.props.DeleteItemAction(id);
   };
