@@ -120,7 +120,6 @@ export default (state = initialState, action) => {
 
     case UpdateItem:
       console.log(state.items);
-      console.log(action.payload.Item.Category);
       if (action.payload.success === true) {
         let FilteredItems = state.items.filter(
           item => item._id !== action.payload.Item._id

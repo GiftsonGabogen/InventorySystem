@@ -13,7 +13,12 @@ class AddCategory extends Component {
   componentWillUnmount() {
     this.props.UnMountAlertAction();
   }
-  componentDidMount() {}
+  componentDidUpdate() {
+    if (this.props.items.Success === true) {
+      this.props.history.push("/Admin/Items/Category");
+    }
+  }
+
   AddCategoryHandler = e => {
     e.preventDefault();
     let Data = {

@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import SearchBar from "../../Comps/SearchBar";
 import { UnMountAlertAction } from "../../../Actions/UnMountActions";
 import { EditItemAction, DeleteItemAction } from "../../../Actions/ItemActions";
+import AlertButton from "../../Comps/AlertButton";
 
 function mapStateToProps(state) {
   return {
@@ -276,7 +277,15 @@ class EditItem extends Component {
                 <td>
                   <button
                     className="btn btn-danger"
-                    onClick={() => this.ItemDeleteHandler(item._id)}
+                    onClick={() =>
+                      AlertButton("Are You Sure To Delete " + item.Name + " ?")
+                        .then(result => {
+                          this.ItemDeleteHandler(item._id);
+                        })
+                        .catch(err => {
+                          console.log("Cancelled");
+                        })
+                    }
                   >
                     Delete
                   </button>

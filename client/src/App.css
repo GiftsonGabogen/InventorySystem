@@ -89,4 +89,39 @@ body {
   margin: 0;
 }
 
+.AlertModal {
+  position: fixed;
+  height: 40vh;
+  top: 0;
+  display: grid;
+  grid-template-columns: 100%;
+  justify-content: center;
+  justify-items: center;
+  align-items: center;
+  width: 100%;
+  visibility: hidden;
+  z-index: -5;
+}
+.AlertModal .AlertModalForm {
+  padding: 2rem;
+  width: 40%;
+  height: 100%;
+  background-color: white;
+  border-radius: 5px;
+}
+.AlertModal .AlertModalForm h2 {
+  font-size: 1.5rem;
+  padding: 1rem 0rem 3rem 0rem;
+}
+.AlertModal .form-row {
+  display: grid;
+  grid-auto-flow: column;
+  grid-gap: 1rem;
+}
+
+.AlertModalOpen {
+  visibility: visible;
+  z-index: 5;
+}
+
 /*# sourceMappingURL=App.css.map */

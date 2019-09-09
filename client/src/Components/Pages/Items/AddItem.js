@@ -13,7 +13,11 @@ class AddItem extends Component {
   componentWillUnmount() {
     this.props.UnMountAlertAction();
   }
-  componentDidUpdate() {}
+  componentDidUpdate() {
+    if (this.props.items.Success === true) {
+      this.props.history.push("/Admin/Items/All");
+    }
+  }
 
   AddItemHandler = e => {
     e.preventDefault();

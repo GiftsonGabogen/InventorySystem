@@ -46,6 +46,15 @@ class App extends React.Component {
     } else {
       return (
         <div className="App row">
+          <div className="AlertModal">
+            <div className="AlertModalForm">
+              <h2 className="AlertModalMessage" />
+              <div className="form-row">
+                <button className="btn btn-primary okButton">Ok</button>
+                <button className="btn btn-primary cancelButton">Cancel</button>
+              </div>
+            </div>
+          </div>
           <Route path="/Admin" component={Heading} />
           <Route path="/Store" component={Heading} />
           <Route path="/Admin" component={Navbar} />
