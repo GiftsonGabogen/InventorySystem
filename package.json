@@ -23,7 +23,8 @@
     "start": "nodemon server",
     "client": "npm start --prefix client",
     "dev": "concurrently \"npm start\" \"npm run client\"",
-    "prod": "concurrently \" set NODE_ENV=production && nodemon server\" \" set NODE_ENV=production && npm start --prefix client\""
+    "prod": "concurrently \" set NODE_ENV=production && nodemon server\" \" set NODE_ENV=production && npm start --prefix client\"",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
   },
   "author": "",
   "license": "ISC"
