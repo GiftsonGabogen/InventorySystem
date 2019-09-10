@@ -1,4 +1,6 @@
+const mongoURI = process.env.MONGO_URI || "mongodb://localhost:27017/Inventory";
+const JWTSecretKey = process.env.SECRET_KEY || "SecretKey";
 module.exports = {
-  mongoURI: "mongodb://localhost:27017/Inventory",
-  JWTSecretKey: "SecretKey"
+  mongoURI: mongoURI,
+  JWTSecretKey: JWTSecretKey
 };
