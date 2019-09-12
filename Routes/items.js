@@ -223,7 +223,7 @@ Router.put("/EditItem", AuthCheck, (req, res) => {
     });
 });
 
-Router.delete("/:id", AuthCheck, (req, res) => {
+Router.delete("/individual/:id", AuthCheck, (req, res) => {
   const { id } = req.params;
   Items.findByIdAndDelete(id)
     .exec()
@@ -240,6 +240,36 @@ Router.delete("/:id", AuthCheck, (req, res) => {
         message: err.details[0].message
       });
     });
+});
+
+Router.delete("/multiple", AuthCheck, (req, res) => {
+  console.log(req.body.ids);
+  const { ids } = req.body;
+  let count = 0;
+  ids.map(id => {
+    console.log(id);
+    Items.findByIdAndDelete(id.id)
+      .exec()
+      .then(result => {
+        if (count === ids.length - 1) {
+          res.status(201).json({
+            message: `Successfully Deleted Items ${ids.map(
+              id => id.Name + " "
+            )}`,
+            success: true,
+            Item: ids
+          });
+        } else {
+          count++;
+        }
+      })
+      .catch(err => {
+        res.status(200).json({
+          success: false,
+          message: err.details[0].message
+        });
+      });
+  });
 });
 
 Router.delete("/Category/:id", AuthCheck, (req, res) => {

@@ -3,6 +3,7 @@ import {
   FetchItems,
   UpdateItem,
   DeleteItem,
+  DeleteItemMultiple,
   AddCategory,
   FetchCategories,
   FetchAll,
@@ -16,7 +17,6 @@ export const FetchAllAction = () => dispatch => {
   axios.get("/api/items").then(items => {
     axios.get("/api/items/Category").then(categories => {
       axios.get("/api/sales").then(sales => {
-        console.log(sales.data);
         dispatch({
           type: FetchAll,
           items: items.data,
@@ -83,12 +83,25 @@ export const AddCategoryAction = data => dispatch => {
 
 export const DeleteItemAction = id => dispatch => {
   axios
-    .delete(`/api/items/${id}`, {
+    .delete(`/api/items/individual/${id}`, {
       headers: { Authorization: "Bearer " + Token }
     })
     .then(item =>
       dispatch({
         type: DeleteItem,
+        payload: item.data
+      })
+    );
+};
+
+export const DeleteItemMultipleAction = data => dispatch => {
+  axios
+    .delete(`/api/items/multiple`, data, {
+      headers: { Authorization: "Bearer " + Token }
+    })
+    .then(item =>
+      dispatch({
+        type: DeleteItemMultiple,
         payload: item.data
       })
     );

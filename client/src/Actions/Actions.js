@@ -3,6 +3,7 @@ export const FetchAll = "fetchAll";
 export const FetchItem = "fetchItem";
 export const FetchItems = "fetchItems";
 export const DeleteItem = "deleteItem";
+export const DeleteItemMultiple = "deleteItemMultiple";
 export const EditItem = "editItem";
 export const AddItem = "addItem";
 export const UpdateItem = "updateItem";
