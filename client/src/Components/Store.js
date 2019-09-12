@@ -3,9 +3,6 @@ import StoreHome from "./Store/StoreHome";
 import { Route } from "react-router-dom";
 
 class Store extends Component {
-  constructor(props) {
-    super(props);
-  }
   render() {
     return (
       <Fragment>

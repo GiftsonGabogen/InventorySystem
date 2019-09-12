@@ -35,7 +35,7 @@ class Category extends Component {
             {this.props.items.message}
           </div>
         )}
-        <table className="table table-striped">
+        <table className="table table-striped table-sm">
           <thead>
             <tr>
               <th scope="col">#</th>

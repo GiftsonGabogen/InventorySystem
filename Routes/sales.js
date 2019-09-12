@@ -55,7 +55,6 @@ Router.post("/", AuthCheck, (req, res) => {
     .populate("Category")
     .exec()
     .then(result => {
-      console.log(result[0]);
       Category = result[0].Category.Name;
       const newSales = new Sales({
         _id: new mongoose.Types.ObjectId(),
@@ -77,7 +76,6 @@ Router.post("/", AuthCheck, (req, res) => {
     })
     .catch(err => {
       res.status(200).json({ success: false, message: err.details[0].message });
-      console.log(err.details[0].message);
     });
 });
 

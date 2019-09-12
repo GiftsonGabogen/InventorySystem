@@ -185,14 +185,12 @@ Router.put("/AddStock", AuthCheck, (req, res) => {
         });
     })
     .catch(err => {
-      console.log(err);
       res.status(200).json({ success: false, message: err.details[0].message });
     });
 });
 
 Router.put("/EditItem", AuthCheck, (req, res) => {
   const { id, Name, Category, SellingPrice, Unit } = req.body;
-  console.log(SellingPrice);
   Items.findByIdAndUpdate(
     id,
     {
@@ -207,7 +205,6 @@ Router.put("/EditItem", AuthCheck, (req, res) => {
   )
     .exec()
     .then(result => {
-      console.log(result);
       res.status(200).json({
         success: true,
         Item: result,
@@ -215,7 +212,6 @@ Router.put("/EditItem", AuthCheck, (req, res) => {
       });
     })
     .catch(err => {
-      console.log(err);
       res.status(200).json({
         success: false,
         message: err
@@ -242,8 +238,7 @@ Router.delete("/individual/:id", AuthCheck, (req, res) => {
     });
 });
 
-Router.delete("/multiple", AuthCheck, (req, res) => {
-  console.log(req.body.ids);
+Router.post("/multiple", AuthCheck, (req, res) => {
   const { ids } = req.body;
   let count = 0;
   ids.map(id => {

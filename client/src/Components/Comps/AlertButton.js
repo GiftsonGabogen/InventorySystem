@@ -1,7 +1,4 @@
-import React from "react";
-
 function AlertButton(message) {
-  let next;
   const Modal = document.querySelector(".AlertModal");
   const cancelButton = document.querySelector(".cancelButton");
   const okButton = document.querySelector(".okButton");

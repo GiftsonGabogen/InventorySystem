@@ -52,7 +52,7 @@ class Items extends Component {
           onSearch={this.onSearch}
           Categories={this.props.items.categories}
         />
-        <table className="table table-striped">
+        <table className="table table-striped table-sm">
           <thead>
             <tr>
               <th scope="col">#</th>

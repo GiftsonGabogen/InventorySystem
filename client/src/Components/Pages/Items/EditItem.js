@@ -2,7 +2,11 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import SearchBar from "../../Comps/SearchBar";
 import { UnMountAlertAction } from "../../../Actions/UnMountActions";
-import { EditItemAction, DeleteItemAction } from "../../../Actions/ItemActions";
+import {
+  EditItemAction,
+  DeleteItemAction,
+  DeleteItemMultipleAction
+} from "../../../Actions/ItemActions";
 import AlertButton from "../../Comps/AlertButton";
 
 function mapStateToProps(state) {
@@ -13,7 +17,6 @@ function mapStateToProps(state) {
 
 class EditItem extends Component {
   constructor(params) {
-    console.log("Const");
     super(params);
     this.state = {
       Name: "",
@@ -21,7 +24,8 @@ class EditItem extends Component {
       SellingPrice: 0,
       Unit: "",
       id: "",
-      Items: this.props.items.items
+      Items: this.props.items.items,
+      deleteList: []
     };
   }
 
@@ -45,6 +49,29 @@ class EditItem extends Component {
   componentWillUnmount() {
     this.props.UnMountAlertAction();
   }
+
+  onDeleteList = () => {
+    let Data = {
+      ids: this.state.deleteList
+    };
+    this.setState({
+      deleteList: []
+    });
+    this.props.DeleteItemMultipleAction(Data);
+  };
+
+  onAddDeleteList = (bool, id, Name) => {
+    if (bool === true) {
+      this.setState({
+        deleteList: [...this.state.deleteList, { id: id, Name: Name }]
+      });
+    } else {
+      let filteredList = this.state.deleteList.filter(list => list.id !== id);
+      this.setState({
+        deleteList: filteredList
+      });
+    }
+  };
 
   onSearch = (Cat, Nam) => {
     const Name = Nam.toLowerCase();
@@ -232,9 +259,23 @@ class EditItem extends Component {
           onSearch={this.onSearch}
           Categories={this.props.items.categories}
         />
-        <table className="table table-striped">
+        <table className="table table-striped table-sm">
           <thead>
             <tr>
+              <th scope="col">
+                {this.state.deleteList.length > 0 ? (
+                  <button
+                    type="button"
+                    onClick={this.onDeleteList}
+                    className="btn btn-danger"
+                    ref="deleteButton"
+                  >
+                    delete
+                  </button>
+                ) : (
+                  ""
+                )}
+              </th>
               <th scope="col">#</th>
               <th scope="col">Name</th>
               <th scope="col">Category</th>
@@ -243,12 +284,28 @@ class EditItem extends Component {
               <th scope="col">Quantity</th>
               <th scope="col">Unit</th>
               <th />
-              <th />
             </tr>
           </thead>
           <tbody>
             {this.state.Items.map((item, i) => (
               <tr key={i}>
+                <td>
+                  <div className="form-check">
+                    <input
+                      type="checkbox"
+                      name=""
+                      id=""
+                      className="form-check-input"
+                      onChange={e =>
+                        this.onAddDeleteList(
+                          e.target.checked,
+                          item._id,
+                          item.Name
+                        )
+                      }
+                    />
+                  </div>
+                </td>
                 <th scope="row">{i + 1}</th>
                 <td>{item.Name}</td>
                 <td>{item.Category.Name}</td>
@@ -274,7 +331,7 @@ class EditItem extends Component {
                     Edit
                   </button>
                 </td>
-                <td>
+                {/* <td>
                   <button
                     className="btn btn-danger"
                     onClick={() =>
@@ -289,7 +346,7 @@ class EditItem extends Component {
                   >
                     Delete
                   </button>
-                </td>
+                </td> */}
               </tr>
             ))}
           </tbody>
@@ -301,5 +358,10 @@ class EditItem extends Component {
 
 export default connect(
   mapStateToProps,
-  { UnMountAlertAction, EditItemAction, DeleteItemAction }
+  {
+    UnMountAlertAction,
+    EditItemAction,
+    DeleteItemAction,
+    DeleteItemMultipleAction
+  }
 )(EditItem);

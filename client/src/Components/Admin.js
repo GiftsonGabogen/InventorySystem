@@ -10,13 +10,6 @@ import Sales from "./Pages/Items/Sales";
 import { Route } from "react-router-dom";
 
 class Admin extends Component {
-  constructor(props) {
-    super(props);
-  }
-  componentDidMount() {
-    console.log(this.props.match);
-  }
-
   render() {
     return (
       <Fragment>

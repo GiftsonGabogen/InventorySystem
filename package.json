@@ -14,11 +14,10 @@
     "jsonwebtoken": "latest",
     "mongoose": "latest",
     "morgan": "latest",
-    "multer": "latest"
-  },
-  "devDependencies": {
+    "multer": "latest",
     "nodemon": "^1.18.3"
   },
+  "devDependencies": {},
   "scripts": {
     "start": "nodemon server",
     "client": "npm start --prefix client",

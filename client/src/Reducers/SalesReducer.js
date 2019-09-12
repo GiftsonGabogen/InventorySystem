@@ -29,7 +29,6 @@ export default (state = initialState, action) => {
         };
       }
     case FetchAll:
-      console.log(action);
       if (action.sales.success === true) {
         return {
           ...state,

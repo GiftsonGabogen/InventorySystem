@@ -96,15 +96,16 @@ export const DeleteItemAction = id => dispatch => {
 
 export const DeleteItemMultipleAction = data => dispatch => {
   axios
-    .delete(`/api/items/multiple`, data, {
+    .post(`/api/items/multiple`, data, {
       headers: { Authorization: "Bearer " + Token }
     })
-    .then(item =>
+    .then(item => {
+      console.log(item);
       dispatch({
         type: DeleteItemMultiple,
         payload: item.data
-      })
-    );
+      });
+    });
 };
 
 export const DeleteCategoryAction = id => dispatch => {

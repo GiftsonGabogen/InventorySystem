@@ -1,9 +1,6 @@
 import React, { Component } from "react";
 
 class SearchBar extends Component {
-  constructor(props) {
-    super(props);
-  }
   onSearchHandler = e => {
     e.preventDefault();
     this.props.onSearch(this.refs.Category.value, this.refs.Name.value);
