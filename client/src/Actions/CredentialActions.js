@@ -1,4 +1,4 @@
-import { Login, AuthCheck } from "./Actions";
+import { Login, AuthCheck, Logout } from "./Actions";
 
 import axios from "axios";
 let Token = localStorage.getItem("Authorization");
@@ -9,6 +9,15 @@ export const LoginAction = data => dispatch => {
     dispatch({
       type: Login,
       payload: user.data
+    });
+  });
+};
+
+export const LogoutAction = data => dispatch => {
+  axios.post(`/api/users/login`, data).then(user => {
+    localStorage.removeItem("Authorization");
+    dispatch({
+      type: Logout
     });
   });
 };

@@ -11,8 +11,6 @@ function mapStateToProps(state) {
 }
 
 class Login extends Component {
-  componentDidUpdate() {}
-
   componentWillUnmount() {
     this.props.UnMountAlertAction();
   }

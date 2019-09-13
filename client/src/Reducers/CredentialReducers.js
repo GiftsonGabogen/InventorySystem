@@ -1,4 +1,4 @@
-import { Login, AuthCheck } from "../Actions/Actions";
+import { Login, AuthCheck, Logout } from "../Actions/Actions";
 
 const initialState = {
   Login: false,
@@ -25,6 +25,15 @@ export default (state = initialState, action) => {
           message: action.payload.message
         };
       }
+    case Logout:
+      return {
+        ...state,
+        Login: false,
+        Success: false,
+        message: "",
+        Username: "",
+        Type: ""
+      };
     case AuthCheck:
       if (action.payload.success === true) {
         return {

@@ -47,6 +47,7 @@ class EditItem extends Component {
   }
 
   componentWillUnmount() {
+    /* Reset all of the Alert Messages */
     this.props.UnMountAlertAction();
   }
 
@@ -58,14 +59,20 @@ class EditItem extends Component {
       deleteList: []
     });
     this.props.DeleteItemMultipleAction(Data);
+    /* There is a Bug on My Checkbox Deleting, Which is When I Delete An Item Then When The State And The Items Updated Some Item is Still Checked
+    Which is Not Checked Before. Because I Have No Internet When I'm Debugging It, I Come Up With A Solution, Redirect To a Page Which Will
+    Redirect Again to This Page So That Loss of States is Not Messed Up */
+    this.props.history.push(`/Admin/Reload/-Admin-Items-Edit`);
   };
 
   onAddDeleteList = (bool, id, Name) => {
+    /* Putting Id and Name of The Checked Item in An Object Then Added to The this.state.deleteList Array */
     if (bool === true) {
       this.setState({
         deleteList: [...this.state.deleteList, { id: id, Name: Name }]
       });
     } else {
+      /* if Unchecked Removed it to he this.state.deleteList Array */
       let filteredList = this.state.deleteList.filter(list => list.id !== id);
       this.setState({
         deleteList: filteredList
@@ -74,6 +81,7 @@ class EditItem extends Component {
   };
 
   onSearch = (Cat, Nam) => {
+    /* For Searching Certain Items With an Option of Category */
     const Name = Nam.toLowerCase();
     let Items;
     if (Cat === "All" && Name === "") {
@@ -123,6 +131,7 @@ class EditItem extends Component {
   };
 
   CloseHandler = () => {
+    /* Resseting The Modal Data Which is Fetch Form The State When The Modal is Closed */
     this.setState({
       Name: "",
       Category: "",
@@ -165,6 +174,7 @@ class EditItem extends Component {
               <div className="modal-header">
                 <h5 className="modal-title">
                   Edit {this.state.Name}
+                  {/* if there is am Exisiting Message on The Global State for Items Pop an Alert With The Message */}
                   {this.props.items.message === "" ? (
                     ""
                   ) : (
@@ -263,18 +273,26 @@ class EditItem extends Component {
           <thead>
             <tr>
               <th scope="col">
-                {this.state.deleteList.length > 0 ? (
-                  <button
-                    type="button"
-                    onClick={this.onDeleteList}
-                    className="btn btn-danger"
-                    ref="deleteButton"
-                  >
-                    delete
-                  </button>
-                ) : (
-                  ""
-                )}
+                {/* If One or More Checkbox is Checked This Delete Button Will Be Visible */}
+
+                <button
+                  type="button"
+                  onClick={() =>
+                    AlertButton(
+                      `Are You Sure You Want To Delete ${this.state.deleteList.map(
+                        list => list.Name + " "
+                      )}`
+                    ).then(this.onDeleteList)
+                  }
+                  className="btn btn-danger btn-sm checkbox"
+                  id="checkbox"
+                  style={{
+                    visibility:
+                      this.state.deleteList.length > 0 ? "visible" : "hidden"
+                  }}
+                >
+                  delete
+                </button>
               </th>
               <th scope="col">#</th>
               <th scope="col">Name</th>
@@ -293,8 +311,8 @@ class EditItem extends Component {
                   <div className="form-check">
                     <input
                       type="checkbox"
-                      name=""
-                      id=""
+                      ref="checkbox"
+                      id="checkbox"
                       className="form-check-input"
                       onChange={e =>
                         this.onAddDeleteList(

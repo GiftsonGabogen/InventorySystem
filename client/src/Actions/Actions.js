@@ -13,6 +13,7 @@ export const AddCategory = "addCategory";
 export const DeleteCategory = "deleteCategory";
 
 export const Login = "login";
+export const Logout = "logout";
 export const Register = "register";
 export const AuthCheck = "authCheck";
 

@@ -12,6 +12,7 @@ import Navbar from "./Components/Header/Navbar";
 import Heading from "./Components/Header/Heading";
 import Store from "./Components/Store";
 import Admin from "./Components/Admin";
+import Reload from "./Components/Reload";
 import errorPage from "./Components/errorPage";
 import { FetchAllAction } from "./Actions/ItemActions";
 import { AuthCheckAction } from "./Actions/CredentialActions";
@@ -35,7 +36,6 @@ class App extends React.Component {
   constructor(props) {
     super(props);
 
-    this.props.AuthCheckAction();
     this.props.FetchAllAction();
   }
   componentWillMount() {}
@@ -66,6 +66,7 @@ class App extends React.Component {
                 path="/Store"
                 component={Store}
               />
+              <Route path="/Admin/Reload/:url" component={Reload} />
 
               <PrivateRoute
                 credential={this.props.credential}
