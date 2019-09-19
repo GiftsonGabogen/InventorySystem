@@ -10,9 +10,11 @@ import { connect } from "react-redux";
 import Login from "./Components/Login";
 import Navbar from "./Components/Header/Navbar";
 import Heading from "./Components/Header/Heading";
+import SuperAdminNavbar from "./Components/SuperAdmin/SuperAdminNavbar"
 import Store from "./Components/Store";
 import Admin from "./Components/Admin";
 import Reload from "./Components/Reload";
+import SuperAdmin from "./Components/SuperAdmin"
 import errorPage from "./Components/errorPage";
 import { FetchAllAction } from "./Actions/ItemActions";
 import { AuthCheckAction } from "./Actions/CredentialActions";
@@ -38,7 +40,6 @@ class App extends React.Component {
 
     this.props.FetchAllAction();
   }
-  componentWillMount() {}
 
   render() {
     if (this.props.items.Loaded === false) {
@@ -58,8 +59,9 @@ class App extends React.Component {
           <Route path="/Admin" component={Heading} />
           <Route path="/Store" component={Heading} />
           <Route path="/Admin" component={Navbar} />
+          <Route path="/SuperAdmin" component={SuperAdminNavbar} />
           <Route exact path="/" component={Login} />
-          <div className="Home col-9">
+          <div className="col-9">
             <Switch>
               <PrivateRoute
                 credential={this.props.credential}
@@ -67,6 +69,12 @@ class App extends React.Component {
                 component={Store}
               />
               <Route path="/Admin/Reload/:url" component={Reload} />
+
+              <PrivateRoute
+                credential={this.props.credential}
+                path="/SuperAdmin"
+                component={SuperAdmin}
+              />
 
               <PrivateRoute
                 credential={this.props.credential}

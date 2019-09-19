@@ -10,11 +10,6 @@ class Navbar extends Component {
   constructor(params) {
     super(params);
     this.state = {
-      navs: []
-    };
-  }
-  componentDidMount() {
-    this.setState({
       navs: [
         { Name: "Overview" },
         { Name: "Overview", Image: "magnifying-glass.png", link: "/Overview" },
@@ -32,7 +27,7 @@ class Navbar extends Component {
         { Name: "Reports" },
         { Name: "Sales", Image: "magnifying-glass.png", link: "/Reports/Sales" }
       ]
-    });
+    };
   }
 
   render() {
@@ -54,15 +49,15 @@ class Navbar extends Component {
                     </button>
                   </li>
                 ) : (
-                  <li className="nav-item sub-nav" key={i}>
-                    <span className="badge">
-                      <img src={`./Images/${nav.Image}`} alt="" />
-                    </span>
-                    <NavLink to={`/Admin${nav.link}`} className="nav-link">
-                      {nav.Name}
-                    </NavLink>
-                  </li>
-                )
+                    <li className="nav-item sub-nav" key={i}>
+                      <span className="badge">
+                        <img src={`./Images/${nav.Image}`} alt="" />
+                      </span>
+                      <NavLink to={`/Admin${nav.link}`} className="nav-link">
+                        {nav.Name}
+                      </NavLink>
+                    </li>
+                  )
               )}
             </ul>
           </div>

@@ -12,6 +12,7 @@
     "graphql": "latest",
     "joi": "^14.3.1",
     "jsonwebtoken": "latest",
+    "moment": "^2.24.0",
     "mongoose": "latest",
     "morgan": "latest",
     "multer": "latest",

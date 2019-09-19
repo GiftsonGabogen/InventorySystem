@@ -161,9 +161,9 @@ export default (state = initialState, action) => {
     case DeleteItemMultiple:
       if (action.payload.success === true) {
         let items = state.items;
-        action.payload.Item.map(item => {
-          items = items.filter(thisitem => thisitem._id !== item.id);
-        });
+        action.payload.Item.map(item =>
+          items = items.filter(thisitem => thisitem._id !== item.id)
+        );
         return {
           ...state,
           items: items,

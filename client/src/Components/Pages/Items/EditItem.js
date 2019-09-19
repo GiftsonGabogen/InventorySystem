@@ -174,21 +174,21 @@ class EditItem extends Component {
               <div className="modal-header">
                 <h5 className="modal-title">
                   Edit {this.state.Name}
-                  {/* if there is am Exisiting Message on The Global State for Items Pop an Alert With The Message */}
+                  {/* if there is an Existing Message on The Global State for Items Pop an Alert With The Message */}
                   {this.props.items.message === "" ? (
                     ""
                   ) : (
-                    <div
-                      className={`alert ${
-                        this.props.items.Success === true
-                          ? "alert-success"
-                          : "alert-danger"
-                      }`}
-                      role="alert"
-                    >
-                      {this.props.items.message}
-                    </div>
-                  )}
+                      <div
+                        className={`alert ${
+                          this.props.items.Success === true
+                            ? "alert-success"
+                            : "alert-danger"
+                          }`}
+                        role="alert"
+                      >
+                        {this.props.items.message}
+                      </div>
+                    )}
                 </h5>
                 <button
                   type="button"

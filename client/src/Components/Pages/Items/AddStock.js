@@ -130,7 +130,8 @@ class AddStock extends Component {
   CloseHandler = () => {
     this.setState({
       Name: "",
-      SellingPrice: 0
+      SellingPrice: 0,
+      PricePerUnit: 0
     });
     this.refs.Quantity.value = 0;
     this.refs.Price.value = 0;

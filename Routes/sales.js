@@ -4,6 +4,7 @@ const Sales = require("../MongoDBModel/sales");
 const Items = require("../MongoDBModel/items");
 const mongoose = require("mongoose");
 const AuthCheck = require("../middleware/authCheck");
+const moment = require("moment")
 const Joi = require("joi");
 
 //Get All Post
@@ -11,7 +12,6 @@ Router.get("/", (req, res) => {
   Sales.find()
     .exec()
     .then(result => {
-      console.log(result);
       res.status(200).json({
         success: true,
         Sales: result
@@ -55,6 +55,18 @@ Router.post("/", AuthCheck, (req, res) => {
     .populate("Category")
     .exec()
     .then(result => {
+      // reduce the Sold Item
+      Items.findOneAndUpdate(
+        {_id:ItemID},
+        {
+          $set: {
+            Quantity: Number(result[0].Quantity) - Number(Quantity),
+
+          }
+        }
+      )
+      .exec()
+
       Category = result[0].Category.Name;
       const newSales = new Sales({
         _id: new mongoose.Types.ObjectId(),
@@ -65,15 +77,55 @@ Router.post("/", AuthCheck, (req, res) => {
         PricePerUnit,
         Category
       });
+      Sales.find({ItemID: ItemID})
+      .exec()
+      .then(saleRes =>{
+        if(saleRes.length > 0){
+          // if no sales is found on a specific id create a new sale
+          let fetchDate = moment(saleRes[0].Date).format("MMM/Do/YYYY").toString()
+          let updateDate = moment(Date.now()).format("MMM/Do/YYYY").toString()
+          console.log(fetchDate + " " + updateDate);
+          // if it is the same day and the same seller who did the sales it will only update the exsiting sale with only the quantity
+          // else create new sale on this day or create new sale with the new seller
+          if(fetchDate === updateDate && saleRes[0].Seller === Seller){
+            Sales.findOneAndUpdate(
+              {_id:saleRes[0]._id},
+              {
+                $set: {
+                  Quantity: Number(saleRes[0].Quantity) + Number(Quantity),
 
-      newSales.save().then(result => {
-        res.status(201).json({
-          success: true,
-          Sale: result,
-          message: `Sold Successfully ${Quantity} of ${ItemName}`
-        });
-      });
-    })
+                }
+              },
+              { new: true }
+            )
+            .exec()
+            .then(update =>{
+              res.status(201).json({
+                success: true,
+                Sale: result,
+                message: `Sold Successfully ${Quantity} of ${ItemName}`
+              });
+            })
+          }else{
+            newSales.save().then(result => {
+              res.status(201).json({
+                success: true,
+                Sale: result,
+                message: `Sold Successfully ${Quantity} of ${ItemName}`
+              });
+            });
+          }
+        }else{
+          newSales.save().then(result => {
+            res.status(201).json({
+              success: true,
+              Sale: result,
+              message: `Sold Successfully ${Quantity} of ${ItemName}`
+            });
+          });
+        }
+      })
+      })
     .catch(err => {
       res.status(200).json({ success: false, message: err.details[0].message });
     });

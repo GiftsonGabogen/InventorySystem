@@ -46,7 +46,8 @@ Router.get("/", (req, res) => {
     .then(result => {
       res.status(200).json({
         message: "Get Users Successfully",
-        users: result
+        Users: result,
+        success: true
       });
     })
     .catch(err => {
@@ -137,27 +138,27 @@ Router.post("/login", (req, res) => {
 });
 
 //Add User
-Router.post("/register", upload.single("userImage"), (req, res) => {
-  const { Email, Username, Password, ConfirmationPassword } = req.body;
-  //If Given Password and Given Confiramtion Password Don't Match Respond Fail
+Router.post("/register", AuthCheck, upload.single("ProfilePicture"), (req, res) => {
+  const { Name, Type, Username, Password, ConfirmationPassword } = req.body;
+  //If Given Password and Given Confirmation Password Don't Match Respond Fail
   if (req.file === undefined) {
     res
-      .status(409)
+      .status(200)
       .json({ success: false, message: "Please Include a Profile Pic" });
   } else if (Password !== ConfirmationPassword) {
-    res.status(409).json({ success: false, message: "Password Don't Match" });
+    res.status(200).json({ success: false, message: "Password Don't Match" });
     //If Password is Less Than or Equal To Five Characters Respond Fail
   } else if (Password.length <= 5) {
-    res.status(409).json({ success: false, message: "Password is Too Short" });
+    res.status(200).json({ success: false, message: "Password is Too Short" });
   } else {
-    User.find({ Email: Email })
+    User.find({ Name: Name })
       .exec()
       .then(result => {
-        //If The Given Email is Already Registered on The Database Respond Fail
+        //If The Given Name is Already Registered on The Database Respond Fail
         if (result.length > 0) {
-          res.status(409).json({
+          res.status(200).json({
             success: false,
-            message: "Your Email is Already Registered"
+            message: "Your Name is Already Registered"
           });
         } else {
           User.find({ Username: Username })
@@ -165,19 +166,20 @@ Router.post("/register", upload.single("userImage"), (req, res) => {
             .then(result => {
               //If The Given Username is Already Registered on The Database Respond Fail
               if (result.length > 0) {
-                res.status(409).json({
+                res.status(200).json({
                   success: false,
                   message: "Username is Already Registered"
                 });
               } else {
                 bcrypt.hash(Password, 10, (err, hash) => {
                   if (err) {
-                    res.status(500).json({ message: "Error Password Hashing" });
+                    res.status(200).json({ message: "Error Password Hashing" });
                   } else {
                     const newUser = new User({
                       _id: new mongoose.Types.ObjectId(),
                       Username,
-                      Email,
+                      Name,
+                      Type,
                       Password: hash,
                       UserImage: req.file.path
                     });

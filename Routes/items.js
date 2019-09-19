@@ -63,7 +63,7 @@ Router.get("/:id", (req, res) => {
     });
 });
 
-//Add Comment
+//Add Item
 Router.post("/AddItem", AuthCheck, (req, res) => {
   const { Name, Category, Unit } = req.body;
   const schema = {
@@ -242,7 +242,6 @@ Router.post("/multiple", AuthCheck, (req, res) => {
   const { ids } = req.body;
   let count = 0;
   ids.map(id => {
-    console.log(id);
     Items.findByIdAndDelete(id.id)
       .exec()
       .then(result => {

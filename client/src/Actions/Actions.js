@@ -12,6 +12,9 @@ export const FetchCategories = "fetchCategories";
 export const AddCategory = "addCategory";
 export const DeleteCategory = "deleteCategory";
 
+export const RegisterUser = "registerUser";
+export const FetchAllUsers = "fetchAllUsers";
+
 export const Login = "login";
 export const Logout = "logout";
 export const Register = "register";
