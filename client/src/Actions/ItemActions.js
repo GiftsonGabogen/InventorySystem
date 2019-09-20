@@ -11,7 +11,6 @@ import {
 } from "./Actions";
 
 import axios from "axios";
-let Token = localStorage.getItem("Authorization");
 
 export const FetchAllAction = () => dispatch => {
   axios.get("/api/items").then(items => {
@@ -56,6 +55,8 @@ export const FetchItemAction = id => dispatch => {
 };
 
 export const AddItemAction = data => dispatch => {
+
+  let Token = localStorage.getItem("Authorization");
   axios
     .post("/api/items/AddItem", data, {
       headers: { Authorization: "Bearer " + Token }
@@ -69,6 +70,7 @@ export const AddItemAction = data => dispatch => {
 };
 
 export const AddCategoryAction = data => dispatch => {
+  let Token = localStorage.getItem("Authorization");
   axios
     .post("/api/items/AddCategory", data, {
       headers: { Authorization: "Bearer " + Token }
@@ -82,6 +84,7 @@ export const AddCategoryAction = data => dispatch => {
 };
 
 export const DeleteItemAction = id => dispatch => {
+  let Token = localStorage.getItem("Authorization");
   axios
     .delete(`/api/items/individual/${id}`, {
       headers: { Authorization: "Bearer " + Token }
@@ -95,6 +98,7 @@ export const DeleteItemAction = id => dispatch => {
 };
 
 export const DeleteItemMultipleAction = data => dispatch => {
+  let Token = localStorage.getItem("Authorization");
   axios
     .post(`/api/items/multiple`, data, {
       headers: { Authorization: "Bearer " + Token }
@@ -109,6 +113,7 @@ export const DeleteItemMultipleAction = data => dispatch => {
 };
 
 export const DeleteCategoryAction = id => dispatch => {
+  let Token = localStorage.getItem("Authorization");
   axios
     .delete(`/api/items/Category/${id}`, {
       headers: { Authorization: "Bearer " + Token }
@@ -122,6 +127,7 @@ export const DeleteCategoryAction = id => dispatch => {
 };
 
 export const AddStockAction = data => dispatch => {
+  let Token = localStorage.getItem("Authorization");
   axios
     .put("/api/items/AddStock", data, {
       headers: { Authorization: "Bearer " + Token }
@@ -135,6 +141,7 @@ export const AddStockAction = data => dispatch => {
 };
 
 export const EditItemAction = data => dispatch => {
+  let Token = localStorage.getItem("Authorization");
   axios
     .put("/api/items/EditItem", data, {
       headers: { Authorization: "Bearer " + Token }

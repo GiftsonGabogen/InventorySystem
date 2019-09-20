@@ -8,15 +8,22 @@ import {
   DeleteItemMultipleAction
 } from "../../../Actions/ItemActions";
 import AlertButton from "../../Comps/AlertButton";
+import PopAlert from "../../Comps/PopAlert"
 
 function mapStateToProps(state) {
   return {
-    items: state.items
+    items: state.items,
+    credential: state.credential
   };
 }
 
 class EditItem extends Component {
   constructor(params) {
+    // when reloading, the modal-backdrop div is not being removed because it is in the most root so if the app div reloads
+    // the modal-backdrop which is sitting outside the app div don't remove so that we need to remove it manually
+    if (document.querySelector(".modal-backdrop")) {
+      document.querySelector(".modal-backdrop").style.display = "none"
+    }
     super(params);
     this.state = {
       Name: "",
@@ -27,6 +34,7 @@ class EditItem extends Component {
       Items: this.props.items.items,
       deleteList: []
     };
+
   }
 
   componentWillReceiveProps(nextProps) {
@@ -34,6 +42,7 @@ class EditItem extends Component {
       Items: nextProps.items.items
     });
   }
+
 
   shouldComponentUpdate(nextProps, nextState) {
     if (
@@ -119,6 +128,9 @@ class EditItem extends Component {
       id: id.value
     };
     this.props.EditItemAction(Data);
+    /* Some of my updates actions items list messed when updating because the indexing of the items is being crumbled so what I do is
+    redirect the page to a page which redirect it again to the page where it came from */
+    this.props.history.push(`/Admin/Reload/-Admin-Items-Edit`);
   };
   EditHandler = (Name, Category, SellingPrice, Unit, id) => {
     this.setState({
@@ -163,6 +175,7 @@ class EditItem extends Component {
   render() {
     return (
       <div className="EditItem">
+        <PopAlert {...this.props.items} />
         <div
           className="modal fade"
           tabIndex="-1"
@@ -174,21 +187,7 @@ class EditItem extends Component {
               <div className="modal-header">
                 <h5 className="modal-title">
                   Edit {this.state.Name}
-                  {/* if there is an Existing Message on The Global State for Items Pop an Alert With The Message */}
-                  {this.props.items.message === "" ? (
-                    ""
-                  ) : (
-                      <div
-                        className={`alert ${
-                          this.props.items.Success === true
-                            ? "alert-success"
-                            : "alert-danger"
-                          }`}
-                        role="alert"
-                      >
-                        {this.props.items.message}
-                      </div>
-                    )}
+
                 </h5>
                 <button
                   type="button"

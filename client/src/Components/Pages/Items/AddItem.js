@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { AddItemAction } from "../../../Actions/ItemActions";
 import { UnMountAlertAction } from "../../../Actions/UnMountActions";
+import PopAlert from "../../Comps/PopAlert"
 
 function mapStateToProps(state) {
   return {
@@ -13,11 +14,6 @@ class AddItem extends Component {
   componentWillUnmount() {
     this.props.UnMountAlertAction();
   }
-  componentDidUpdate() {
-    if (this.props.items.Success === true) {
-      this.props.history.push("/Admin/Items/All");
-    }
-  }
 
   AddItemHandler = e => {
     e.preventDefault();
@@ -27,25 +23,15 @@ class AddItem extends Component {
       Unit: this.refs.Unit.value
     };
     this.props.AddItemAction(Data);
+    /* Some of my updates actions items list messed when updating because the indexing of the items is being crumbled so what I do is
+    redirect the page to a page which redirect it again to the page where it came from */
+    this.props.history.push(`/Admin/Reload/-Admin-Items-Add`);
   };
 
   render() {
     return (
       <div className="AddItem">
-        {this.props.items.message === "" ? (
-          ""
-        ) : (
-          <div
-            className={`alert ${
-              this.props.items.Success === true
-                ? "alert-success"
-                : "alert-danger"
-            }`}
-            role="alert"
-          >
-            {this.props.items.message}
-          </div>
-        )}
+        <PopAlert {...this.props.items} />
         <form onSubmit={this.AddItemHandler}>
           <div className="form-group">
             <label htmlFor="Name">Name</label>

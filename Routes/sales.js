@@ -19,14 +19,21 @@ Router.get("/", (req, res) => {
     })
     .catch(err => {
       console.log(err);
-      res.status(200).json({ sucess: false, message: err.details[0].message });
+      res.status(200).json({
+        sucess: false,
+        message: err.details[0].message
+      });
     });
 });
 
 //Get Specific Sale
 Router.get("/:id", (req, res) => {
-  const { id } = req.params;
-  Sales.find({ _id: id })
+  const {
+    id
+  } = req.params;
+  Sales.find({
+      _id: id
+    })
     .populate("Name")
     .exec()
     .then(result => {
@@ -43,28 +50,38 @@ Router.get("/:id", (req, res) => {
       }
     })
     .catch(err => {
-      res.status(200).json({ sucess: false, message: err });
+      res.status(200).json({
+        sucess: false,
+        message: err
+      });
     });
 });
 
 Router.post("/", AuthCheck, (req, res) => {
-  const { ItemName, ItemID, Quantity, Seller, PricePerUnit } = req.body;
+  const {
+    ItemName,
+    ItemID,
+    Quantity,
+    Seller,
+    PricePerUnit
+  } = req.body;
 
   let Category;
-  Items.find({ _id: ItemID })
+  Items.find({
+      _id: ItemID
+    })
     .populate("Category")
     .exec()
     .then(result => {
       // reduce the Sold Item
-      Items.findOneAndUpdate(
-        { _id: ItemID },
-        {
+      Items.findOneAndUpdate({
+          _id: ItemID
+        }, {
           $set: {
             Quantity: Number(result[0].Quantity) - Number(Quantity),
 
           }
-        }
-      )
+        })
         .exec()
 
       Category = result[0].Category.Name;
@@ -77,7 +94,9 @@ Router.post("/", AuthCheck, (req, res) => {
         PricePerUnit,
         Category
       });
-      Sales.find({ ItemID: ItemID })
+      Sales.find({
+          ItemID: ItemID
+        })
         .exec()
         .then(saleRes => {
           if (saleRes.length > 0) {
@@ -88,16 +107,15 @@ Router.post("/", AuthCheck, (req, res) => {
             // if it is the same day and the same seller who did the sales it will only update the exsiting sale with only the quantity
             // else create new sale on this day or create new sale with the new seller
             if (fetchDate === updateDate && saleRes[0].Seller === Seller) {
-              Sales.findOneAndUpdate(
-                { _id: saleRes[0]._id },
-                {
+              Sales.findOneAndUpdate({
+                  _id: saleRes[0]._id
+                }, {
                   $set: {
                     Quantity: Number(saleRes[0].Quantity) + Number(Quantity),
-
                   }
-                },
-                { new: true }
-              )
+                }, {
+                  new: true
+                })
                 .exec()
                 .then(update => {
                   res.status(201).json({
@@ -128,13 +146,20 @@ Router.post("/", AuthCheck, (req, res) => {
     })
     .catch(err => {
       console.log(err);
-      res.status(200).json({ success: false, message: err.details[0].message });
+      res.status(200).json({
+        success: false,
+        message: err.details[0].message
+      });
     });
 });
 
 Router.delete("/:id", AuthCheck, (req, res) => {
-  const { id } = req.params;
-  Sales.findOneAndDelete({ _id: id })
+  const {
+    id
+  } = req.params;
+  Sales.findOneAndDelete({
+      _id: id
+    })
     .exec()
     .then(result => {
       res.status(201).json({

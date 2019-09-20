@@ -1,7 +1,12 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
+import React, {
+  Component
+} from "react";
+import {
+  connect
+} from "react-redux";
 import SearchBar from "../../Comps/SearchBar";
 import moment from "moment";
+
 function mapStateToProps(state) {
   return {
     sales: state.sales,
@@ -10,13 +15,13 @@ function mapStateToProps(state) {
 }
 
 class Sales extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
       Sales: this.props.sales.Sales
     };
   }
-  componentDidMount() {}
+  componentDidMount() { }
 
   onSearch = (Cat, Nam) => {
     const Name = Nam.toLowerCase();
@@ -44,42 +49,41 @@ class Sales extends Component {
   };
 
   render() {
-    return (
-      <div className="Sales">
-        <SearchBar
-          onSearch={this.onSearch}
-          Categories={this.props.items.categories}
-          date={true}
-        />
-        <table className="table table-striped table-sm">
-          <thead>
-            <tr>
-              <th scope="col">#</th>
-              <th scope="col">Name</th>
-              <th scope="col">Category</th>
-              <th scope="col">Quantity</th>
-              <th scope="col">Total Price</th>
-              <th scope="col">Date</th>
-            </tr>
-          </thead>
-          <tbody>
-            {this.state.Sales.map((Sale, i) => (
-              <tr key={Sale._id}>
-                <th scope="row">{i + 1}</th>
-                <td>{Sale.ItemName}</td>
-                <td>{Sale.Category}</td>
-                <td>{Sale.Quantity}</td>
-                <td>{Sale.Quantity * Sale.PricePerUnit}</td>
-                <td>
-                  {moment(Sale.Date)
-                    .format("ddd MMM/Do/YYYY")
-                    .toString()}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+    return (<div className="Sales" >
+      <SearchBar onSearch={
+        this.onSearch
+      }
+        Categories={
+          this.props.items.categories
+        }
+        date={
+          true
+        }
+      /> <table className="table table-striped table-sm" >
+        <thead >
+          <tr >
+            <th scope="col" > # </th> <th scope="col" > Name </th> <th scope="col" > Category </th> <th scope="col" > Quantity </th> <th scope="col" > Total Price </th> <th scope="col" > Date </th>
+          </tr> </thead> <tbody> {
+            this.state.Sales.map((Sale, i) => (<tr key={
+              Sale._id
+            } >
+              <th scope="row" > {
+                i + 1
+              } </th> <td > {
+                Sale.ItemName
+              } </td> <td > {
+                Sale.Category
+              } </td> <td > {
+                Sale.Quantity
+              } </td> <td > {
+                Sale.Quantity * Sale.PricePerUnit
+              } </td> <td > {
+                moment(Sale.Date)
+                  .format("ddd MMM/Do/YYYY")
+                  .toString()
+              } </td> </tr>
+            ))
+          } </tbody> </table> </div>
     );
   }
 }

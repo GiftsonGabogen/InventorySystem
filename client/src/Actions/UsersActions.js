@@ -1,9 +1,9 @@
 import { RegisterUser, FetchAllUsers } from "./Actions";
 
 import axios from "axios";
-let Token = localStorage.getItem("Authorization");
 
 export const RegisterUserAction = data => dispatch => {
+  let Token = localStorage.getItem("Authorization");
   const Data = new FormData();
   Data.append("Name", data.Name);
   Data.append("Username", data.Username);

@@ -3,6 +3,8 @@ import { connect } from "react-redux";
 import SearchBar from "../../Comps/SearchBar";
 import { UnMountAlertAction } from "../../../Actions/UnMountActions";
 import { AddStockAction } from "../../../Actions/ItemActions";
+import PopAlert from "../../Comps/PopAlert"
+import { relativeTimeRounding } from "../../../../../node_modules/moment";
 
 function mapStateToProps(state) {
   return {
@@ -12,6 +14,11 @@ function mapStateToProps(state) {
 
 class AddStock extends Component {
   constructor(params) {
+    // when reloading, the modal-backdrop div is not being removed because it is in the most root so if the app div reloads
+    // the modal-backdrop which is sitting outside the app div don't remove so that we need to remove it manually
+    if (document.querySelector(".modal-backdrop")) {
+      document.querySelector(".modal-backdrop").style.display = "none"
+    }
     super(params);
     this.state = {
       PricePerUnit: 0,
@@ -79,6 +86,7 @@ class AddStock extends Component {
       Quantity: Quantity.value
     };
     this.props.AddStockAction(Data);
+    this.props.history.push(`/Admin/Reload/-Admin-Items-AddStock`);
   };
 
   Price = e => {
@@ -146,6 +154,7 @@ class AddStock extends Component {
   render() {
     return (
       <div className="AddStock">
+        <PopAlert {...this.props.items} />
         <div
           className="modal fade"
           tabIndex="-1"
@@ -157,20 +166,6 @@ class AddStock extends Component {
               <div className="modal-header">
                 <h5 className="modal-title">
                   {this.state.Name}
-                  {this.props.items.message === "" ? (
-                    ""
-                  ) : (
-                    <div
-                      className={`alert ${
-                        this.props.items.Success === true
-                          ? "alert-success"
-                          : "alert-danger"
-                      }`}
-                      role="alert"
-                    >
-                      {this.props.items.message}
-                    </div>
-                  )}
                 </h5>
 
                 <button

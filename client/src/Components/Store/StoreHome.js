@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { AddSoldAction } from "../../Actions/SalesAction";
+import PopAlert from "../Comps/PopAlert"
 
 function mapStateToProps(state) {
   return {
@@ -13,6 +14,11 @@ var filteredItems = [];
 
 class StoreHome extends Component {
   constructor(params) {
+    // when reloading, the modal-backdrop div is not being removed because it is in the most root so if the app div reloads
+    // the modal-backdrop which is sitting outside the app div don't remove so that we need to remove it manually
+    if (document.querySelector(".modal-backdrop")) {
+      document.querySelector(".modal-backdrop").style.display = "none"
+    }
     super(params);
     this.state = {
       Name: "",
@@ -66,24 +72,11 @@ class StoreHome extends Component {
     }
     return (
       <div className="Home Store">
+        <PopAlert {...this.props.sales} />
         <div className="modal fade" id="SoldModal" tabIndex="-1">
           <div className="modal-dialog" role="document">
             <div className="modal-content">
               <div className="modal-header">
-                {this.props.sales.message === "" ? (
-                  ""
-                ) : (
-                    <div
-                      className={`alert ${
-                        this.props.sales.Success === true
-                          ? "alert-success"
-                          : "alert-danger"
-                        }`}
-                      role="alert"
-                    >
-                      {this.props.sales.message}
-                    </div>
-                  )}
                 <div className="modal-title">
                   {this.state.Name + " P" + this.state.PricePerUnit}
                 </div>

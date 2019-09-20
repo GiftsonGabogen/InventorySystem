@@ -23,6 +23,7 @@ export const LogoutAction = data => dispatch => {
 };
 
 export const AuthCheckAction = () => dispatch => {
+  let Token = localStorage.getItem("Authorization");
   axios
     .post(
       `/api/users/AuthCheck`,
