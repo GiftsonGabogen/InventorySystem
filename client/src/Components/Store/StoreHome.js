@@ -23,9 +23,6 @@ class StoreHome extends Component {
       Category: ""
     };
   }
-  componentDidMount() {
-    console.log(this.props.credential);
-  }
 
   onCloseHandler = () => {
     console.log("close");
@@ -76,17 +73,17 @@ class StoreHome extends Component {
                 {this.props.sales.message === "" ? (
                   ""
                 ) : (
-                  <div
-                    className={`alert ${
-                      this.props.items.Success === true
-                        ? "alert-success"
-                        : "alert-danger"
-                    }`}
-                    role="alert"
-                  >
-                    {this.props.credential.message}
-                  </div>
-                )}
+                    <div
+                      className={`alert ${
+                        this.props.sales.Success === true
+                          ? "alert-success"
+                          : "alert-danger"
+                        }`}
+                      role="alert"
+                    >
+                      {this.props.sales.message}
+                    </div>
+                  )}
                 <div className="modal-title">
                   {this.state.Name + " P" + this.state.PricePerUnit}
                 </div>

@@ -9,7 +9,8 @@ import {
   AddCategory,
   FetchCategories,
   FetchAll,
-  DeleteItemMultiple
+  DeleteItemMultiple,
+  UpdateSales
 } from "../Actions/Actions";
 
 const initialState = {
@@ -101,7 +102,6 @@ export default (state = initialState, action) => {
         };
       }
     case AddCategory:
-      console.log(action.payload);
       if (action.payload.success === true) {
         return {
           ...state,
@@ -116,6 +116,17 @@ export default (state = initialState, action) => {
           message: action.payload.message
         };
       }
+    case UpdateSales:
+      console.log(action.payload);
+      let Item = state.items.filter(item => item._id === action.payload.Sale.ItemID)
+      Item[0].Quantity = Item[0].Quantity - action.quantity
+      let FilteredItems = state.items.filter(item => item._id !== action.payload.Sale.ItemID)
+      return {
+        ...state,
+        items: [...FilteredItems, Item[0]]
+      }
+
+
 
     case UpdateItem:
       if (action.payload.success === true) {

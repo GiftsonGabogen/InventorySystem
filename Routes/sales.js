@@ -57,7 +57,7 @@ Router.post("/", AuthCheck, (req, res) => {
     .then(result => {
       // reduce the Sold Item
       Items.findOneAndUpdate(
-        {_id:ItemID},
+        { _id: ItemID },
         {
           $set: {
             Quantity: Number(result[0].Quantity) - Number(Quantity),
@@ -65,7 +65,7 @@ Router.post("/", AuthCheck, (req, res) => {
           }
         }
       )
-      .exec()
+        .exec()
 
       Category = result[0].Category.Name;
       const newSales = new Sales({
@@ -77,36 +77,45 @@ Router.post("/", AuthCheck, (req, res) => {
         PricePerUnit,
         Category
       });
-      Sales.find({ItemID: ItemID})
-      .exec()
-      .then(saleRes =>{
-        if(saleRes.length > 0){
-          // if no sales is found on a specific id create a new sale
-          let fetchDate = moment(saleRes[0].Date).format("MMM/Do/YYYY").toString()
-          let updateDate = moment(Date.now()).format("MMM/Do/YYYY").toString()
-          console.log(fetchDate + " " + updateDate);
-          // if it is the same day and the same seller who did the sales it will only update the exsiting sale with only the quantity
-          // else create new sale on this day or create new sale with the new seller
-          if(fetchDate === updateDate && saleRes[0].Seller === Seller){
-            Sales.findOneAndUpdate(
-              {_id:saleRes[0]._id},
-              {
-                $set: {
-                  Quantity: Number(saleRes[0].Quantity) + Number(Quantity),
+      Sales.find({ ItemID: ItemID })
+        .exec()
+        .then(saleRes => {
+          if (saleRes.length > 0) {
+            // if no sales is found on a specific id create a new sale
+            let fetchDate = moment(saleRes[0].Date).format("MMM/Do/YYYY").toString()
+            let updateDate = moment(Date.now()).format("MMM/Do/YYYY").toString()
+            console.log(fetchDate + " " + updateDate);
+            // if it is the same day and the same seller who did the sales it will only update the exsiting sale with only the quantity
+            // else create new sale on this day or create new sale with the new seller
+            if (fetchDate === updateDate && saleRes[0].Seller === Seller) {
+              Sales.findOneAndUpdate(
+                { _id: saleRes[0]._id },
+                {
+                  $set: {
+                    Quantity: Number(saleRes[0].Quantity) + Number(Quantity),
 
-                }
-              },
-              { new: true }
-            )
-            .exec()
-            .then(update =>{
-              res.status(201).json({
-                success: true,
-                Sale: result,
-                message: `Sold Successfully ${Quantity} of ${ItemName}`
+                  }
+                },
+                { new: true }
+              )
+                .exec()
+                .then(update => {
+                  res.status(201).json({
+                    success: true,
+                    Sale: update,
+                    message: `Sold Successfully ${Quantity} of ${ItemName}`
+                  });
+                })
+            } else {
+              newSales.save().then(result => {
+                res.status(201).json({
+                  success: true,
+                  Sale: result,
+                  message: `Sold Successfully ${Quantity} of ${ItemName}`
+                });
               });
-            })
-          }else{
+            }
+          } else {
             newSales.save().then(result => {
               res.status(201).json({
                 success: true,
@@ -115,18 +124,10 @@ Router.post("/", AuthCheck, (req, res) => {
               });
             });
           }
-        }else{
-          newSales.save().then(result => {
-            res.status(201).json({
-              success: true,
-              Sale: result,
-              message: `Sold Successfully ${Quantity} of ${ItemName}`
-            });
-          });
-        }
-      })
-      })
+        })
+    })
     .catch(err => {
+      console.log(err);
       res.status(200).json({ success: false, message: err.details[0].message });
     });
 });
