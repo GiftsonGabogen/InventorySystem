@@ -1,4 +1,4 @@
-import { RegisterUser, FetchAllUsers } from "./Actions";
+import { RegisterUser, FetchAllUsers, DeleteUsers } from "./Actions";
 
 import axios from "axios";
 
@@ -30,4 +30,18 @@ export const FetchAllUsersAction = () => dispatch => {
       payload: users.data
     })
   );
+};
+
+export const DeleteUsersAction = id => dispatch => {
+  let Token = localStorage.getItem("Authorization");
+  axios
+    .delete(`/api/users/${id}`, {
+      headers: { Authorization: "Bearer " + Token }
+    })
+    .then(user =>
+      dispatch({
+        type: DeleteUsers,
+        payload: user.data
+      })
+    );
 };

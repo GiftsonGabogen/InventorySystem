@@ -89,29 +89,35 @@ body {
   margin: 0;
 }
 
+.Date {
+  font-family: "Courier New", Courier, monospace;
+}
+
 .AlertModal {
   position: fixed;
-  height: 40vh;
+  height: 30vh;
   top: 0;
   display: grid;
   grid-template-columns: 100%;
   justify-content: center;
   justify-items: center;
-  align-items: center;
+  align-items: flex-end;
   width: 100%;
   visibility: hidden;
+  transform: translateY(-3rem);
   z-index: -5;
+  margin-top: 1rem;
+  opacity: 0;
 }
 .AlertModal .AlertModalForm {
-  padding: 2rem;
-  width: 40%;
+  padding: 2rem 2rem 0rem 2rem;
+  width: 35%;
   height: 100%;
   background-color: white;
-  border-radius: 5px;
 }
 .AlertModal .AlertModalForm h2 {
-  font-size: 1.5rem;
-  padding: 1rem 0rem 3rem 0rem;
+  font-size: 1rem;
+  padding: 2rem 0rem 3rem 0rem;
 }
 .AlertModal .form-row {
   display: grid;
@@ -120,6 +126,9 @@ body {
 }
 
 .AlertModalOpen {
+  transition: transform 600ms, opacity 600ms 200ms;
+  transform: translateY(0);
+  opacity: 1;
   visibility: visible;
   z-index: 5;
 }

@@ -1,7 +1,6 @@
 import { Login, AuthCheck, Logout } from "./Actions";
 
 import axios from "axios";
-let Token = localStorage.getItem("Authorization");
 
 export const LoginAction = data => dispatch => {
   axios.post(`/api/users/login`, data).then(user => {

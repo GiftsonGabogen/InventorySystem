@@ -77,7 +77,7 @@ class Sales extends Component {
                 Sale.Quantity
               } </td> <td > {
                 Sale.Quantity * Sale.PricePerUnit
-              } </td> <td > {
+              } </td> <td className="Date"> {
                 moment(Sale.Date)
                   .format("ddd MMM/Do/YYYY")
                   .toString()

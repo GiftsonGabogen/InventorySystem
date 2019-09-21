@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { RegisterUserAction } from "../../Actions/UsersActions"
+import PopAlert from "../Comps/PopAlert"
 
 function mapStateToProps(state) {
     return {
@@ -9,6 +10,14 @@ function mapStateToProps(state) {
 }
 
 class SuperAdminUsers extends Component {
+    constructor(params) {
+        super(params)
+        // when reloading, the modal-backdrop div is not being removed because it is in the most root so if the app div reloads
+        // the modal-backdrop which is sitting outside the app div don't remove so that we need to remove it manually
+        if (document.querySelector(".modal-backdrop")) {
+            document.querySelector(".modal-backdrop").style.display = "none"
+        }
+    }
     RegisterHandler = (e) => {
         e.preventDefault()
         const { Name, Username, Type, Password, ConfirmPassword, ProfilePicture } = this.refs
@@ -21,42 +30,38 @@ class SuperAdminUsers extends Component {
             ProfilePicture: ProfilePicture.files[0],
         }
         this.props.RegisterUserAction(Data)
+        this.props.history.push(`/Admin/Reload/-SuperAdmin-Users`);
     }
 
     render() {
         return (
             <div className="RegisterUserAction">
+                <PopAlert {...this.props.users} />
+                <button className="btn btn-primary col-3" data-toggle="modal"
+                    data-target="#AddUsersModal">Add Users</button>
+                <div
+                    className="modal fade"
+                    tabIndex="-1"
+                    role="dialog"
+                    id="AddUsersModal"
+                >
+                    <div className="modal-dialog" role="document">
+                        <div className="modal-content">
+                            <div className="modal-header">
+                                <h5 className="modal-title">
+                                    Add User
+                                </h5>
+                                <button
+                                    type="button"
+                                    className="close"
+                                    data-dismiss="modal"
+                                    aria-label="Close"
+                                    onClick={this.CloseHandler}
+                                >
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
 
-                <div className="modal-dialog" role="document">
-                    {/* if there is an Existing Message on The Global State for Items Pop an Alert With The Message */}
-                    {this.props.users.message === "" ? (
-                        ""
-                    ) : (
-                            <div
-                                className={`alert ${
-                                    this.props.users.Success === true
-                                        ? "alert-success"
-                                        : "alert-danger"
-                                    }`}
-                                role="alert"
-                            >
-                                {this.props.users.message}
                             </div>
-                        )}
-                    <div className="modal-content">
-                        <div className="modal-header">
-                            <h5 className="modal-title">
-                                Add User
-                            </h5>
-                            <button
-                                type="button"
-                                className="close"
-                                data-dismiss="modal"
-                                aria-label="Close"
-                                onClick={this.CloseHandler}
-                            >
-                                <span aria-hidden="true">&times;</span>
-                            </button>
                             <div className="modal-body">
                                 <form onSubmit={this.RegisterHandler}>
                                     <div className="form-group">
@@ -69,7 +74,11 @@ class SuperAdminUsers extends Component {
                                     </div>
                                     <div className="form-group">
                                         <label htmlFor="Type">Type</label>
-                                        <input type="text" ref="Type" className="form-control" />
+                                        <select ref="Type" id="">
+                                            <option value="Admin">Admin</option>
+                                            <option value="Admin">Seller</option>
+                                            <option value="Admin">Inventory</option>
+                                        </select>
                                     </div>
                                     <div className="form-group">
                                         <label htmlFor="ProfilePicture">Profile Picture</label>

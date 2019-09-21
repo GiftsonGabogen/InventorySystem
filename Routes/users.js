@@ -272,12 +272,14 @@ Router.delete("/:id", (req, res) => {
     .then(result => {
       res.status(201).json({
         message: "Deleted User Successfully",
-        user: result
+        user: result,
+        success: true
       });
     })
     .catch(err => {
-      res.status(500).json({
-        message: err
+      res.status(200).json({
+        message: err.details[0].message,
+        success: false
       });
     });
 });
