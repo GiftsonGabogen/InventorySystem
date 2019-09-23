@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { AddCategoryAction } from "../../../Actions/ItemActions";
-import { UnMountAlertAction } from "../../../Actions/UnMountActions";
-import PopAlert from "../../Comps/PopAlert"
+import { AddCategoryAction } from "../../../../Actions/ItemActions";
+import { UnMountAlertAction } from "../../../../Actions/UnMountActions";
+import PopAlert from "../../../Comps/PopAlert"
 
 function mapStateToProps(state) {
   return {

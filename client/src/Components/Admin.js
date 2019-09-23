@@ -4,9 +4,9 @@ import Items from "./Pages/Items/Items";
 import AddItem from "./Pages/Items/AddItem";
 import EditItem from "./Pages/Items/EditItem";
 import AddStock from "./Pages/Items/AddStock";
-import Category from "./Pages/Items/Category";
-import AddCategory from "./Pages/Items/AddCategory";
-import Sales from "./Pages/Items/Sales";
+import Category from "./Pages/Items/Category/Category";
+import AddCategory from "./Pages/Items/Category/AddCategory";
+import Sales from "./Pages/Items/Reports/Sales";
 import { Route } from "react-router-dom";
 
 class Admin extends Component {

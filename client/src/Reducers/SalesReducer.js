@@ -1,25 +1,53 @@
-import { UpdateSales, FetchAll } from "../Actions/Actions";
+import { UpdateSales, FetchAll, FetchAllSales } from "../Actions/Actions";
 
 const initialState = {
   Success: false,
   message: "",
   Sales: [],
-  Sale: {}
+  Sale: {},
+  MonthSale: []
 };
 
 export default (state = initialState, action) => {
   switch (action.type) {
     case UpdateSales:
       if (action.payload.success === true) {
-        let FilteredSales = state.Sales.filter(
-          Sale => Sale._id !== action.payload.Sale._id
-        );
+        let FilteredSales = []
+        if (state.Sales.length !== 0) {
+          FilteredSales = state.Sales.filter(
+            Sale => Sale._id !== action.payload.Sale._id
+          );
+        }
 
         return {
           ...state,
           Sales: [...FilteredSales, action.payload.Sale],
           Success: true,
           message: action.payload.message
+        };
+      } else {
+        return {
+          ...state,
+          Success: false,
+          message: action.payload.message
+        };
+      }
+    case FetchAllSales:
+      if (action.payload.success === true) {
+        let MonthSale
+        let Sales
+        if (action.Month === true) {
+          Sales = state.sales
+          MonthSale = action.payload.Sales
+        } else {
+          Sales = action.payload.Sales
+          MonthSale = []
+        }
+        return {
+          ...state,
+          Sales: Sales,
+          Success: true,
+          MonthSale: MonthSale
         };
       } else {
         return {

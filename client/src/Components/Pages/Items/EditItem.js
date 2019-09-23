@@ -22,7 +22,7 @@ class EditItem extends Component {
     // when reloading, the modal-backdrop div is not being removed because it is in the most root so if the app div reloads
     // the modal-backdrop which is sitting outside the app div don't remove so that we need to remove it manually
     if (document.querySelector(".modal-backdrop")) {
-      document.querySelector(".modal-backdrop").style.display = "none"
+      document.querySelector(".modal-backdrop").remove()
     }
     super(params);
     this.state = {

@@ -34,7 +34,7 @@ Router.get("/:id", (req, res) => {
   Sales.find({
     _id: id
   })
-    .populate("Name")
+    .populate("ItemID")
     .exec()
     .then(result => {
       if (result.length === 0) {
@@ -60,6 +60,7 @@ Router.get("/:id", (req, res) => {
 Router.get("/bymonth/:month", (req, res) => {
   const { month } = req.params
   Sales.find()
+    .populate("ItemID", "Price SellingPrice Quantity")
     .exec()
     .then(result => {
       let sales = result.filter(sale => moment(sale.Date).format("MMM") === month)
@@ -148,7 +149,7 @@ Router.post("/", AuthCheck, (req, res) => {
       }, {
           $set: {
             Quantity: Number(result[0].Quantity) - Number(Quantity),
-
+            Price: Number(result[0].Price) - (Number(Quantity) * (Number(result[0].Price) / Number(result[0].Quantity)))
           }
         })
         .exec()

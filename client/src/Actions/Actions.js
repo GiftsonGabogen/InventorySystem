@@ -23,5 +23,6 @@ export const AuthCheck = "authCheck";
 
 export const AddSold = "addSold";
 export const UpdateSales = "updateSales";
+export const FetchAllSales = "fetchAllSales"
 
 export const UnMountAlert = "unMountAlert";

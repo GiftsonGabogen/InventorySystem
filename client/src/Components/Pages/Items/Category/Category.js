@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { UnMountAlertAction } from "../../../Actions/UnMountActions";
-import { DeleteCategoryAction } from "../../../Actions/ItemActions";
+import { UnMountAlertAction } from "../../../../Actions/UnMountActions";
+import { DeleteCategoryAction } from "../../../../Actions/ItemActions";
 
 function mapStateToProps(state) {
   return {

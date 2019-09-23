@@ -17,7 +17,9 @@ import Reload from "./Components/Reload";
 import SuperAdmin from "./Components/SuperAdmin"
 import errorPage from "./Components/errorPage";
 import { FetchAllAction } from "./Actions/ItemActions";
+import { FetchAllSalesAction } from "./Actions/SalesAction"
 import { AuthCheckAction } from "./Actions/CredentialActions";
+import moment from "moment"
 
 function mapStateToProps(state) {
   return {
@@ -37,8 +39,10 @@ const PrivateRoute = ({ component: Component, credential, ...rest }) => (
 class App extends React.Component {
   constructor(props) {
     super(props);
+    let date = Date.now()
 
     this.props.FetchAllAction();
+    this.props.FetchAllSalesAction(moment(date).format("MMM"))
   }
 
   render() {
@@ -92,5 +96,5 @@ class App extends React.Component {
 
 export default connect(
   mapStateToProps,
-  { FetchAllAction, AuthCheckAction }
+  { FetchAllAction, AuthCheckAction, FetchAllSalesAction }
 )(App);

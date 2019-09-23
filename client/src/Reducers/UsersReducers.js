@@ -11,8 +11,10 @@ export default (state = initialState, action) => {
   switch (action.type) {
     case FetchAllUsers:
       if (action.payload.success === true) {
-
-        let Users = action.payload.Users.filter(user => user.Type !== "SuperAdmin")
+        let Users
+        if (state.Users.length !== 0) {
+          Users = action.payload.Users.filter(user => user.Type !== "SuperAdmin")
+        }
         return {
           ...state,
           Users: Users,

@@ -87,7 +87,6 @@ export default (state = initialState, action) => {
       }
     case AddItem:
       if (action.payload.success === true) {
-        console.log(action.payload.Item);
         return {
           ...state,
           items: [...state.items, action.payload.Item],
@@ -117,10 +116,15 @@ export default (state = initialState, action) => {
         };
       }
     case UpdateSales:
-      console.log(action.payload);
-      let Item = state.items.filter(item => item._id === action.payload.Sale.ItemID)
-      Item[0].Quantity = Item[0].Quantity - action.quantity
-      let FilteredItems = state.items.filter(item => item._id !== action.payload.Sale.ItemID)
+      let Item = []
+      let FilteredItems = []
+      if (state.items.length !== 0) {
+        Item = state.items.filter(item => item._id === action.payload.Sale.ItemID)
+        Item[0].Quantity = Item[0].Quantity - action.quantity
+      }
+      if (state.items.length !== 0) {
+        FilteredItems = state.items.filter(item => item._id !== action.payload.Sale.ItemID)
+      }
       return {
         ...state,
         items: [...FilteredItems, Item[0]]
@@ -130,13 +134,20 @@ export default (state = initialState, action) => {
 
     case UpdateItem:
       if (action.payload.success === true) {
-        let FilteredItems = state.items.filter(
-          item => item._id !== action.payload.Item._id
-        );
-        let Category = state.categories.filter(
-          category => category._id === action.payload.Item.Category
-        );
-        action.payload.Item.Category = Category[0];
+        let FilteredItems = []
+        let Category = []
+        if (state.items.length !== 0) {
+          FilteredItems = state.items.filter(
+            item => item._id !== action.payload.Item._id
+          );
+        }
+        if (state.categories.length !== 0) {
+          Category = state.categories.filter(
+            category => category._id === action.payload.Item.Category
+          );
+          action.payload.Item.Category = Category[0];
+        }
+
         return {
           ...state,
           items: [...FilteredItems, action.payload.Item],
