@@ -77,6 +77,18 @@
   padding: 1rem 0;
 }
 
+.Sales .Search .DateSearch {
+  display: grid;
+  align-content: center;
+  align-items: center;
+}
+.Sales .Search .DateSearch .Dateform {
+  display: grid;
+  align-content: center;
+  align-items: center;
+  margin-bottom: 0;
+}
+
 body {
   margin: 0;
 }

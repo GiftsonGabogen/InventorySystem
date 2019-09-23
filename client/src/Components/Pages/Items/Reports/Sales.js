@@ -16,9 +16,19 @@ class Sales extends Component {
     super(props);
 
     this.state = {
-      Sales: this.props.sales.MonthSale
+      Sales: this.props.sales.MonthSale,
+      months: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+      month: moment(Date.now()).format("MMM")
     }
   }
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.sales.MonthSale !== this.props.sales.MonthSale) {
+      this.setState({
+        Sales: this.props.sales.MonthSale
+      })
+    }
+  }
+
   onSearch = (Cat, Nam) => {
     const Name = Nam.toLowerCase();
     let Sales;
@@ -43,13 +53,35 @@ class Sales extends Component {
       Sales
     });
   };
+  onDateSearch = () => {
+    this.props.FetchAllSalesAction(this.refs.Date.value)
+    console.log(this.refs.Date.value);
+
+  }
   render() {
     return (
       <div className="Sales">
-        <SearchBar
-          onSearch={this.onSearch}
-          Categories={this.props.items.categories}
-        />
+        <div className="form-row Search">
+          <div className="col-10">
+            <SearchBar
+              onSearch={this.onSearch}
+              Categories={this.props.items.categories}
+            />
+          </div>
+          <div className="col DateSearch">
+            <div className="form-group Dateform">
+              <select className="custom-select" defaultValue={this.state.month} ref="Date" onChange={this.onDateSearch}>
+                {this.state.months.map((month, i) => (
+                  <option value={month} key={i}>
+                    {month}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+
+        </div>
+
         <table className="table table-striped">
           <thead>
             <tr>
