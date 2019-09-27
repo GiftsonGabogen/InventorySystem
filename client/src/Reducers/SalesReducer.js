@@ -1,18 +1,24 @@
-import { UpdateSales, FetchAll, FetchAllSales } from "../Actions/Actions";
+import {
+  UpdateSales,
+  FetchAll,
+  FetchAllSales,
+  FetchAllDaySales
+} from "../Actions/Actions";
 
 const initialState = {
   Success: false,
   message: "",
   Sales: [],
   Sale: {},
-  MonthSale: []
+  MonthSale: [],
+  DaySales: []
 };
 
 export default (state = initialState, action) => {
   switch (action.type) {
     case UpdateSales:
       if (action.payload.success === true) {
-        let FilteredSales = []
+        let FilteredSales = [];
         if (state.Sales.length !== 0) {
           FilteredSales = state.Sales.filter(
             Sale => Sale._id !== action.payload.Sale._id
@@ -32,16 +38,29 @@ export default (state = initialState, action) => {
           message: action.payload.message
         };
       }
-    case FetchAllSales:
+    case FetchAllDaySales:
       if (action.payload.success === true) {
-        let MonthSale
-        let Sales
+        return {
+          ...state,
+          DaySales: action.payload.Sales,
+          Success: true
+        };
+      } else {
+        return {
+          ...state
+        };
+      }
+    case FetchAllSales:
+      console.log(action.payload.Sales);
+      if (action.payload.success === true) {
+        let MonthSale;
+        let Sales;
         if (action.Month === true) {
-          Sales = state.sales
-          MonthSale = action.payload.Sales
+          Sales = state.sales;
+          MonthSale = action.payload.Sales;
         } else {
-          Sales = action.payload.Sales
-          MonthSale = []
+          Sales = action.payload.Sales;
+          MonthSale = [];
         }
         return {
           ...state,

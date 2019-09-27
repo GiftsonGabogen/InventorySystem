@@ -77,10 +77,11 @@
   padding: 1rem 0;
 }
 
+.Sales .Search .SearchBar {
+  width: 80%;
+}
 .Sales .Search .DateSearch {
-  display: grid;
-  align-content: center;
-  align-items: center;
+  margin: auto;
 }
 .Sales .Search .DateSearch .Dateform {
   display: grid;

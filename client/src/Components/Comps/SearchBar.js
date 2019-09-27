@@ -4,8 +4,21 @@ class SearchBar extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      months: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
-    }
+      months: [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec"
+      ]
+    };
   }
 
   onSearchHandler = e => {
@@ -13,20 +26,25 @@ class SearchBar extends Component {
     if (this.props.Date === true) {
       this.props.onSearch(this.refs.Category.value, this.refs.Name.value);
     } else {
-      this.props.onSearch(this.refs.Category.value, this.refs.Name.value, this.refs.Date.value);
-
+      this.props.onSearch(
+        this.refs.Category.value,
+        this.refs.Name.value,
+        this.refs.Date.value
+      );
     }
   };
   render() {
-    let Dateform = ""
+    let Dateform = "";
     if (this.props.Date === true) {
-      Dateform = <select className="custom-select" ref="Date">
-        {this.state.months.map((month, i) => (
-          <option value={month} key={i}>
-            {month}
-          </option>
-        ))}
-      </select>
+      Dateform = (
+        <select className="custom-select" ref="Date">
+          {this.state.months.map((month, i) => (
+            <option value={month} key={i}>
+              {month}
+            </option>
+          ))}
+        </select>
+      );
     }
     return (
       <form className="SearchBar" onSubmit={this.onSearchHandler}>
@@ -50,9 +68,6 @@ class SearchBar extends Component {
                 </option>
               ))}
             </select>
-          </div>
-          <div className="col">
-            {Dateform}
           </div>
           <input type="submit" value="Search" className="btn btn-primary" />
         </div>

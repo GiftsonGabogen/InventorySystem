@@ -1,4 +1,4 @@
-import { UpdateSales, FetchAllSales } from "./Actions";
+import { UpdateSales, FetchAllSales, FetchAllDaySales } from "./Actions";
 
 import axios from "axios";
 
@@ -38,3 +38,12 @@ export const FetchAllSalesAction = (Month = undefined) => dispatch => {
       })
     );
 };
+
+export const FetchAllDaySalesAction = (date) => dispatch => {
+  axios
+    .get(`/api/sales/byday/${date}`)
+    .then(sales => dispatch({
+      type: FetchAllDaySales,
+      payload: sales.data,
+    }))
+}

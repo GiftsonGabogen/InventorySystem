@@ -2,13 +2,14 @@
   width: 50%;
   padding: 1rem 0;
 }
-.Sales{
-  .Search{
-    .DateSearch{
-      display: grid;
-      align-content: center;
-      align-items: center;
-      .Dateform{
+.Sales {
+  .Search {
+    .SearchBar {
+      width: 80%;
+    }
+    .DateSearch {
+      margin: auto;
+      .Dateform {
         display: grid;
         align-content: center;
         align-items: center;

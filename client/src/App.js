@@ -10,16 +10,19 @@ import { connect } from "react-redux";
 import Login from "./Components/Login";
 import Navbar from "./Components/Header/Navbar";
 import Heading from "./Components/Header/Heading";
-import SuperAdminNavbar from "./Components/SuperAdmin/SuperAdminNavbar"
+import SuperAdminNavbar from "./Components/SuperAdmin/SuperAdminNavbar";
 import Store from "./Components/Store";
 import Admin from "./Components/Admin";
 import Reload from "./Components/Reload";
-import SuperAdmin from "./Components/SuperAdmin"
+import SuperAdmin from "./Components/SuperAdmin";
 import errorPage from "./Components/errorPage";
 import { FetchAllAction } from "./Actions/ItemActions";
-import { FetchAllSalesAction } from "./Actions/SalesAction"
+import {
+  FetchAllSalesAction,
+  FetchAllDaySalesAction
+} from "./Actions/SalesAction";
 import { AuthCheckAction } from "./Actions/CredentialActions";
-import moment from "moment"
+import moment from "moment";
 
 function mapStateToProps(state) {
   return {
@@ -39,10 +42,11 @@ const PrivateRoute = ({ component: Component, credential, ...rest }) => (
 class App extends React.Component {
   constructor(props) {
     super(props);
-    let date = Date.now()
+    let date = Date.now();
 
     this.props.FetchAllAction();
-    this.props.FetchAllSalesAction(moment(date).format("MMM"))
+    this.props.FetchAllSalesAction(moment(date).format("MMM YYYY"));
+    this.props.FetchAllDaySalesAction(moment(date).format("MMM YYYY Do"));
   }
 
   render() {
@@ -96,5 +100,10 @@ class App extends React.Component {
 
 export default connect(
   mapStateToProps,
-  { FetchAllAction, AuthCheckAction, FetchAllSalesAction }
+  {
+    FetchAllAction,
+    AuthCheckAction,
+    FetchAllSalesAction,
+    FetchAllDaySalesAction
+  }
 )(App);

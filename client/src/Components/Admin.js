@@ -7,6 +7,7 @@ import AddStock from "./Pages/Items/AddStock";
 import Category from "./Pages/Items/Category/Category";
 import AddCategory from "./Pages/Items/Category/AddCategory";
 import Sales from "./Pages/Items/Reports/Sales";
+import SalesDay from "./Pages/Items/Reports/SalesDay";
 import { Route } from "react-router-dom";
 
 class Admin extends Component {
@@ -55,6 +56,12 @@ class Admin extends Component {
           exact
           path={`${this.props.match.url}/Reports/Sales`}
           component={Sales}
+        />
+        <Route
+          credential={this.props.credential}
+          exact
+          path={`${this.props.match.url}/Reports/Sales/:day`}
+          component={SalesDay}
         />
       </Fragment>
     );
