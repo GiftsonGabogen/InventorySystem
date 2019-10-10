@@ -2,7 +2,8 @@ import {
   UpdateSales,
   FetchAll,
   FetchAllSales,
-  FetchAllDaySales
+  FetchAllDaySales,
+  FetchAllTimeSales
 } from "../Actions/Actions";
 
 const initialState = {
@@ -11,7 +12,8 @@ const initialState = {
   Sales: [],
   Sale: {},
   MonthSale: [],
-  DaySales: []
+  DaySales: [],
+  AllTimeSales: []
 };
 
 export default (state = initialState, action) => {
@@ -50,8 +52,19 @@ export default (state = initialState, action) => {
           ...state
         };
       }
+    case FetchAllTimeSales:
+      if (action.payload.success === true) {
+        return {
+          ...state,
+          AllTimeSales: action.payload.Sales,
+          Success: true
+        };
+      } else {
+        return {
+          ...state
+        };
+      }
     case FetchAllSales:
-      console.log(action.payload.Sales);
       if (action.payload.success === true) {
         let MonthSale;
         let Sales;

@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { FetchAllSalesAction } from "../../../../Actions/SalesAction";
 import SearchBar from "../../../Comps/SearchBar";
-import moment from "moment";
 
 function mapStateToProps(state) {
   return {
@@ -11,73 +9,48 @@ function mapStateToProps(state) {
   };
 }
 
-class Sales extends Component {
+class AlltimeSales extends Component {
   constructor(props) {
     super(props);
-    let date = Date.now();
-    this.props.FetchAllSalesAction(moment(date).format("MMM YYYY"));
-    let Year = moment(Date.now()).format("YYYY");
-    let Days = [];
-    let MonthProfit = 0;
-    let numOfDays = moment(Date.now()).daysInMonth();
-    for (let i = numOfDays; i > 0; i--) {
-      Days.push(i);
-    }
-    //whole profit of the given month
-    this.props.sales.MonthSale.map((sale, i) => {
-      MonthProfit =
-        MonthProfit +
+
+    let Profit = 0;
+    this.props.sales.AllTimeSales.map((sale, i) => {
+      Profit =
+        Profit +
         (sale.Quantity * sale.ItemID.SellingPrice -
           (sale.Quantity * sale.ItemID.Price) / sale.ItemID.Quantity);
     });
-    console.log(MonthProfit);
 
     this.state = {
-      Sales: this.props.sales.MonthSale,
-      MonthProfit: MonthProfit,
-      Days: Days,
-      months: [
-        `Jan ${Year}`,
-        `Feb ${Year}`,
-        `Mar ${Year}`,
-        `Apr ${Year}`,
-        `May ${Year}`,
-        `Jun ${Year}`,
-        `Jul ${Year}`,
-        `Aug ${Year}`,
-        `Sep ${Year}`,
-        `Oct ${Year}`,
-        `Nov ${Year}`,
-        `Dec ${Year}`
-      ],
-      month: moment(Date.now()).format("MMM YYYY")
+      Sales: this.props.sales.AllTimeSales,
+      Profit: Profit
     };
   }
+
   componentDidUpdate(prevProps, prevState) {
-    if (prevProps.sales.MonthSale !== this.props.sales.MonthSale) {
+    if (prevProps.sales.AllTimeSales !== this.props.sales.AllTimeSales) {
       this.setState({
-        Sales: this.props.sales.MonthSale
+        Sales: this.props.sales.AllTimeSales
       });
     }
     if (
       prevProps.sales.MonthSale !== this.props.sales.MonthSale ||
       prevState.Sales !== this.state.Sales
     ) {
-      console.log("state update");
-      let MonthProfit = 0;
+      let Profit = 0;
       if (this.state.Sales.length === 0) {
         this.setState({
-          MonthProfit: 0
+          Profit: 0
         });
       }
       this.state.Sales.map((sale, i) => {
-        MonthProfit =
-          MonthProfit +
+        Profit =
+          Profit +
           (sale.Quantity * sale.ItemID.SellingPrice -
             (sale.Quantity * sale.ItemID.Price) / sale.ItemID.Quantity);
         if (i === this.state.Sales.length - 1) {
           this.setState({
-            MonthProfit: MonthProfit
+            Profit: Profit
           });
         }
       });
@@ -88,60 +61,36 @@ class Sales extends Component {
     const Name = Nam.toLowerCase();
     let Sales;
     if (Cat === "All" && Name === "") {
-      Sales = this.props.sales.MonthSale;
+      Sales = this.props.sales.AllTimeSales;
     } else if (Cat === "All" && Name !== "") {
-      Sales = this.props.sales.MonthSale.filter(Sale =>
+      Sales = this.props.sales.AllTimeSales.filter(Sale =>
         Sale.ItemName.toLowerCase().includes(Name)
       );
     } else if (Cat !== "All" && Name === "") {
-      Sales = this.props.sales.MonthSale.filter(
+      Sales = this.props.sales.AllTimeSales.filter(
         Sale => Sale.Category.toLowerCase() === Cat.toLowerCase()
       );
     } else {
-      var preSales = this.props.sales.MonthSale.filter(
+      var preSales = this.props.sales.AllTimeSales.filter(
         Sale => Sale.Category.toLowerCase() === Cat.toLowerCase()
       );
       Sales = preSales.filter(Sale =>
         Sale.ItemName.toLowerCase().includes(Name)
       );
     }
-
     this.setState({
       Sales
     });
   };
-  onDateSearch = () => {
-    this.props.FetchAllSalesAction(this.refs.Date.value);
-    console.log(this.refs.Date.value);
-  };
+
   render() {
     return (
-      <div className="Sales">
-        <div className="form-row Search">
-          <div className="col-9">
-            <SearchBar
-              onSearch={this.onSearch}
-              Categories={this.props.items.categories}
-            />
-          </div>
-          <div className=" form-row col DateSearch">
-            <div className="form-group col">
-              <select
-                className="custom-select"
-                defaultValue={this.state.month}
-                ref="Date"
-                onChange={this.onDateSearch}
-              >
-                {this.state.months.map((month, i) => (
-                  <option value={month} key={i}>
-                    {month}
-                  </option>
-                ))}
-              </select>
-            </div>
-          </div>
-        </div>
-
+      <div className="AllTimeSales">
+        <SearchBar
+          onSearch={this.onSearch}
+          Categories={this.props.items.categories}
+          Date
+        />
         <table className="table table-striped">
           <thead>
             <tr>
@@ -151,7 +100,6 @@ class Sales extends Component {
               <th scope="col">Quantity</th>
               <th scope="col">Total Price Sold</th>
               <th scope="col">Profit</th>
-              <th scope="col">Date</th>
             </tr>
           </thead>
           <tbody>
@@ -166,7 +114,6 @@ class Sales extends Component {
                   {sale.Quantity * sale.ItemID.SellingPrice -
                     (sale.Quantity * sale.ItemID.Price) / sale.ItemID.Quantity}
                 </td>
-                <td className="Date">{moment(sale.Date).format("MMM")}</td>
               </tr>
             ))}
             <tr>
@@ -174,9 +121,8 @@ class Sales extends Component {
               <td></td>
               <td></td>
               <td></td>
-              <td></td>
               <td>Total Profit:</td>
-              <td>{this.state.MonthProfit}</td>
+              <td>{this.state.Profit}</td>
             </tr>
           </tbody>
         </table>
@@ -185,7 +131,4 @@ class Sales extends Component {
   }
 }
 
-export default connect(
-  mapStateToProps,
-  { FetchAllSalesAction }
-)(Sales);
+export default connect(mapStateToProps)(AlltimeSales);

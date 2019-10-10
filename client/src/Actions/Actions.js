@@ -23,7 +23,8 @@ export const AuthCheck = "authCheck";
 
 export const AddSold = "addSold";
 export const UpdateSales = "updateSales";
-export const FetchAllSales = "fetchAllSales"
-export const FetchAllDaySales = "fetchAllDaySales"
+export const FetchAllSales = "fetchAllSales";
+export const FetchAllDaySales = "fetchAllDaySales";
+export const FetchAllTimeSales = "fetchAllTimeSales";
 
 export const UnMountAlert = "unMountAlert";

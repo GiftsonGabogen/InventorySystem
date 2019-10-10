@@ -1,4 +1,9 @@
-import { UpdateSales, FetchAllSales, FetchAllDaySales } from "./Actions";
+import {
+  UpdateSales,
+  FetchAllSales,
+  FetchAllDaySales,
+  FetchAllTimeSales
+} from "./Actions";
 
 import axios from "axios";
 
@@ -17,33 +22,40 @@ export const AddSoldAction = data => dispatch => {
     );
 };
 
-
 export const FetchAllSalesAction = (Month = undefined) => dispatch => {
-  let url
-  let MonthPayload
+  let url;
+  let MonthPayload;
   if (Month === undefined) {
-    MonthPayload = false
-    url = `/api/sales`
+    MonthPayload = false;
+    url = `/api/sales`;
   } else {
-    MonthPayload = true
-    url = `/api/sales/bymonth/${Month}`
+    MonthPayload = true;
+    url = `/api/sales/bymonth/${Month}`;
   }
-  axios
-    .get(url)
-    .then(sales =>
-      dispatch({
-        type: FetchAllSales,
-        payload: sales.data,
-        Month: MonthPayload
-      })
-    );
+  axios.get(url).then(sales =>
+    dispatch({
+      type: FetchAllSales,
+      payload: sales.data,
+      Month: MonthPayload
+    })
+  );
 };
 
-export const FetchAllDaySalesAction = (date) => dispatch => {
-  axios
-    .get(`/api/sales/byday/${date}`)
-    .then(sales => dispatch({
+export const FetchAllDaySalesAction = date => dispatch => {
+  axios.get(`/api/sales/byday/${date}`).then(sales =>
+    dispatch({
       type: FetchAllDaySales,
-      payload: sales.data,
-    }))
-}
+      payload: sales.data
+    })
+  );
+};
+
+export const FetchAllTimeSalesAction = () => dispatch => {
+  axios.get("/api/sales/Sales/alltime").then(sales => {
+    console.log(sales);
+    dispatch({
+      type: FetchAllTimeSales,
+      payload: sales.data
+    });
+  });
+};

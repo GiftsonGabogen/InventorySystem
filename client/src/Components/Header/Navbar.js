@@ -25,7 +25,21 @@ class Navbar extends Component {
           link: "/Items/AddCategory"
         },
         { Name: "Reports" },
-        { Name: "Sales", Image: "magnifying-glass.png", link: "/Reports/Sales" }
+        {
+          Name: "All Time Sales",
+          Image: "magnifying-glass.png",
+          link: "/Reports/AllTimeSales"
+        },
+        {
+          Name: "Sales Per Month",
+          Image: "magnifying-glass.png",
+          link: "/Reports/MonthSales"
+        },
+        {
+          Name: "Sales per Day",
+          Image: "magnifying-glass.png",
+          link: "/Reports/DaySales"
+        }
       ]
     };
   }
@@ -49,15 +63,15 @@ class Navbar extends Component {
                     </button>
                   </li>
                 ) : (
-                    <li className="nav-item sub-nav" key={i}>
-                      <span className="badge">
-                        <img src={`./Images/${nav.Image}`} alt="" />
-                      </span>
-                      <NavLink to={`/Admin${nav.link}`} className="nav-link">
-                        {nav.Name}
-                      </NavLink>
-                    </li>
-                  )
+                  <li className="nav-item sub-nav" key={i}>
+                    <span className="badge">
+                      <img src={`./Images/${nav.Image}`} alt="" />
+                    </span>
+                    <NavLink to={`/Admin${nav.link}`} className="nav-link">
+                      {nav.Name}
+                    </NavLink>
+                  </li>
+                )
               )}
             </ul>
           </div>

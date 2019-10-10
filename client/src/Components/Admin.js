@@ -8,6 +8,7 @@ import Category from "./Pages/Items/Category/Category";
 import AddCategory from "./Pages/Items/Category/AddCategory";
 import Sales from "./Pages/Items/Reports/Sales";
 import SalesDay from "./Pages/Items/Reports/SalesDay";
+import AlltimeSales from "./Pages/Items/Reports/AlltimeSales";
 import { Route } from "react-router-dom";
 
 class Admin extends Component {
@@ -54,14 +55,20 @@ class Admin extends Component {
         <Route
           credential={this.props.credential}
           exact
-          path={`${this.props.match.url}/Reports/Sales`}
+          path={`${this.props.match.url}/Reports/MonthSales`}
           component={Sales}
         />
         <Route
           credential={this.props.credential}
           exact
-          path={`${this.props.match.url}/Reports/Sales/:day`}
+          path={`${this.props.match.url}/Reports/DaySales`}
           component={SalesDay}
+        />
+        <Route
+          credential={this.props.credential}
+          exact
+          path={`${this.props.match.url}/Reports/AllTimeSales`}
+          component={AlltimeSales}
         />
       </Fragment>
     );

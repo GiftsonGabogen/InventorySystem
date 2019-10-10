@@ -19,7 +19,8 @@ import errorPage from "./Components/errorPage";
 import { FetchAllAction } from "./Actions/ItemActions";
 import {
   FetchAllSalesAction,
-  FetchAllDaySalesAction
+  FetchAllDaySalesAction,
+  FetchAllTimeSalesAction
 } from "./Actions/SalesAction";
 import { AuthCheckAction } from "./Actions/CredentialActions";
 import moment from "moment";
@@ -45,8 +46,9 @@ class App extends React.Component {
     let date = Date.now();
 
     this.props.FetchAllAction();
+    this.props.FetchAllTimeSalesAction();
     this.props.FetchAllSalesAction(moment(date).format("MMM YYYY"));
-    this.props.FetchAllDaySalesAction(moment(date).format("MMM YYYY Do"));
+    this.props.FetchAllDaySalesAction(moment(date).format("MMM YYYY D"));
   }
 
   render() {
@@ -104,6 +106,7 @@ export default connect(
     FetchAllAction,
     AuthCheckAction,
     FetchAllSalesAction,
-    FetchAllDaySalesAction
+    FetchAllDaySalesAction,
+    FetchAllTimeSalesAction
   }
 )(App);

@@ -55,6 +55,39 @@ Router.get("/:id", (req, res) => {
     });
 });
 
+Router.get("/Sales/alltime", (req, res) => {
+  Sales.find()
+    .populate("ItemID", "Price SellingPrice Quantity")
+    .exec()
+    .then(result => {
+      let sales = result;
+      let newSales = [];
+      for (x of sales) {
+        let found = false;
+        for (y of newSales) {
+          if (y.ItemName === x.ItemName) {
+            y.Quantity = x.Quantity + y.Quantity;
+            found = true;
+          }
+        }
+        if (found === false) {
+          newSales = [...newSales, x];
+        }
+      }
+      res.status(200).json({
+        message: "Fetch Successfully",
+        success: true,
+        Sales: newSales
+      });
+    })
+    .catch(err => {
+      res.status(200).json({
+        sucess: false,
+        message: err
+      });
+    });
+});
+
 Router.get("/bymonth/:month", (req, res) => {
   const { month } = req.params;
   console.log(month);

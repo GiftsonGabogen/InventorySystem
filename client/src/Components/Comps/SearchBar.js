@@ -23,15 +23,7 @@ class SearchBar extends Component {
 
   onSearchHandler = e => {
     e.preventDefault();
-    if (this.props.Date === true) {
-      this.props.onSearch(this.refs.Category.value, this.refs.Name.value);
-    } else {
-      this.props.onSearch(
-        this.refs.Category.value,
-        this.refs.Name.value,
-        this.refs.Date.value
-      );
-    }
+    this.props.onSearch(this.refs.Category.value, this.refs.Name.value);
   };
   render() {
     let Dateform = "";
