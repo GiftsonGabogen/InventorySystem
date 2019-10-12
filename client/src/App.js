@@ -13,10 +13,12 @@ import Heading from "./Components/Header/Heading";
 import SuperAdminNavbar from "./Components/SuperAdmin/SuperAdminNavbar";
 import Store from "./Components/Store";
 import Admin from "./Components/Admin";
+import Faculty from "./Components/Faculty";
 import Reload from "./Components/Reload";
 import SuperAdmin from "./Components/SuperAdmin";
 import errorPage from "./Components/errorPage";
 import { FetchAllAction } from "./Actions/ItemActions";
+import { FetchAllUsersAction } from "./Actions/UsersActions";
 import {
   FetchAllSalesAction,
   FetchAllDaySalesAction,
@@ -46,6 +48,7 @@ class App extends React.Component {
     let date = Date.now();
 
     this.props.FetchAllAction();
+    this.props.FetchAllUsersAction();
     this.props.FetchAllTimeSalesAction();
     this.props.FetchAllSalesAction(moment(date).format("MMM YYYY"));
     this.props.FetchAllDaySalesAction(moment(date).format("MMM YYYY D"));
@@ -78,6 +81,11 @@ class App extends React.Component {
                 path="/Store"
                 component={Store}
               />
+              <PrivateRoute
+                credential={this.props.credential}
+                path="/Faculty"
+                component={Faculty}
+              />
               <Route path="/Admin/Reload/:url" component={Reload} />
 
               <PrivateRoute
@@ -107,6 +115,7 @@ export default connect(
     AuthCheckAction,
     FetchAllSalesAction,
     FetchAllDaySalesAction,
-    FetchAllTimeSalesAction
+    FetchAllTimeSalesAction,
+    FetchAllUsersAction
   }
 )(App);

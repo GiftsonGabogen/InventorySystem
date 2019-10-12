@@ -24,11 +24,14 @@ export const RegisterUserAction = data => dispatch => {
 };
 
 export const FetchAllUsersAction = () => dispatch => {
-  axios.get("/api/users").then(users =>
+  axios.get("/api/users").then(users =>{
+    console.log(users.data)
     dispatch({
       type: FetchAllUsers,
       payload: users.data
     })
+  }
+    
   );
 };
 

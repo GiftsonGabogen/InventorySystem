@@ -11,15 +11,17 @@ export default (state = initialState, action) => {
   switch (action.type) {
     case FetchAllUsers:
       if (action.payload.success === true) {
-        let Users
-        if (state.Users.length !== 0) {
-          Users = action.payload.Users.filter(user => user.Type !== "SuperAdmin")
+        if (action.payload.Users.length !== 0) {
+          let Users = action.payload.Users.filter(
+            user => user.Type !== "SuperAdmin"
+          );
+          console.log(Users);
+          return {
+            ...state,
+            Users: Users,
+            Success: true
+          };
         }
-        return {
-          ...state,
-          Users: Users,
-          Success: true
-        };
       } else {
         return {
           ...state
@@ -27,7 +29,6 @@ export default (state = initialState, action) => {
       }
     case RegisterUser:
       if (action.payload.success === true) {
-
         return {
           ...state,
           message: action.payload.message,
@@ -44,7 +45,7 @@ export default (state = initialState, action) => {
         ...state,
         Success: false,
         message: ""
-      }
+      };
     default:
       return {
         ...state

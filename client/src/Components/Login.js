@@ -29,12 +29,19 @@ class Login extends Component {
     ) {
       return <Redirect to="/Admin/Overview" />;
     } else if (
+      this.props.credential.Type === "Inventory" &&
+      this.props.credential.Login === true
+    ) {
+      return <Redirect to="/Faculty/Overview" />;
+    } else if (
       this.props.credential.Type === "Seller" &&
       this.props.credential.Login === true
     ) {
       return <Redirect to="/Store/Home" />;
-    } else if (this.props.credential.Type === "SuperAdmin" &&
-      this.props.credential.Login === true) {
+    } else if (
+      this.props.credential.Type === "SuperAdmin" &&
+      this.props.credential.Login === true
+    ) {
       return <Redirect to="/SuperAdmin/Home" />;
     } else {
       return (
@@ -44,17 +51,17 @@ class Login extends Component {
             {this.props.credential.message === "" ? (
               ""
             ) : (
-                <div
-                  className={`alert ${
-                    this.props.credential.Success === true
-                      ? "alert-success"
-                      : "alert-danger"
-                    }`}
-                  role="alert"
-                >
-                  {this.props.credential.message}
-                </div>
-              )}
+              <div
+                className={`alert ${
+                  this.props.credential.Success === true
+                    ? "alert-success"
+                    : "alert-danger"
+                }`}
+                role="alert"
+              >
+                {this.props.credential.message}
+              </div>
+            )}
             <div className="Title h2">Login</div>
             <div className="form-group">
               <label htmlFor="Username">Username</label>
