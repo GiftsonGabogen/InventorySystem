@@ -19,32 +19,7 @@ class Navbar extends Component {
         { Name: "Overview" },
         { Name: "Overview", Image: magnifyingGlass, link: "/Overview" },
         { Name: "Inventory" },
-        { Name: "Items", Image: shoppingBag, link: "/Items/All" },
-        { Name: "Add Item", Image: tag, link: "/Items/Add" },
-        { Name: "Edit Item", Image: edit, link: "/Items/Edit" },
-        { Name: "Add Stock", Image: tag, link: "/Items/AddStock" },
-        { Name: "Category", Image: pieChart, link: "/Items/Category" },
-        {
-          Name: "Add Category",
-          Image: pieChart,
-          link: "/Items/AddCategory"
-        },
-        { Name: "Reports" },
-        {
-          Name: "All Time Sales",
-          Image: magnifyingGlass,
-          link: "/Reports/AllTimeSales"
-        },
-        {
-          Name: "Sales Per Month",
-          Image: magnifyingGlass,
-          link: "/Reports/MonthSales"
-        },
-        {
-          Name: "Sales per Day",
-          Image: magnifyingGlass,
-          link: "/Reports/DaySales"
-        }
+        { Name: "Inventories", Image: shoppingBag, link: "/Inventories" }
       ]
     };
   }
@@ -68,7 +43,7 @@ class Navbar extends Component {
                     <span className="badge">
                       <img src={nav.Image} alt="" />
                     </span>
-                    <NavLink to={`/Admin${nav.link}`} className="nav-link">
+                    <NavLink to={`/Faculty${nav.link}`} className="nav-link">
                       {nav.Name}
                     </NavLink>
                   </li>

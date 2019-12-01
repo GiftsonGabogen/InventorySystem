@@ -12,9 +12,7 @@ export default (state = initialState, action) => {
     case FetchAllUsers:
       if (action.payload.success === true) {
         if (action.payload.Users.length !== 0) {
-          let Users = action.payload.Users.filter(
-            user => user.Type !== "SuperAdmin"
-          );
+          let Users = action.payload.Users.filter(user => user.Type !== "SuperAdmin");
           console.log(Users);
           return {
             ...state,
@@ -32,6 +30,7 @@ export default (state = initialState, action) => {
         return {
           ...state,
           message: action.payload.message,
+          Users: [...state.Users, action.payload.user],
           Success: true
         };
       } else {

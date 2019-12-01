@@ -20,14 +20,7 @@ class SuperAdminUsers extends Component {
   }
   RegisterHandler = e => {
     e.preventDefault();
-    const {
-      Name,
-      Username,
-      Type,
-      Password,
-      ConfirmPassword,
-      ProfilePicture
-    } = this.refs;
+    const { Name, Username, Type, Password, ConfirmPassword, ProfilePicture } = this.refs;
     let Data = {
       Name: Name.value,
       Username: Username.value,
@@ -44,30 +37,15 @@ class SuperAdminUsers extends Component {
     return (
       <div className="RegisterUserAction">
         <PopAlert {...this.props.users} />
-        <button
-          className="btn btn-primary col-3"
-          data-toggle="modal"
-          data-target="#AddUsersModal"
-        >
+        <button className="btn btn-primary col-3" data-toggle="modal" data-target="#AddUsersModal">
           Add Users
         </button>
-        <div
-          className="modal fade"
-          tabIndex="-1"
-          role="dialog"
-          id="AddUsersModal"
-        >
+        <div className="modal fade" tabIndex="-1" role="dialog" id="AddUsersModal">
           <div className="modal-dialog" role="document">
             <div className="modal-content">
               <div className="modal-header">
                 <h5 className="modal-title">Add User</h5>
-                <button
-                  type="button"
-                  className="close"
-                  data-dismiss="modal"
-                  aria-label="Close"
-                  onClick={this.CloseHandler}
-                >
+                <button type="button" className="close" data-dismiss="modal" aria-label="Close" onClick={this.CloseHandler}>
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
@@ -79,49 +57,31 @@ class SuperAdminUsers extends Component {
                   </div>
                   <div className="form-group">
                     <label htmlFor="Username">Username</label>
-                    <input
-                      type="text"
-                      ref="Username"
-                      className="form-control"
-                    />
+                    <input type="text" ref="Username" className="form-control" />
                   </div>
                   <div className="form-group">
                     <label htmlFor="Type">Type</label>
-                    <select ref="Type" id="">
+                    <select ref="Type" id="" className="form-control">
                       <option value="Admin">Admin</option>
                       <option value="Seller">Seller</option>
                       <option value="Inventory">Inventory</option>
                     </select>
                   </div>
-                  <div className="form-group">
-                    <label htmlFor="ProfilePicture">Profile Picture</label>
-                    <input
-                      type="file"
-                      ref="ProfilePicture"
-                      className="form-control"
-                    />
+                  <div className="custom-file">
+                    <input type="file" ref="ProfilePicture" className="form-control custom-file-input" />
+                    <label className="custom-file-label" htmlFor="ProfilePicture">
+                      Choose profile
+                    </label>
                   </div>
                   <div className="form-group">
                     <label htmlFor="Password">Password</label>
-                    <input
-                      type="password"
-                      ref="Password"
-                      className="form-control"
-                    />
+                    <input type="password" ref="Password" className="form-control" />
                   </div>
                   <div className="form-group">
                     <label htmlFor="ConfirmPassword">Confirm Password</label>
-                    <input
-                      type="password"
-                      ref="ConfirmPassword"
-                      className="form-control"
-                    />
+                    <input type="password" ref="ConfirmPassword" className="form-control" />
                   </div>
-                  <input
-                    type="submit"
-                    value="Register"
-                    className="form-control btn btn-primary"
-                  />
+                  <input type="submit" value="Register" className="form-control btn btn-primary" />
                 </form>
               </div>
             </div>
@@ -152,7 +112,4 @@ class SuperAdminUsers extends Component {
   }
 }
 
-export default connect(
-  mapStateToProps,
-  { RegisterUserAction }
-)(SuperAdminUsers);
+export default connect(mapStateToProps, { RegisterUserAction })(SuperAdminUsers);

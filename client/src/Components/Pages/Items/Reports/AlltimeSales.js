@@ -15,10 +15,8 @@ class AlltimeSales extends Component {
 
     let Profit = 0;
     this.props.sales.AllTimeSales.map((sale, i) => {
-      Profit =
-        Profit +
-        (sale.Quantity * sale.ItemID.SellingPrice -
-          (sale.Quantity * sale.ItemID.Price) / sale.ItemID.Quantity);
+      return (Profit =
+        Profit + (sale.Quantity * sale.ItemID.SellingPrice - (sale.Quantity * sale.ItemID.Price) / sale.ItemID.Quantity));
     });
 
     this.state = {
@@ -33,10 +31,7 @@ class AlltimeSales extends Component {
         Sales: this.props.sales.AllTimeSales
       });
     }
-    if (
-      prevProps.sales.MonthSale !== this.props.sales.MonthSale ||
-      prevState.Sales !== this.state.Sales
-    ) {
+    if (prevProps.sales.MonthSale !== this.props.sales.MonthSale || prevState.Sales !== this.state.Sales) {
       let Profit = 0;
       if (this.state.Sales.length === 0) {
         this.setState({
@@ -45,9 +40,7 @@ class AlltimeSales extends Component {
       }
       this.state.Sales.map((sale, i) => {
         Profit =
-          Profit +
-          (sale.Quantity * sale.ItemID.SellingPrice -
-            (sale.Quantity * sale.ItemID.Price) / sale.ItemID.Quantity);
+          Profit + (sale.Quantity * sale.ItemID.SellingPrice - (sale.Quantity * sale.ItemID.Price) / sale.ItemID.Quantity);
         if (i === this.state.Sales.length - 1) {
           this.setState({
             Profit: Profit
@@ -63,20 +56,12 @@ class AlltimeSales extends Component {
     if (Cat === "All" && Name === "") {
       Sales = this.props.sales.AllTimeSales;
     } else if (Cat === "All" && Name !== "") {
-      Sales = this.props.sales.AllTimeSales.filter(Sale =>
-        Sale.ItemName.toLowerCase().includes(Name)
-      );
+      Sales = this.props.sales.AllTimeSales.filter(Sale => Sale.ItemName.toLowerCase().includes(Name));
     } else if (Cat !== "All" && Name === "") {
-      Sales = this.props.sales.AllTimeSales.filter(
-        Sale => Sale.Category.toLowerCase() === Cat.toLowerCase()
-      );
+      Sales = this.props.sales.AllTimeSales.filter(Sale => Sale.Category.toLowerCase() === Cat.toLowerCase());
     } else {
-      var preSales = this.props.sales.AllTimeSales.filter(
-        Sale => Sale.Category.toLowerCase() === Cat.toLowerCase()
-      );
-      Sales = preSales.filter(Sale =>
-        Sale.ItemName.toLowerCase().includes(Name)
-      );
+      var preSales = this.props.sales.AllTimeSales.filter(Sale => Sale.Category.toLowerCase() === Cat.toLowerCase());
+      Sales = preSales.filter(Sale => Sale.ItemName.toLowerCase().includes(Name));
     }
     this.setState({
       Sales
@@ -86,11 +71,7 @@ class AlltimeSales extends Component {
   render() {
     return (
       <div className="AllTimeSales">
-        <SearchBar
-          onSearch={this.onSearch}
-          Categories={this.props.items.categories}
-          Date
-        />
+        <SearchBar onSearch={this.onSearch} Categories={this.props.items.categories} Date />
         <table className="table table-striped">
           <thead>
             <tr>
@@ -111,8 +92,7 @@ class AlltimeSales extends Component {
                 <td>{sale.Quantity}</td>
                 <td>{sale.Quantity * sale.ItemID.SellingPrice}</td>
                 <td>
-                  {sale.Quantity * sale.ItemID.SellingPrice -
-                    (sale.Quantity * sale.ItemID.Price) / sale.ItemID.Quantity}
+                  {sale.Quantity * sale.ItemID.SellingPrice - (sale.Quantity * sale.ItemID.Price) / sale.ItemID.Quantity}
                 </td>
               </tr>
             ))}

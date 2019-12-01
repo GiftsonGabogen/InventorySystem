@@ -1,9 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import {
-  FetchAllSalesAction,
-  FetchAllDaySalesAction
-} from "../../../../Actions/SalesAction";
+import { FetchAllSalesAction, FetchAllDaySalesAction } from "../../../../Actions/SalesAction";
 import SearchBar from "../../../Comps/SearchBar";
 import moment from "moment";
 
@@ -28,10 +25,8 @@ class SalesDay extends Component {
 
     let DayProfit = 0;
     this.props.sales.DaySales.map((sale, i) => {
-      DayProfit =
-        DayProfit +
-        (sale.Quantity * sale.ItemID.SellingPrice -
-          (sale.Quantity * sale.ItemID.Price) / sale.ItemID.Quantity);
+      return (DayProfit =
+        DayProfit + (sale.Quantity * sale.ItemID.SellingPrice - (sale.Quantity * sale.ItemID.Price) / sale.ItemID.Quantity));
     });
 
     this.state = {
@@ -68,10 +63,7 @@ class SalesDay extends Component {
         Days: Days
       });
     }
-    if (
-      prevProps.sales.MonthSale !== this.props.sales.MonthSale ||
-      prevState.Sales !== this.state.Sales
-    ) {
+    if (prevProps.sales.MonthSale !== this.props.sales.MonthSale || prevState.Sales !== this.state.Sales) {
       let DayProfit = 0;
       if (this.state.Sales.length === 0) {
         this.setState({
@@ -81,8 +73,7 @@ class SalesDay extends Component {
       this.state.Sales.map((sale, i) => {
         DayProfit =
           DayProfit +
-          (sale.Quantity * sale.ItemID.SellingPrice -
-            (sale.Quantity * sale.ItemID.Price) / sale.ItemID.Quantity);
+          (sale.Quantity * sale.ItemID.SellingPrice - (sale.Quantity * sale.ItemID.Price) / sale.ItemID.Quantity);
         if (i === this.state.Sales.length - 1) {
           this.setState({
             DayProfit: DayProfit
@@ -97,20 +88,12 @@ class SalesDay extends Component {
     if (Cat === "All" && Name === "") {
       Sales = this.props.sales.DaySales;
     } else if (Cat === "All" && Name !== "") {
-      Sales = this.props.sales.DaySales.filter(Sale =>
-        Sale.ItemName.toLowerCase().includes(Name)
-      );
+      Sales = this.props.sales.DaySales.filter(Sale => Sale.ItemName.toLowerCase().includes(Name));
     } else if (Cat !== "All" && Name === "") {
-      Sales = this.props.sales.DaySales.filter(
-        Sale => Sale.Category.toLowerCase() === Cat.toLowerCase()
-      );
+      Sales = this.props.sales.DaySales.filter(Sale => Sale.Category.toLowerCase() === Cat.toLowerCase());
     } else {
-      var preSales = this.props.sales.DaySales.filter(
-        Sale => Sale.Category.toLowerCase() === Cat.toLowerCase()
-      );
-      Sales = preSales.filter(Sale =>
-        Sale.ItemName.toLowerCase().includes(Name)
-      );
+      var preSales = this.props.sales.DaySales.filter(Sale => Sale.Category.toLowerCase() === Cat.toLowerCase());
+      Sales = preSales.filter(Sale => Sale.ItemName.toLowerCase().includes(Name));
     }
 
     this.setState({
@@ -119,28 +102,18 @@ class SalesDay extends Component {
   };
 
   onDaySearch = () => {
-    this.props.FetchAllDaySalesAction(
-      this.refs.Date.value + " " + this.refs.Day.value
-    );
+    this.props.FetchAllDaySalesAction(this.refs.Date.value + " " + this.refs.Day.value);
   };
   render() {
     return (
       <div className="Sales">
         <div className="form-row Search">
           <div className="col-9">
-            <SearchBar
-              onSearch={this.onSearch}
-              Categories={this.props.items.categories}
-            />
+            <SearchBar onSearch={this.onSearch} Categories={this.props.items.categories} />
           </div>
           <div className=" form-row col DateSearch">
             <div className="form-group col">
-              <select
-                className="custom-select"
-                defaultValue={this.state.month}
-                ref="Date"
-                onChange={this.onDaySearch}
-              >
+              <select className="custom-select" defaultValue={this.state.month} ref="Date" onChange={this.onDaySearch}>
                 {this.state.months.map((month, i) => (
                   <option value={month} key={i}>
                     {month}
@@ -186,12 +159,9 @@ class SalesDay extends Component {
                 <td>{sale.Quantity}</td>
                 <td>{sale.Quantity * sale.ItemID.SellingPrice}</td>
                 <td>
-                  {sale.Quantity * sale.ItemID.SellingPrice -
-                    (sale.Quantity * sale.ItemID.Price) / sale.ItemID.Quantity}
+                  {sale.Quantity * sale.ItemID.SellingPrice - (sale.Quantity * sale.ItemID.Price) / sale.ItemID.Quantity}
                 </td>
-                <td className="Date">
-                  {moment(sale.Date).format("ddd Do of MMM")}
-                </td>
+                <td className="Date">{moment(sale.Date).format("ddd Do of MMM")}</td>
               </tr>
             ))}
             <tr>
@@ -210,7 +180,4 @@ class SalesDay extends Component {
   }
 }
 
-export default connect(
-  mapStateToProps,
-  { FetchAllSalesAction, FetchAllDaySalesAction }
-)(SalesDay);
+export default connect(mapStateToProps, { FetchAllSalesAction, FetchAllDaySalesAction })(SalesDay);

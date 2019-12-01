@@ -25,10 +25,9 @@ class Sales extends Component {
     }
     //whole profit of the given month
     this.props.sales.MonthSale.map((sale, i) => {
-      MonthProfit =
+      return (MonthProfit =
         MonthProfit +
-        (sale.Quantity * sale.ItemID.SellingPrice -
-          (sale.Quantity * sale.ItemID.Price) / sale.ItemID.Quantity);
+        (sale.Quantity * sale.ItemID.SellingPrice - (sale.Quantity * sale.ItemID.Price) / sale.ItemID.Quantity));
     });
     console.log(MonthProfit);
 
@@ -59,10 +58,7 @@ class Sales extends Component {
         Sales: this.props.sales.MonthSale
       });
     }
-    if (
-      prevProps.sales.MonthSale !== this.props.sales.MonthSale ||
-      prevState.Sales !== this.state.Sales
-    ) {
+    if (prevProps.sales.MonthSale !== this.props.sales.MonthSale || prevState.Sales !== this.state.Sales) {
       console.log("state update");
       let MonthProfit = 0;
       if (this.state.Sales.length === 0) {
@@ -73,8 +69,7 @@ class Sales extends Component {
       this.state.Sales.map((sale, i) => {
         MonthProfit =
           MonthProfit +
-          (sale.Quantity * sale.ItemID.SellingPrice -
-            (sale.Quantity * sale.ItemID.Price) / sale.ItemID.Quantity);
+          (sale.Quantity * sale.ItemID.SellingPrice - (sale.Quantity * sale.ItemID.Price) / sale.ItemID.Quantity);
         if (i === this.state.Sales.length - 1) {
           this.setState({
             MonthProfit: MonthProfit
@@ -90,20 +85,12 @@ class Sales extends Component {
     if (Cat === "All" && Name === "") {
       Sales = this.props.sales.MonthSale;
     } else if (Cat === "All" && Name !== "") {
-      Sales = this.props.sales.MonthSale.filter(Sale =>
-        Sale.ItemName.toLowerCase().includes(Name)
-      );
+      Sales = this.props.sales.MonthSale.filter(Sale => Sale.ItemName.toLowerCase().includes(Name));
     } else if (Cat !== "All" && Name === "") {
-      Sales = this.props.sales.MonthSale.filter(
-        Sale => Sale.Category.toLowerCase() === Cat.toLowerCase()
-      );
+      Sales = this.props.sales.MonthSale.filter(Sale => Sale.Category.toLowerCase() === Cat.toLowerCase());
     } else {
-      var preSales = this.props.sales.MonthSale.filter(
-        Sale => Sale.Category.toLowerCase() === Cat.toLowerCase()
-      );
-      Sales = preSales.filter(Sale =>
-        Sale.ItemName.toLowerCase().includes(Name)
-      );
+      var preSales = this.props.sales.MonthSale.filter(Sale => Sale.Category.toLowerCase() === Cat.toLowerCase());
+      Sales = preSales.filter(Sale => Sale.ItemName.toLowerCase().includes(Name));
     }
 
     this.setState({
@@ -119,19 +106,11 @@ class Sales extends Component {
       <div className="Sales">
         <div className="form-row Search">
           <div className="col-9">
-            <SearchBar
-              onSearch={this.onSearch}
-              Categories={this.props.items.categories}
-            />
+            <SearchBar onSearch={this.onSearch} Categories={this.props.items.categories} />
           </div>
           <div className=" form-row col DateSearch">
             <div className="form-group col">
-              <select
-                className="custom-select"
-                defaultValue={this.state.month}
-                ref="Date"
-                onChange={this.onDateSearch}
-              >
+              <select className="custom-select" defaultValue={this.state.month} ref="Date" onChange={this.onDateSearch}>
                 {this.state.months.map((month, i) => (
                   <option value={month} key={i}>
                     {month}
@@ -163,8 +142,7 @@ class Sales extends Component {
                 <td>{sale.Quantity}</td>
                 <td>{sale.Quantity * sale.ItemID.SellingPrice}</td>
                 <td>
-                  {sale.Quantity * sale.ItemID.SellingPrice -
-                    (sale.Quantity * sale.ItemID.Price) / sale.ItemID.Quantity}
+                  {sale.Quantity * sale.ItemID.SellingPrice - (sale.Quantity * sale.ItemID.Price) / sale.ItemID.Quantity}
                 </td>
                 <td className="Date">{moment(sale.Date).format("MMM")}</td>
               </tr>
@@ -185,7 +163,4 @@ class Sales extends Component {
   }
 }
 
-export default connect(
-  mapStateToProps,
-  { FetchAllSalesAction }
-)(Sales);
+export default connect(mapStateToProps, { FetchAllSalesAction })(Sales);

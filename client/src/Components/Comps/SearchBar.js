@@ -1,23 +1,11 @@
 import React, { Component } from "react";
 
+let Dateform;
 class SearchBar extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      months: [
-        "Jan",
-        "Feb",
-        "Mar",
-        "Apr",
-        "May",
-        "Jun",
-        "Jul",
-        "Aug",
-        "Sep",
-        "Oct",
-        "Nov",
-        "Dec"
-      ]
+      months: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
     };
   }
 
@@ -26,7 +14,6 @@ class SearchBar extends Component {
     this.props.onSearch(this.refs.Category.value, this.refs.Name.value);
   };
   render() {
-    let Dateform = "";
     if (this.props.Date === true) {
       Dateform = (
         <select className="custom-select" ref="Date">
@@ -42,12 +29,7 @@ class SearchBar extends Component {
       <form className="SearchBar" onSubmit={this.onSearchHandler}>
         <div className="form-row">
           <div className="col-7">
-            <input
-              type="text"
-              className="form-control"
-              ref="Name"
-              placeholder="Name"
-            />
+            <input type="text" className="form-control" ref="Name" placeholder="Name" />
           </div>
           <div className="col">
             <select className="custom-select" ref="Category">
