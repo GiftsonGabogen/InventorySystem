@@ -11,7 +11,8 @@ const inventoriesSchema = new Schema({
   },
   Status: {
     type: String,
-    required: true
+    required: true,
+    default: false
   },
   From: {
     type: String,

@@ -4,16 +4,14 @@ const bodyParser = require("body-parser");
 const itemsRouter = require("./Routes/items");
 const usersRouter = require("./Routes/users");
 const salesRouter = require("./Routes/sales");
+const inventoriesRouter = require("./Routes/inventories");
 const morgan = require("morgan");
 const mongoose = require("mongoose");
 const mongoURI = require("./config/keys").mongoURI;
 const app = express();
 
 mongoose
-  .connect(
-    mongoURI,
-    { useNewUrlParser: true }
-  )
+  .connect(mongoURI, { useNewUrlParser: true })
   .then(() => console.log("MongoDB Connected"))
   .catch(err => console.log(err));
 
@@ -27,6 +25,7 @@ app.use(express.static(path.join(__dirname, "client/build")));
 app.use("/api/items", itemsRouter);
 app.use("/api/users", usersRouter);
 app.use("/api/sales", salesRouter);
+app.use("/api/inventories", inventoriesRouter);
 
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname + "/client/build/index.html"));

@@ -27,4 +27,10 @@ export const FetchAllSales = "fetchAllSales";
 export const FetchAllDaySales = "fetchAllDaySales";
 export const FetchAllTimeSales = "fetchAllTimeSales";
 
+export const FetchAllInventories = "fetchAllInventories";
+export const AddInventories = "addInventories";
+export const RemoveInventories = "removeInventories";
+export const BorrowInventories = "borrowInventories";
+export const BackInventories = "backInventories";
+
 export const UnMountAlert = "unMountAlert";

@@ -10,7 +10,7 @@ function mapStateToProps(state) {
   };
 }
 
-class Items extends Component {
+class AddInventory extends Component {
   componentWillUnmount() {
     this.props.UnMountAlertAction();
   }
@@ -27,7 +27,7 @@ class Items extends Component {
     this.props.AddInventoriesAction(Data);
     /* Some of my updates actions items list messed when updating because the indexing of the items is being crumbled so what I do is
     redirect the page to a page which redirect it again to the page where it came from */
-    this.props.history.push(`/Admin/Reload/-Faculty-Inventories`);
+    this.props.history.push(`/Admin/Reload/-Faculty-AddInventory`);
   };
 
   render() {
@@ -37,25 +37,25 @@ class Items extends Component {
         <form onSubmit={this.AddInventoriesHandler}>
           <div className="form-group">
             <label htmlFor="Name">Name</label>
-            <input type="text" ref="Name" className="form-control" />
+            <input type="text" ref="Name" className="form-control" required />
           </div>
           <div className="form-group">
             <label htmlFor="From">From</label>
-            <input type="text" ref="From" className="form-control" />
+            <input type="text" ref="From" className="form-control" required />
           </div>
           <div className="form-row">
             <div className="form-group col">
               <label htmlFor="PricePerUnit">Price Per Unit</label>
-              <input type="number" ref="PricePerUnit" className="form-control" />
+              <input type="number" defaultValue="1" ref="PricePerUnit" className="form-control" required />
             </div>
             <div className="form-group col">
               <label htmlFor="Quantity">Quantity</label>
-              <input type="number" ref="Quantity" className="form-control" />
+              <input type="number" defaultValue="1" ref="Quantity" className="form-control" required />
             </div>
           </div>
           <div className="form-group">
             <label htmlFor="Location">Location</label>
-            <input type="number" ref="Location" className="form-control" />
+            <input type="text" ref="Location" className="form-control" required />
           </div>
 
           <input type="submit" value="Add" className="btn btn-primary w-25" />
@@ -65,4 +65,4 @@ class Items extends Component {
   }
 }
 
-export default connect(mapStateToProps, { AddInventoriesAction, UnMountAlertAction })(Items);
+export default connect(mapStateToProps, { AddInventoriesAction, UnMountAlertAction })(AddInventory);
