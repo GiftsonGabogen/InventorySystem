@@ -30,7 +30,7 @@ class SuperAdminUsers extends Component {
       ProfilePicture: ProfilePicture.files[0]
     };
     this.props.RegisterUserAction(Data);
-    this.props.history.push(`/Admin/Reload/-SuperAdmin-Users`);
+    this.props.history.push(`/Reload/-SuperAdmin-Users`);
   };
 
   render() {

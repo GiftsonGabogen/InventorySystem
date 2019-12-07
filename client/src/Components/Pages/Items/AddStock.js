@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import SearchBar from "../../Comps/SearchBar";
 import { UnMountAlertAction } from "../../../Actions/UnMountActions";
 import { AddStockAction } from "../../../Actions/ItemActions";
-import PopAlert from "../../Comps/PopAlert"
+import PopAlert from "../../Comps/PopAlert";
 
 function mapStateToProps(state) {
   return {
@@ -16,7 +16,7 @@ class AddStock extends Component {
     // when reloading, the modal-backdrop div is not being removed because it is in the most root so if the app div reloads
     // the modal-backdrop which is sitting outside the app div don't remove so that we need to remove it manually
     if (document.querySelector(".modal-backdrop")) {
-      document.querySelector(".modal-backdrop").remove()
+      document.querySelector(".modal-backdrop").remove();
     }
 
     super(params);
@@ -37,10 +37,7 @@ class AddStock extends Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    if (
-      this.state.Items === nextProps.items.items &&
-      this.state === nextState
-    ) {
+    if (this.state.Items === nextProps.items.items && this.state === nextState) {
       return false;
     } else {
       return true;
@@ -57,17 +54,11 @@ class AddStock extends Component {
     if (Cat === "All" && Name === "") {
       Items = this.props.items.items;
     } else if (Cat === "All" && Name !== "") {
-      Items = this.props.items.items.filter(Item =>
-        Item.Name.toLowerCase().includes(Name)
-      );
+      Items = this.props.items.items.filter(Item => Item.Name.toLowerCase().includes(Name));
     } else if (Cat !== "All" && Name === "") {
-      Items = this.props.items.items.filter(
-        Item => Item.Category.Name.toLowerCase() === Cat.toLowerCase()
-      );
+      Items = this.props.items.items.filter(Item => Item.Category.Name.toLowerCase() === Cat.toLowerCase());
     } else {
-      var preItems = this.props.items.items.filter(
-        Item => Item.Category.Name.toLowerCase() === Cat.toLowerCase()
-      );
+      var preItems = this.props.items.items.filter(Item => Item.Category.Name.toLowerCase() === Cat.toLowerCase());
       Items = preItems.filter(Item => Item.Name.toLowerCase().includes(Name));
     }
 
@@ -86,7 +77,7 @@ class AddStock extends Component {
       Quantity: Quantity.value
     };
     this.props.AddStockAction(Data);
-    this.props.history.push(`/Admin/Reload/-Admin-Items-AddStock`);
+    this.props.history.push(`/Reload/-Admin-Items-AddStock`);
   };
 
   Price = e => {
@@ -155,26 +146,13 @@ class AddStock extends Component {
     return (
       <div className="AddStock">
         <PopAlert {...this.props.items} />
-        <div
-          className="modal fade"
-          tabIndex="-1"
-          role="dialog"
-          id="AddStockModal"
-        >
+        <div className="modal fade" tabIndex="-1" role="dialog" id="AddStockModal">
           <div className="modal-dialog" role="document">
             <div className="modal-content">
               <div className="modal-header">
-                <h5 className="modal-title">
-                  {this.state.Name}
-                </h5>
+                <h5 className="modal-title">{this.state.Name}</h5>
 
-                <button
-                  type="button"
-                  className="close"
-                  data-dismiss="modal"
-                  aria-label="Close"
-                  onClick={this.CloseHandler}
-                >
+                <button type="button" className="close" data-dismiss="modal" aria-label="Close" onClick={this.CloseHandler}>
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
@@ -185,23 +163,11 @@ class AddStock extends Component {
                     <div className="form-row">
                       <div className="form-group col-5">
                         <label htmlFor="Price">Price</label>
-                        <input
-                          type="number"
-                          step="0.01"
-                          ref="Price"
-                          className="form-control"
-                          onChange={this.Price}
-                        />
+                        <input type="number" step="0.01" ref="Price" className="form-control" onChange={this.Price} />
                       </div>
                       <div className="form-group col">
                         <label htmlFor="Quantity">Quantity</label>
-                        <input
-                          type="number"
-                          step="0.01"
-                          ref="Quantity"
-                          onChange={this.Quantity}
-                          className="form-control"
-                        />
+                        <input type="number" step="0.01" ref="Quantity" onChange={this.Quantity} className="form-control" />
                       </div>
                       <div className="form-group col">
                         <label htmlFor="PricePerUnit">Price Per Unit</label>
@@ -226,11 +192,7 @@ class AddStock extends Component {
                         value={this.state.SellingPrice}
                       />
                     </div>
-                    <input
-                      type="submit"
-                      value="Add"
-                      className="btn btn-primary w-50"
-                    />
+                    <input type="submit" value="Add" className="btn btn-primary w-50" />
                   </div>
                 </form>
               </div>
@@ -238,10 +200,7 @@ class AddStock extends Component {
           </div>
         </div>
 
-        <SearchBar
-          onSearch={this.onSearch}
-          Categories={this.props.items.categories}
-        />
+        <SearchBar onSearch={this.onSearch} Categories={this.props.items.categories} />
         <table className="table table-striped table-sm">
           <thead>
             <tr>
@@ -270,9 +229,7 @@ class AddStock extends Component {
                     className="btn btn-primary"
                     data-toggle="modal"
                     data-target="#AddStockModal"
-                    onClick={() =>
-                      this.AddHandler(item.Name, item.SellingPrice, item._id)
-                    }
+                    onClick={() => this.AddHandler(item.Name, item.SellingPrice, item._id)}
                   >
                     Add
                   </button>
@@ -286,7 +243,4 @@ class AddStock extends Component {
   }
 }
 
-export default connect(
-  mapStateToProps,
-  { UnMountAlertAction, AddStockAction }
-)(AddStock);
+export default connect(mapStateToProps, { UnMountAlertAction, AddStockAction })(AddStock);

@@ -73,7 +73,7 @@ class App extends React.Component {
             <Switch>
               <PrivateRoute credential={this.props.credential} path="/Store" component={Store} />
               <PrivateRoute credential={this.props.credential} path="/Faculty" component={Faculty} />
-              <Route path="/Admin/Reload/:url" component={Reload} />
+              <Route path="/Reload/:url" component={Reload} />
 
               <PrivateRoute credential={this.props.credential} path="/SuperAdmin" component={SuperAdmin} />
 

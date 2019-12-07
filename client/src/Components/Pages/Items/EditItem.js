@@ -2,13 +2,9 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import SearchBar from "../../Comps/SearchBar";
 import { UnMountAlertAction } from "../../../Actions/UnMountActions";
-import {
-  EditItemAction,
-  DeleteItemAction,
-  DeleteItemMultipleAction
-} from "../../../Actions/ItemActions";
+import { EditItemAction, DeleteItemAction, DeleteItemMultipleAction } from "../../../Actions/ItemActions";
 import AlertButton from "../../Comps/AlertButton";
-import PopAlert from "../../Comps/PopAlert"
+import PopAlert from "../../Comps/PopAlert";
 
 function mapStateToProps(state) {
   return {
@@ -22,7 +18,7 @@ class EditItem extends Component {
     // when reloading, the modal-backdrop div is not being removed because it is in the most root so if the app div reloads
     // the modal-backdrop which is sitting outside the app div don't remove so that we need to remove it manually
     if (document.querySelector(".modal-backdrop")) {
-      document.querySelector(".modal-backdrop").remove()
+      document.querySelector(".modal-backdrop").remove();
     }
     super(params);
     this.state = {
@@ -34,7 +30,6 @@ class EditItem extends Component {
       Items: this.props.items.items,
       deleteList: []
     };
-
   }
 
   componentWillReceiveProps(nextProps) {
@@ -43,12 +38,8 @@ class EditItem extends Component {
     });
   }
 
-
   shouldComponentUpdate(nextProps, nextState) {
-    if (
-      this.state.Items === nextProps.items.items &&
-      this.state === nextState
-    ) {
+    if (this.state.Items === nextProps.items.items && this.state === nextState) {
       return false;
     } else {
       return true;
@@ -96,17 +87,11 @@ class EditItem extends Component {
     if (Cat === "All" && Name === "") {
       Items = this.props.items.items;
     } else if (Cat === "All" && Name !== "") {
-      Items = this.props.items.items.filter(Item =>
-        Item.Name.toLowerCase().includes(Name)
-      );
+      Items = this.props.items.items.filter(Item => Item.Name.toLowerCase().includes(Name));
     } else if (Cat !== "All" && Name === "") {
-      Items = this.props.items.items.filter(
-        Item => Item.Category.Name.toLowerCase() === Cat.toLowerCase()
-      );
+      Items = this.props.items.items.filter(Item => Item.Category.Name.toLowerCase() === Cat.toLowerCase());
     } else {
-      var preItems = this.props.items.items.filter(
-        Item => Item.Category.Name.toLowerCase() === Cat.toLowerCase()
-      );
+      var preItems = this.props.items.items.filter(Item => Item.Category.Name.toLowerCase() === Cat.toLowerCase());
       Items = preItems.filter(Item => Item.Name.toLowerCase().includes(Name));
     }
 
@@ -130,7 +115,7 @@ class EditItem extends Component {
     this.props.EditItemAction(Data);
     /* Some of my updates actions items list messed when updating because the indexing of the items is being crumbled so what I do is
     redirect the page to a page which redirect it again to the page where it came from */
-    this.props.history.push(`/Admin/Reload/-Admin-Items-Edit`);
+    this.props.history.push(`/Reload/-Admin-Items-Edit`);
   };
   EditHandler = (Name, Category, SellingPrice, Unit, id) => {
     this.setState({
@@ -176,26 +161,12 @@ class EditItem extends Component {
     return (
       <div className="EditItem">
         <PopAlert {...this.props.items} />
-        <div
-          className="modal fade"
-          tabIndex="-1"
-          role="dialog"
-          id="EditItemModal"
-        >
+        <div className="modal fade" tabIndex="-1" role="dialog" id="EditItemModal">
           <div className="modal-dialog" role="document">
             <div className="modal-content">
               <div className="modal-header">
-                <h5 className="modal-title">
-                  Edit {this.state.Name}
-
-                </h5>
-                <button
-                  type="button"
-                  className="close"
-                  data-dismiss="modal"
-                  aria-label="Close"
-                  onClick={this.CloseHandler}
-                >
+                <h5 className="modal-title">Edit {this.state.Name}</h5>
+                <button type="button" className="close" data-dismiss="modal" aria-label="Close" onClick={this.CloseHandler}>
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
@@ -252,11 +223,7 @@ class EditItem extends Component {
                       </div>
                     </div>
 
-                    <input
-                      type="submit"
-                      value="Edit"
-                      className="btn btn-primary w-50"
-                    />
+                    <input type="submit" value="Edit" className="btn btn-primary w-50" />
                   </div>
                 </form>
               </div>
@@ -264,10 +231,7 @@ class EditItem extends Component {
           </div>
         </div>
 
-        <SearchBar
-          onSearch={this.onSearch}
-          Categories={this.props.items.categories}
-        />
+        <SearchBar onSearch={this.onSearch} Categories={this.props.items.categories} />
         <table className="table table-striped table-sm">
           <thead>
             <tr>
@@ -278,16 +242,13 @@ class EditItem extends Component {
                   type="button"
                   onClick={() =>
                     AlertButton(
-                      `Are You Sure You Want To Delete ${this.state.deleteList.map(
-                        list => list.Name + " "
-                      )}`
+                      `Are You Sure You Want To Delete ${this.state.deleteList.map(list => list.Name + " ")}`
                     ).then(this.onDeleteList)
                   }
                   className="btn btn-danger btn-sm checkbox"
                   id="checkbox"
                   style={{
-                    visibility:
-                      this.state.deleteList.length > 0 ? "visible" : "hidden"
+                    visibility: this.state.deleteList.length > 0 ? "visible" : "hidden"
                   }}
                 >
                   delete
@@ -313,13 +274,7 @@ class EditItem extends Component {
                       ref="checkbox"
                       id="checkbox"
                       className="form-check-input"
-                      onChange={e =>
-                        this.onAddDeleteList(
-                          e.target.checked,
-                          item._id,
-                          item.Name
-                        )
-                      }
+                      onChange={e => this.onAddDeleteList(e.target.checked, item._id, item.Name)}
                     />
                   </div>
                 </td>
@@ -335,15 +290,7 @@ class EditItem extends Component {
                     className="btn btn-primary"
                     data-toggle="modal"
                     data-target="#EditItemModal"
-                    onClick={() =>
-                      this.EditHandler(
-                        item.Name,
-                        item.Category._id,
-                        item.SellingPrice,
-                        item.Unit,
-                        item._id
-                      )
-                    }
+                    onClick={() => this.EditHandler(item.Name, item.Category._id, item.SellingPrice, item.Unit, item._id)}
                   >
                     Edit
                   </button>
@@ -373,12 +320,9 @@ class EditItem extends Component {
   }
 }
 
-export default connect(
-  mapStateToProps,
-  {
-    UnMountAlertAction,
-    EditItemAction,
-    DeleteItemAction,
-    DeleteItemMultipleAction
-  }
-)(EditItem);
+export default connect(mapStateToProps, {
+  UnMountAlertAction,
+  EditItemAction,
+  DeleteItemAction,
+  DeleteItemMultipleAction
+})(EditItem);

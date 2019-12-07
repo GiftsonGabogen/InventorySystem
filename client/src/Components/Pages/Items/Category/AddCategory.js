@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { AddCategoryAction } from "../../../../Actions/ItemActions";
 import { UnMountAlertAction } from "../../../../Actions/UnMountActions";
-import PopAlert from "../../../Comps/PopAlert"
+import PopAlert from "../../../Comps/PopAlert";
 
 function mapStateToProps(state) {
   return {
@@ -12,11 +12,11 @@ function mapStateToProps(state) {
 
 class AddCategory extends Component {
   constructor(props) {
-    super(props)
+    super(props);
     // when reloading, the modal-backdrop div is not being removed because it is in the most root so if the app div reloads
     // the modal-backdrop which is sitting outside the app div don't remove so that we need to remove it manually
     if (document.querySelector(".modal-backdrop")) {
-      document.querySelector(".modal-backdrop").style.display = "none"
+      document.querySelector(".modal-backdrop").style.display = "none";
     }
   }
   componentWillUnmount() {
@@ -34,7 +34,7 @@ class AddCategory extends Component {
       Name: this.refs.Name.value
     };
     this.props.AddCategoryAction(Data);
-    this.props.history.push(`/Admin/Reload/-Admin-Items-AddCategory`);
+    this.props.history.push(`/Reload/-Admin-Items-AddCategory`);
   };
   render() {
     return (
@@ -52,7 +52,4 @@ class AddCategory extends Component {
   }
 }
 
-export default connect(
-  mapStateToProps,
-  { AddCategoryAction, UnMountAlertAction }
-)(AddCategory);
+export default connect(mapStateToProps, { AddCategoryAction, UnMountAlertAction })(AddCategory);

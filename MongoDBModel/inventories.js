@@ -14,6 +14,9 @@ const inventoriesSchema = new Schema({
     required: true,
     default: false
   },
+  BorrowedDate: {
+    type: Date
+  },
   From: {
     type: String,
     required: true

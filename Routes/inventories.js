@@ -2,7 +2,9 @@ const Joi = require("joi");
 const express = require("express");
 const Router = express.Router();
 const Inventories = require("../MongoDBModel/Inventories");
+const Inventorylog = require("../MongoDBModel/Inventorylog");
 const mongoose = require("mongoose");
+const moment = require("moment");
 const AuthCheck = require("../middleware/authCheck");
 
 //Get All Post
@@ -17,7 +19,22 @@ Router.get("/", (req, res) => {
       });
     })
     .catch(err => {
-      res.status(200).json({ sucess: false });
+      res.status(200).json({ success: false });
+    });
+});
+
+Router.get("/inventorylog", (req, res) => {
+  Inventories.find()
+    .exec()
+    .then(result => {
+      res.status(200).json({
+        success: true,
+        Inventories: result,
+        message: "Successfully Fetched Inventories"
+      });
+    })
+    .catch(err => {
+      res.status(200).json({ success: false });
     });
 });
 
@@ -57,25 +74,43 @@ Router.post("/AddInventory", AuthCheck, (req, res) => {
     Quantity
   });
   newInventories.save().then(result => {
-    res
-      .status(200)
-      .json({
-        success: true,
-        Inventory: result,
-        message: `Successfully Added ${Quantity} ${Name} for ${Location} from ${From}`
-      });
+    res.status(200).json({
+      success: true,
+      Inventory: result,
+      message: `Successfully Added ${Quantity} ${Name} for ${Location} from ${From}`
+    });
   });
 });
 
-Router.put("/ItemBorrowing", AuthCheck, (req, res) => {
+Router.post("/inventorylog/AddInventoryLog", AuthCheck, (req, res) => {
+  const { ItemName, ItemId, Returnee, Borrower, Borrowed, Quantity } = req.body;
+  const newInventories = new Inventories({
+    _id: new mongoose.Types.ObjectId(),
+    ItemName,
+    ItemId,
+    Returnee,
+    Borrower,
+    Borrowed,
+    Quantity
+  });
+  newInventories.save().then(result => {
+    res.status(200).json({
+      success: true,
+      Inventory: result,
+      message: `Successfully Returned ${Quantity} of ${ItemName} by ${Returnee}`
+    });
+  });
+});
+
+Router.put("/BorrowInventory", AuthCheck, (req, res) => {
   const { id, Borrower, Quantity } = req.body;
   Inventories.findByIdAndUpdate(
     id,
     {
       $set: {
         Borrower,
-        Borrowed: Quantity,
-        Status: "Borrowed"
+        Status: `Borrowed ${Quantity} at ${moment(Date.now()).format("MMM D YYYY hh A")}`,
+        BorrowedDate: Date.now()
       }
     },
     { new: true }

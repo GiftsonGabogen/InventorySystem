@@ -11,7 +11,7 @@ const mongoURI = require("./config/keys").mongoURI;
 const app = express();
 
 mongoose
-  .connect(mongoURI, { useNewUrlParser: true })
+  .connect(mongoURI, { useNewUrlParser: true, useFindAndModify: false })
   .then(() => console.log("MongoDB Connected"))
   .catch(err => console.log(err));
 

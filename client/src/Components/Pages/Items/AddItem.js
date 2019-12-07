@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { AddItemAction } from "../../../Actions/ItemActions";
 import { UnMountAlertAction } from "../../../Actions/UnMountActions";
-import PopAlert from "../../Comps/PopAlert"
+import PopAlert from "../../Comps/PopAlert";
 
 function mapStateToProps(state) {
   return {
@@ -25,7 +25,7 @@ class AddItem extends Component {
     this.props.AddItemAction(Data);
     /* Some of my updates actions items list messed when updating because the indexing of the items is being crumbled so what I do is
     redirect the page to a page which redirect it again to the page where it came from */
-    this.props.history.push(`/Admin/Reload/-Admin-Items-Add`);
+    this.props.history.push(`/Reload/-Admin-Items-Add`);
   };
 
   render() {
@@ -61,7 +61,4 @@ class AddItem extends Component {
   }
 }
 
-export default connect(
-  mapStateToProps,
-  { AddItemAction, UnMountAlertAction }
-)(AddItem);
+export default connect(mapStateToProps, { AddItemAction, UnMountAlertAction })(AddItem);

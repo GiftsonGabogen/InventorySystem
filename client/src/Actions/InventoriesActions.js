@@ -24,3 +24,17 @@ export const AddInventoriesAction = data => dispatch => {
       });
     });
 };
+
+export const BorrowInventoriesAction = data => dispatch => {
+  let Token = localStorage.getItem("Authorization");
+  axios
+    .put("/api/inventories/BorrowInventory", data, {
+      headers: { Authorization: "Bearer " + Token }
+    })
+    .then(inventories => {
+      dispatch({
+        type: BorrowInventories,
+        payload: inventories.data
+      });
+    });
+};

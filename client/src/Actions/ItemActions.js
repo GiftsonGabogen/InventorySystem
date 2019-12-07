@@ -16,11 +16,14 @@ export const FetchAllAction = () => dispatch => {
   axios.get("/api/items").then(items => {
     axios.get("/api/items/Category").then(categories => {
       axios.get("/api/sales").then(sales => {
-        dispatch({
-          type: FetchAll,
-          items: items.data,
-          categories: categories.data,
-          sales: sales.data
+        axios.get("/api/inventories").then(inventories => {
+          dispatch({
+            type: FetchAll,
+            items: items.data,
+            categories: categories.data,
+            sales: sales.data,
+            inventories: inventories.data
+          });
         });
       });
     });
@@ -55,7 +58,6 @@ export const FetchItemAction = id => dispatch => {
 };
 
 export const AddItemAction = data => dispatch => {
-
   let Token = localStorage.getItem("Authorization");
   axios
     .post("/api/items/AddItem", data, {

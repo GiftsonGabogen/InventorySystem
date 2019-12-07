@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { AddSoldAction } from "../../Actions/SalesAction";
-import PopAlert from "../Comps/PopAlert"
+import PopAlert from "../Comps/PopAlert";
 
 function mapStateToProps(state) {
   return {
@@ -17,7 +17,7 @@ class StoreHome extends Component {
     // when reloading, the modal-backdrop div is not being removed because it is in the most root so if the app div reloads
     // the modal-backdrop which is sitting outside the app div don't remove so that we need to remove it manually
     if (document.querySelector(".modal-backdrop")) {
-      document.querySelector(".modal-backdrop").remove()
+      document.querySelector(".modal-backdrop").remove();
     }
     super(params);
     this.state = {
@@ -53,7 +53,7 @@ class StoreHome extends Component {
       PricePerUnit: this.state.PricePerUnit
     };
     this.props.AddSoldAction(Data);
-    this.props.history.push(`/Admin/Reload/-Store-Home`);
+    this.props.history.push(`/Reload/-Store-Home`);
   };
 
   SoldHandler = (Name, PricePerUnit, id, Category) => {
@@ -67,9 +67,7 @@ class StoreHome extends Component {
 
   render() {
     if (this.props.items.items.length > 0) {
-      filteredItems = this.props.items.items.filter(
-        item => item.Quantity !== 0
-      );
+      filteredItems = this.props.items.items.filter(item => item.Quantity !== 0);
     }
     return (
       <div className="Home Store">
@@ -78,9 +76,7 @@ class StoreHome extends Component {
           <div className="modal-dialog" role="document">
             <div className="modal-content">
               <div className="modal-header">
-                <div className="modal-title">
-                  {this.state.Name + " P" + this.state.PricePerUnit}
-                </div>
+                <div className="modal-title">{this.state.Name + " P" + this.state.PricePerUnit}</div>
                 <button
                   onClick={this.onCloseHandler}
                   type="button"
@@ -118,11 +114,7 @@ class StoreHome extends Component {
                       disabled
                     />
                   </div>
-                  <input
-                    type="submit"
-                    className="btn btn-primary"
-                    value="Sold"
-                  />
+                  <input type="submit" className="btn btn-primary" value="Sold" />
                 </form>
               </div>
             </div>
@@ -154,14 +146,7 @@ class StoreHome extends Component {
                     className="btn btn-primary"
                     data-toggle="modal"
                     data-target="#SoldModal"
-                    onClick={() =>
-                      this.SoldHandler(
-                        item.Name,
-                        item.SellingPrice,
-                        item._id,
-                        item.Category.Name
-                      )
-                    }
+                    onClick={() => this.SoldHandler(item.Name, item.SellingPrice, item._id, item.Category.Name)}
                   >
                     Sold
                   </button>
@@ -175,7 +160,4 @@ class StoreHome extends Component {
   }
 }
 
-export default connect(
-  mapStateToProps,
-  { AddSoldAction }
-)(StoreHome);
+export default connect(mapStateToProps, { AddSoldAction })(StoreHome);
