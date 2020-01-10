@@ -6,15 +6,35 @@ import piggyBank from "./Images/piggy-bank.png";
 
 function mapStateToProps(state) {
   return {
-    items: state.items
+    items: state.items,
+    sales: state.sales
   };
 }
 
 class Home extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      MonthSaleDisplay: 0
+    };
+  }
+  componentDidMount() {
+    let MonthProfit = 0;
+    this.props.sales.MonthSale.map((sale, i) => {
+      return (MonthProfit =
+        MonthProfit +
+        (sale.Quantity * sale.ItemID.SellingPrice - (sale.Quantity * sale.ItemID.Price) / sale.ItemID.Quantity));
+    });
+    this.setState({
+      MonthSaleDisplay: MonthProfit
+    });
+  }
+
   componentWillUnmount() {
     this.props.UnMountAlertAction();
   }
   render() {
+    console.log(this.props.sales.MonthSale);
     return (
       <div className="Overview">
         <div className="card">
@@ -31,7 +51,7 @@ class Home extends Component {
               <div className="card">
                 <div className="card-body">
                   <img src={piggyBank} className="w-50" alt="" />
-                  <h2>15,000</h2>
+                  <h2>{this.state.MonthSaleDisplay}</h2>
                   <h2>Sales</h2>
                 </div>
               </div>

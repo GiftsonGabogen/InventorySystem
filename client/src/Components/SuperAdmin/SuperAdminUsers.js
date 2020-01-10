@@ -14,8 +14,9 @@ class SuperAdminUsers extends Component {
     super(params);
     // when reloading, the modal-backdrop div is not being removed because it is in the most root so if the app div reloads
     // the modal-backdrop which is sitting outside the app div don't remove so that we need to remove it manually
+
     if (document.querySelector(".modal-backdrop")) {
-      document.querySelector(".modal-backdrop").style.display = "none";
+      document.querySelector(".modal-backdrop").remove();
     }
   }
   RegisterHandler = e => {
@@ -37,9 +38,6 @@ class SuperAdminUsers extends Component {
     return (
       <div className="RegisterUserAction">
         <PopAlert {...this.props.users} />
-        <button className="btn btn-primary col-3" data-toggle="modal" data-target="#AddUsersModal">
-          Add Users
-        </button>
         <div className="modal fade" tabIndex="-1" role="dialog" id="AddUsersModal">
           <div className="modal-dialog" role="document">
             <div className="modal-content">
@@ -107,6 +105,10 @@ class SuperAdminUsers extends Component {
             ))}
           </tbody>
         </table>
+
+        <button className="btn btn-primary col-3" data-toggle="modal" data-target="#AddUsersModal">
+          Add Users
+        </button>
       </div>
     );
   }

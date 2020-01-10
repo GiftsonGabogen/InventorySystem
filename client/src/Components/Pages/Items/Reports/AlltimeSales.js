@@ -14,6 +14,7 @@ class AlltimeSales extends Component {
     super(props);
 
     let Profit = 0;
+    console.log(this.props.sales);
     this.props.sales.AllTimeSales.map((sale, i) => {
       return (Profit =
         Profit + (sale.Quantity * sale.ItemID.SellingPrice - (sale.Quantity * sale.ItemID.Price) / sale.ItemID.Quantity));

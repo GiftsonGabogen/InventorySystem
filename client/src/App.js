@@ -64,6 +64,7 @@ class App extends React.Component {
           <Route path="/Admin" component={Heading} />
           <Route path="/Store" component={Heading} />
           <Route path="/SuperAdmin" component={Heading} />
+          <Route path="/Faculty" component={Heading} />
           <Route path="/Admin" component={Navbar} />
 
           <Route path="/Faculty" component={FacultyNavbar} />

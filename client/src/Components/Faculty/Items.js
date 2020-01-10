@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import SearchBar from "../Comps/SearchBar";
 import PopAlert from "../Comps/PopAlert";
-import { BorrowInventoriesAction, FetchAllInventoriesAction } from "../../Actions/InventoriesActions";
+import moment from "moment";
+import { BorrowInventoriesAction, FetchAllInventoriesAction, BackInventoriesAction } from "../../Actions/InventoriesActions";
 import { UnMountAlertAction } from "../../Actions/UnMountActions";
 
 function mapStateToProps(state) {
@@ -57,11 +58,16 @@ class Inventories extends Component {
     this.props.UnMountAlertAction();
   };
 
-  BorrowHandler = (Name, id, max) => {
+  BorrowHandler = (Name, id, max, Status) => {
+    let maxed = 0;
+    Status.map((num, i) => {
+      maxed += parseInt(num.quantity);
+    });
+    let total = max - maxed;
     this.setState({
-      Name,
-      id,
-      max
+      Name: Name,
+      id: id,
+      max: total
     });
   };
   ReturnHandler = (id, Name, Borrower, Date, Quantity) => {
@@ -100,6 +106,20 @@ class Inventories extends Component {
     this.props.BorrowInventoriesAction(Data);
     this.props.history.push(`/Reload/-Faculty-Inventories`);
   };
+  ReturnSubmitHandler = e => {
+    e.preventDefault();
+    let data = {
+      ItemId: this.state.id,
+      ItemName: this.state.Name,
+      Returnee: this.refs.Returnee.value,
+      Borrower: this.state.Borrower,
+      Borrowed: Date,
+      Quantity: this.state.Quantity,
+      max: this.state.Quantity
+    };
+    this.props.BackInventoriesAction(data);
+    this.props.history.push(`/Reload/-Faculty-Inventories`);
+  };
   render() {
     return (
       <div className="Inventories">
@@ -109,7 +129,9 @@ class Inventories extends Component {
           <div className="modal-dialog" role="document">
             <div className="modal-content">
               <div className="modal-header">
-                <h5 className="modal-title">{this.state.Name}</h5>
+                <h5 className="modal-title">
+                  {this.state.Name} <small>remaining item to borrow is {this.state.max}</small>
+                </h5>
                 <button
                   type="button"
                   className="close"
@@ -223,6 +245,7 @@ class Inventories extends Component {
               <th scope="col">Borrower</th>
               <th scope="col">Location</th>
               <th scope="col"></th>
+              <th scope="col"></th>
             </tr>
           </thead>
           <tbody>
@@ -231,22 +254,31 @@ class Inventories extends Component {
                 <th scope="row">{i + 1}</th>
                 <td>{inventories.Name}</td>
                 <td>{inventories.From}</td>
-                <td>{inventories.Date}</td>
+                <td>{moment(inventories.Date).format("MMM D YYYY")}</td>
                 <td>{inventories.Quantity}</td>
                 <td>{inventories.PricePerUnit.toFixed(2)}</td>
-                <td>{inventories.Status}</td>
+                <td>
+                  {inventories.Status.map((stat, i) =>
+                    i === inventories.Status.length - 1 ? <p key={i}>Last borrowed at {stat.date}</p> : ""
+                  )}
+                </td>
                 <td>{inventories.Borrower}</td>
                 <td>{inventories.Location}</td>
                 <td>
-                  {inventories.Borrower === "None" ? (
-                    <button
-                      className="btn btn-primary"
-                      data-toggle="modal"
-                      data-target="#BorrowModal"
-                      onClick={() => this.BorrowHandler(inventories.Name, inventories._id, inventories.Quantity)}
-                    >
-                      Borrow
-                    </button>
+                  <button
+                    className="btn btn-primary"
+                    data-toggle="modal"
+                    data-target="#BorrowModal"
+                    onClick={() =>
+                      this.BorrowHandler(inventories.Name, inventories._id, inventories.Quantity, inventories.Status)
+                    }
+                  >
+                    Borrow
+                  </button>
+                </td>
+                <td>
+                  {inventories.Status.length === 0 ? (
+                    ""
                   ) : (
                     <button
                       className="btn btn-primary"
@@ -257,7 +289,7 @@ class Inventories extends Component {
                           inventories._id,
                           inventories.Name,
                           inventories.Borrower,
-                          inventories.Date,
+                          inventories.Status[0].date,
                           inventories.Quantity
                         )
                       }
@@ -275,6 +307,9 @@ class Inventories extends Component {
   }
 }
 
-export default connect(mapStateToProps, { UnMountAlertAction, BorrowInventoriesAction, FetchAllInventoriesAction })(
-  Inventories
-);
+export default connect(mapStateToProps, {
+  UnMountAlertAction,
+  BorrowInventoriesAction,
+  FetchAllInventoriesAction,
+  BackInventoriesAction
+})(Inventories);

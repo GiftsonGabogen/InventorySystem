@@ -1,10 +1,4 @@
-import {
-  UpdateSales,
-  FetchAll,
-  FetchAllSales,
-  FetchAllDaySales,
-  FetchAllTimeSales
-} from "../Actions/Actions";
+import { UpdateSales, FetchAll, FetchAllSales, FetchAllDaySales, FetchAllTimeSales } from "../Actions/Actions";
 
 const initialState = {
   Success: false,
@@ -22,9 +16,7 @@ export default (state = initialState, action) => {
       if (action.payload.success === true) {
         let FilteredSales = [];
         if (state.Sales.length !== 0) {
-          FilteredSales = state.Sales.filter(
-            Sale => Sale._id !== action.payload.Sale._id
-          );
+          FilteredSales = state.Sales.filter(Sale => Sale._id !== action.payload.Sale._id);
         }
 
         return {

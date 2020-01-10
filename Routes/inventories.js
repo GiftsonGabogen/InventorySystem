@@ -24,7 +24,7 @@ Router.get("/", (req, res) => {
 });
 
 Router.get("/inventorylog", (req, res) => {
-  Inventories.find()
+  Inventorylog.find()
     .exec()
     .then(result => {
       res.status(200).json({
@@ -84,45 +84,73 @@ Router.post("/AddInventory", AuthCheck, (req, res) => {
 
 Router.post("/inventorylog/AddInventoryLog", AuthCheck, (req, res) => {
   const { ItemName, ItemId, Returnee, Borrower, Borrowed, Quantity } = req.body;
-  const newInventories = new Inventories({
+  const newInventories = new Inventorylog({
     _id: new mongoose.Types.ObjectId(),
-    ItemName,
-    ItemId,
-    Returnee,
-    Borrower,
-    Borrowed,
-    Quantity
+    ItemName: ItemName,
+    ItemId: ItemId,
+    Returnee: Returnee,
+    Borrower: Borrower,
+    Borrowed: Borrowed,
+    Quantity: Quantity
   });
+
   newInventories.save().then(result => {
-    res.status(200).json({
-      success: true,
-      Inventory: result,
-      message: `Successfully Returned ${Quantity} of ${ItemName} by ${Returnee}`
-    });
+    Inventories.findById(ItemId)
+      .exec()
+      .then(result => {
+        if (result.Quantity > Quantity) {
+          Inventories.findByIdAndUpdate(
+            id,
+            {
+              $set: {
+                Status: []
+              }
+            },
+            { new: true }
+          )
+            .exec()
+            .then(remove => {
+              res.status(200).json({
+                success: true,
+                Inventory: result,
+                message: `Successfully Returned ${Quantity} of ${ItemName} by ${Returnee}`
+              });
+            });
+        }
+      });
   });
 });
 
 Router.put("/BorrowInventory", AuthCheck, (req, res) => {
   const { id, Borrower, Quantity } = req.body;
-  Inventories.findByIdAndUpdate(
-    id,
-    {
-      $set: {
-        Borrower,
-        Status: `Borrowed ${Quantity} at ${moment(Date.now()).format("MMM D YYYY hh A")}`,
-        BorrowedDate: Date.now()
-      }
-    },
-    { new: true }
-  )
+  let formerStatus = [];
+  Inventories.findById(id)
     .exec()
-    .then(result => {
-      res.status(200).json({
-        success: true,
-        Inventory: result,
-        message: `Successfully Edited Inventory ${result.Name}`
-      });
+    .then(findRes => {
+      formerStatus = [...findRes.Status];
+      Inventories.findByIdAndUpdate(
+        id,
+        {
+          $set: {
+            Borrower: Borrower,
+            Status: [
+              ...formerStatus,
+              { date: moment(Date.now()).format("MMM D YYYY hh A"), borrower: Borrower, quantity: Quantity }
+            ]
+          }
+        },
+        { new: true }
+      )
+        .exec()
+        .then(result => {
+          res.status(200).json({
+            success: true,
+            Inventory: result,
+            message: `Successfully Borrowed Inventory ${result.Name}`
+          });
+        });
     })
+
     .catch(err => {
       res.status(200).json({
         success: false,

@@ -10,12 +10,9 @@ const inventoriesSchema = new Schema({
     required: true
   },
   Status: {
-    type: String,
+    type: Array,
     required: true,
-    default: false
-  },
-  BorrowedDate: {
-    type: Date
+    default: []
   },
   From: {
     type: String,
