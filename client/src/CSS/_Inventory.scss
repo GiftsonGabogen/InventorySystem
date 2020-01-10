@@ -1,0 +1,36 @@
+.Inventories {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 1rem;
+  .Inventory {
+    width: 100%;
+    img {
+      object-fit: cover;
+    }
+  }
+}
+
+.IndividualInventory {
+  padding-top: 1rem;
+  .head {
+    display: grid;
+    grid-gap: 1rem;
+    grid-template-columns: 29% 20% 49%;
+    min-height: 10rem;
+    .image {
+      width: 100%;
+      img {
+        max-width: 100%;
+        object-fit: cover;
+      }
+    }
+    .info {
+      p {
+        font-size: 1.2rem;
+      }
+    }
+    .borrowform {
+      padding: 0 2rem;
+    }
+  }
+}

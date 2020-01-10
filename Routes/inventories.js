@@ -135,7 +135,12 @@ Router.put("/BorrowInventory", AuthCheck, (req, res) => {
             Borrower: Borrower,
             Status: [
               ...formerStatus,
-              { date: moment(Date.now()).format("MMM D YYYY hh A"), borrower: Borrower, quantity: Quantity }
+              {
+                _id: new mongoose.Types.ObjectId(),
+                date: moment(Date.now()).format("MMM D YYYY hh A"),
+                borrower: Borrower,
+                quantity: Quantity
+              }
             ]
           }
         },

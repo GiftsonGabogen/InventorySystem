@@ -1,4 +1,11 @@
-import { FetchAllInventories, AddInventories, RemoveInventories, BorrowInventories, BackInventories } from "./Actions";
+import {
+  FetchAllInventories,
+  AddInventories,
+  RemoveInventories,
+  BorrowInventories,
+  BackInventories,
+  FetchInventory
+} from "./Actions";
 
 import axios from "axios";
 
@@ -6,6 +13,15 @@ export const FetchAllInventoriesAction = () => dispatch => {
   axios.get("/api/inventories").then(inventories => {
     dispatch({
       type: FetchAllInventories,
+      payload: inventories.data
+    });
+  });
+};
+
+export const FetchInventoryAction = id => dispatch => {
+  axios.get(`/api/inventories/${id}`).then(inventories => {
+    dispatch({
+      type: FetchInventory,
       payload: inventories.data
     });
   });

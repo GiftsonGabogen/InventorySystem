@@ -5,6 +5,7 @@ import {
   RemoveInventories,
   BorrowInventories,
   BackInventories,
+  FetchInventory,
   UnMountAlert
 } from "../Actions/Actions";
 
@@ -12,7 +13,8 @@ const initialState = {
   Success: false,
   message: "",
   Inventories: [],
-  Inventory: {}
+  Inventory: {},
+  Loading: true
 };
 
 export default (state = initialState, action) => {
@@ -21,7 +23,8 @@ export default (state = initialState, action) => {
       return {
         ...state,
         message: "",
-        Success: false
+        Success: false,
+        Loading: false
       };
     case FetchAll:
       if (action.inventories.success === true) {
@@ -29,16 +32,19 @@ export default (state = initialState, action) => {
           return {
             ...state,
             Inventories: action.inventories.Inventories,
+            Loading: false,
             Success: true
           };
         } else {
           return {
-            ...state
+            ...state,
+            Loading: false
           };
         }
       } else {
         return {
-          ...state
+          ...state,
+          Loading: false
         };
       }
     case FetchAllInventories:
@@ -47,12 +53,28 @@ export default (state = initialState, action) => {
           return {
             ...state,
             Inventories: action.payload.Inventories,
-            Success: true
+            Success: true,
+            Loading: false
           };
         }
       } else {
         return {
-          ...state
+          ...state,
+          Loading: false
+        };
+      }
+    case FetchInventory:
+      if (action.payload.success === true) {
+        return {
+          ...state,
+          Inventory: action.payload.Inventory,
+          Success: true,
+          Loading: false
+        };
+      } else {
+        return {
+          ...state,
+          Loading: false
         };
       }
     case AddInventories:
@@ -61,11 +83,13 @@ export default (state = initialState, action) => {
           ...state,
           Inventories: [...state.Inventories, action.payload.Inventory],
           message: action.payload.message,
-          Success: true
+          Success: true,
+          Loading: false
         };
       } else {
         return {
-          ...state
+          ...state,
+          Loading: false
         };
       }
     case BorrowInventories:
@@ -73,16 +97,19 @@ export default (state = initialState, action) => {
         let newInventories = state.Inventories.filter(inventory => inventory._id !== action.payload.Inventory._id);
         return {
           ...state,
-          Inventories: [...newInventories, action.payload.Inventory]
+          Inventories: [...newInventories, action.payload.Inventory],
+          Loading: false
         };
       } else {
         return {
-          ...state
+          ...state,
+          Loading: false
         };
       }
     default:
       return {
-        ...state
+        ...state,
+        Loading: false
       };
   }
 };

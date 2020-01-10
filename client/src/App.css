@@ -1,3 +1,74 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+p {
+  margin-block-start: 0em;
+  margin-block-end: 0em;
+}
+
+body {
+  margin: 0;
+}
+
+.Home {
+  padding: 1rem;
+}
+
+.row {
+  margin: 0;
+}
+
+.Date {
+  font-family: "Courier New", Courier, monospace;
+}
+
+.AlertModal {
+  position: fixed;
+  height: 30vh;
+  top: 0;
+  display: grid;
+  grid-template-columns: 100%;
+  justify-content: center;
+  justify-items: center;
+  align-items: flex-end;
+  width: 100%;
+  visibility: hidden;
+  transform: translateY(-3rem);
+  z-index: -5;
+  margin-top: 1rem;
+  opacity: 0;
+}
+.AlertModal .AlertModalForm {
+  padding: 2rem 2rem 0rem 2rem;
+  width: 35%;
+  height: 100%;
+  background-color: white;
+}
+.AlertModal .AlertModalForm h2 {
+  font-size: 1rem;
+  padding: 2rem 0rem 3rem 0rem;
+}
+.AlertModal .form-row {
+  display: grid;
+  grid-auto-flow: column;
+  grid-gap: 1rem;
+}
+
+.AlertModalOpen {
+  transition: transform 600ms, opacity 600ms 200ms;
+  transform: translateY(0);
+  opacity: 1;
+  visibility: visible;
+  z-index: 5;
+}
+
+.App .content {
+  padding: 2rem;
+}
+
 .Login {
   display: grid;
   height: 100vh;
@@ -90,60 +161,39 @@
   margin-bottom: 0;
 }
 
-body {
-  margin: 0;
-}
-
-.Home {
-  padding: 1rem;
-}
-
-.row {
-  margin: 0;
-}
-
-.Date {
-  font-family: "Courier New", Courier, monospace;
-}
-
-.AlertModal {
-  position: fixed;
-  height: 30vh;
-  top: 0;
+.Inventories {
   display: grid;
-  grid-template-columns: 100%;
-  justify-content: center;
-  justify-items: center;
-  align-items: flex-end;
-  width: 100%;
-  visibility: hidden;
-  transform: translateY(-3rem);
-  z-index: -5;
-  margin-top: 1rem;
-  opacity: 0;
-}
-.AlertModal .AlertModalForm {
-  padding: 2rem 2rem 0rem 2rem;
-  width: 35%;
-  height: 100%;
-  background-color: white;
-}
-.AlertModal .AlertModalForm h2 {
-  font-size: 1rem;
-  padding: 2rem 0rem 3rem 0rem;
-}
-.AlertModal .form-row {
-  display: grid;
-  grid-auto-flow: column;
+  grid-template-columns: repeat(4, 1fr);
   grid-gap: 1rem;
 }
+.Inventories .Inventory {
+  width: 100%;
+}
+.Inventories .Inventory img {
+  object-fit: cover;
+}
 
-.AlertModalOpen {
-  transition: transform 600ms, opacity 600ms 200ms;
-  transform: translateY(0);
-  opacity: 1;
-  visibility: visible;
-  z-index: 5;
+.IndividualInventory {
+  padding-top: 1rem;
+}
+.IndividualInventory .head {
+  display: grid;
+  grid-gap: 1rem;
+  grid-template-columns: 29% 20% 49%;
+  min-height: 10rem;
+}
+.IndividualInventory .head .image {
+  width: 100%;
+}
+.IndividualInventory .head .image img {
+  max-width: 100%;
+  object-fit: cover;
+}
+.IndividualInventory .head .info p {
+  font-size: 1.2rem;
+}
+.IndividualInventory .head .borrowform {
+  padding: 0 2rem;
 }
 
 /*# sourceMappingURL=App.css.map */

@@ -25,7 +25,6 @@ class SuperAdminUsers extends Component {
     let Data = {
       Name: Name.value,
       Username: Username.value,
-      Type: Type.value,
       Password: Password.value,
       ConfirmPassword: ConfirmPassword.value,
       ProfilePicture: ProfilePicture.files[0]
@@ -57,14 +56,6 @@ class SuperAdminUsers extends Component {
                     <label htmlFor="Username">Username</label>
                     <input type="text" ref="Username" className="form-control" />
                   </div>
-                  <div className="form-group">
-                    <label htmlFor="Type">Type</label>
-                    <select ref="Type" id="" className="form-control">
-                      <option value="Admin">Admin</option>
-                      <option value="Seller">Seller</option>
-                      <option value="Inventory">Inventory</option>
-                    </select>
-                  </div>
                   <div className="custom-file">
                     <input type="file" ref="ProfilePicture" className="form-control custom-file-input" />
                     <label className="custom-file-label" htmlFor="ProfilePicture">
@@ -91,7 +82,6 @@ class SuperAdminUsers extends Component {
               <th scope="col">#</th>
               <th scope="col">Name</th>
               <th scope="col">Username</th>
-              <th scope="col">Type</th>
             </tr>
           </thead>
           <tbody>
@@ -100,7 +90,6 @@ class SuperAdminUsers extends Component {
                 <th scope="row">{i + 1}</th>
                 <td>{user.Name}</td>
                 <td>{user.Username}</td>
-                <td>{user.Type}</td>
               </tr>
             ))}
           </tbody>

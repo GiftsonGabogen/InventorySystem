@@ -1,9 +1,12 @@
-@import "./CSS/_Login.scss";
-@import "./CSS/_Overview.scss";
-@import "./CSS/_Navbar.scss";
-@import "./CSS/_Heading.scss";
-@import "./CSS/_Items.scss";
-
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+p {
+  margin-block-start: 0em;
+  margin-block-end: 0em;
+}
 body {
   margin: 0;
 }
@@ -16,8 +19,8 @@ body {
 .row {
   margin: 0;
 }
-.Date{
-  font-family: 'Courier New', Courier, monospace;
+.Date {
+  font-family: "Courier New", Courier, monospace;
 }
 
 .AlertModal {
@@ -31,10 +34,10 @@ body {
   align-items: flex-end;
   width: 100%;
   visibility: hidden;
-  transform:translateY(-3rem);
+  transform: translateY(-3rem);
   z-index: -5;
-  margin-top:1rem;
-  opacity:0;
+  margin-top: 1rem;
+  opacity: 0;
   .AlertModalForm {
     padding: 2rem 2rem 0rem 2rem;
     h2 {
@@ -52,9 +55,20 @@ body {
   }
 }
 .AlertModalOpen {
-  transition: transform 600ms,opacity 600ms 200ms;
-  transform:translateY(0);
-  opacity:1;
+  transition: transform 600ms, opacity 600ms 200ms;
+  transform: translateY(0);
+  opacity: 1;
   visibility: visible;
   z-index: 5;
 }
+.App {
+  .content {
+    padding: 2rem;
+  }
+}
+@import "./CSS/_Login.scss";
+@import "./CSS/_Overview.scss";
+@import "./CSS/_Navbar.scss";
+@import "./CSS/_Heading.scss";
+@import "./CSS/_Items.scss";
+@import "./CSS/_Inventory.scss";

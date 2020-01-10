@@ -23,26 +23,10 @@ class Login extends Component {
     this.props.LoginAction(Data);
   };
   render() {
-    if (
-      this.props.credential.Type === "Admin" &&
-      this.props.credential.Login === true
-    ) {
-      return <Redirect to="/Admin/Overview" />;
-    } else if (
-      this.props.credential.Type === "Inventory" &&
-      this.props.credential.Login === true
-    ) {
-      return <Redirect to="/Faculty/Overview" />;
-    } else if (
-      this.props.credential.Type === "Seller" &&
-      this.props.credential.Login === true
-    ) {
-      return <Redirect to="/Store/Home" />;
-    } else if (
-      this.props.credential.Type === "SuperAdmin" &&
-      this.props.credential.Login === true
-    ) {
+    if (this.props.credential.Type === "SuperAdmin" && this.props.credential.Login === true) {
       return <Redirect to="/SuperAdmin/Home" />;
+    } else if (this.props.credential.Type === "Custodian" && this.props.credential.Login === true) {
+      return <Redirect to="/Faculty/Overview" />;
     } else {
       return (
         <div className="Login">
@@ -52,11 +36,7 @@ class Login extends Component {
               ""
             ) : (
               <div
-                className={`alert ${
-                  this.props.credential.Success === true
-                    ? "alert-success"
-                    : "alert-danger"
-                }`}
+                className={`alert ${this.props.credential.Success === true ? "alert-success" : "alert-danger"}`}
                 role="alert"
               >
                 {this.props.credential.message}
@@ -79,7 +59,4 @@ class Login extends Component {
   }
 }
 
-export default connect(
-  mapStateToProps,
-  { LoginAction, UnMountAlertAction }
-)(Login);
+export default connect(mapStateToProps, { LoginAction, UnMountAlertAction })(Login);

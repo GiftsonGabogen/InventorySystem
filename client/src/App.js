@@ -8,19 +8,15 @@ import { Route, Redirect } from "react-router-dom";
 import { Switch } from "react-router";
 import { connect } from "react-redux";
 import Login from "./Components/Login";
-import Navbar from "./Components/Header/Navbar";
 import FacultyNavbar from "./Components/Faculty/FacultyNavbar";
 import Heading from "./Components/Header/Heading";
 import SuperAdminNavbar from "./Components/SuperAdmin/SuperAdminNavbar";
-import Store from "./Components/Store";
-import Admin from "./Components/Admin";
 import Faculty from "./Components/Faculty";
 import Reload from "./Components/Reload";
 import SuperAdmin from "./Components/SuperAdmin";
 import errorPage from "./Components/errorPage";
-import { FetchAllAction } from "./Actions/ItemActions";
 import { FetchAllUsersAction } from "./Actions/UsersActions";
-import { FetchAllSalesAction, FetchAllDaySalesAction, FetchAllTimeSalesAction } from "./Actions/SalesAction";
+import { FetchAllInventoriesAction } from "./Actions/InventoriesActions";
 import { AuthCheckAction } from "./Actions/CredentialActions";
 import moment from "moment";
 
@@ -39,60 +35,43 @@ class App extends React.Component {
     super(props);
     let date = Date.now();
 
-    this.props.FetchAllAction();
     this.props.FetchAllUsersAction();
-    this.props.FetchAllTimeSalesAction();
-    this.props.FetchAllSalesAction(moment(date).format("MMM YYYY"));
-    this.props.FetchAllDaySalesAction(moment(date).format("MMM YYYY D"));
+    this.props.FetchAllInventoriesAction();
   }
 
   render() {
-    if (this.props.items.Loaded === false) {
-      return <div>Loading...</div>;
-    } else {
-      return (
-        <div className="App row">
-          <div className="AlertModal">
-            <div className="AlertModalForm">
-              <h2 className="AlertModalMessage"></h2>
-              <div className="form-row">
-                <button className="btn btn-primary okButton">Ok</button>
-                <button className="btn btn-primary cancelButton">Cancel</button>
-              </div>
+    return (
+      <div className="App row">
+        <div className="AlertModal">
+          <div className="AlertModalForm">
+            <h2 className="AlertModalMessage"></h2>
+            <div className="form-row">
+              <button className="btn btn-primary okButton">Ok</button>
+              <button className="btn btn-primary cancelButton">Cancel</button>
             </div>
           </div>
-          <Route path="/Admin" component={Heading} />
-          <Route path="/Store" component={Heading} />
-          <Route path="/SuperAdmin" component={Heading} />
-          <Route path="/Faculty" component={Heading} />
-          <Route path="/Admin" component={Navbar} />
-
-          <Route path="/Faculty" component={FacultyNavbar} />
-          <Route path="/SuperAdmin" component={SuperAdminNavbar} />
-          <Route exact path="/" component={Login} />
-          <div className="col-9">
-            <Switch>
-              <PrivateRoute credential={this.props.credential} path="/Store" component={Store} />
-              <PrivateRoute credential={this.props.credential} path="/Faculty" component={Faculty} />
-              <Route path="/Reload/:url" component={Reload} />
-
-              <PrivateRoute credential={this.props.credential} path="/SuperAdmin" component={SuperAdmin} />
-
-              <PrivateRoute credential={this.props.credential} path="/Admin" component={Admin} />
-              <Route component={errorPage} />
-            </Switch>
-          </div>
         </div>
-      );
-    }
+        <Route path="/SuperAdmin" component={Heading} />
+        <Route path="/Faculty" component={Heading} />
+
+        <Route path="/Faculty" component={FacultyNavbar} />
+        <Route path="/SuperAdmin" component={SuperAdminNavbar} />
+        <Route exact path="/" component={Login} />
+        <div className="col-9 content">
+          <Switch>
+            <PrivateRoute credential={this.props.credential} path="/Faculty" component={Faculty} />
+            <Route path="/Reload/:url" component={Reload} />
+
+            <PrivateRoute credential={this.props.credential} path="/SuperAdmin" component={SuperAdmin} />
+            <Route component={errorPage} />
+          </Switch>
+        </div>
+      </div>
+    );
   }
 }
 
 export default connect(mapStateToProps, {
-  FetchAllAction,
-  AuthCheckAction,
-  FetchAllSalesAction,
-  FetchAllDaySalesAction,
-  FetchAllTimeSalesAction,
-  FetchAllUsersAction
+  FetchAllUsersAction,
+  FetchAllInventoriesAction
 })(App);

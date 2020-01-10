@@ -12,10 +12,7 @@ const bcrypt = require("bcryptjs");
 const hashDate = new Date().toISOString();
 
 const fileFilter = (req, file, cb) => {
-  if (
-    file.mimetype ===
-    ("image/jpeg" || "image/png" || "image/gif" || "image/svg" || "image/jpg")
-  ) {
+  if (file.mimetype === ("image/jpeg" || "image/png" || "image/gif" || "image/svg" || "image/jpg")) {
     cb(null, true);
   } else {
     cb(null, false);
@@ -92,9 +89,7 @@ Router.post("/login", (req, res) => {
           //if No Account Found Using The Given Email Respond Fail Login
 
           if (result.length === 0) {
-            res
-              .status(200)
-              .json({ message: "Username Does'nt Exist", success: false });
+            res.status(200).json({ message: "Username Does'nt Exist", success: false });
             //if The Given Password Don't Match on The Given Email Respond Fail
           } else {
             if (bcrypt.compareSync(Password, result[0].Password) === true) {
@@ -116,9 +111,7 @@ Router.post("/login", (req, res) => {
                 token: token
               });
             } else {
-              res
-                .status(200)
-                .json({ message: "Invalid Password", success: false });
+              res.status(200).json({ message: "Invalid Password", success: false });
             }
           }
         })
@@ -142,9 +135,7 @@ Router.post("/register", AuthCheck, upload.single("ProfilePicture"), (req, res) 
   const { Name, Type, Username, Password, ConfirmationPassword } = req.body;
   //If Given Password and Given Confirmation Password Don't Match Respond Fail
   if (req.file === undefined) {
-    res
-      .status(200)
-      .json({ success: false, message: "Please Include a Profile Pic" });
+    res.status(200).json({ success: false, message: "Please Include a Profile Pic" });
   } else if (Password !== ConfirmationPassword) {
     res.status(200).json({ success: false, message: "Password Don't Match" });
     //If Password is Less Than or Equal To Five Characters Respond Fail
@@ -179,7 +170,7 @@ Router.post("/register", AuthCheck, upload.single("ProfilePicture"), (req, res) 
                       _id: new mongoose.Types.ObjectId(),
                       Username,
                       Name,
-                      Type,
+                      Type: "Custodian",
                       Password: hash,
                       UserImage: req.file.path
                     });
@@ -211,12 +202,7 @@ Router.put("/:id", AuthCheck, upload.single("userImage"), (req, res) => {
     .then(result => {
       //If The Given Email is Already Registered on The Database Respond Fail
       if (result.length > 0) {
-        res
-          .status(409)
-          .json(
-            { success: false },
-            { message: "Your Email is Already Registered" }
-          );
+        res.status(409).json({ success: false }, { message: "Your Email is Already Registered" });
       } else {
         User.find({ Username: Username })
           .exec()
