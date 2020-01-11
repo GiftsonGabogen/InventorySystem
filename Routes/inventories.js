@@ -122,7 +122,7 @@ Router.post("/inventorylog/AddInventoryLog", AuthCheck, (req, res) => {
 });
 
 Router.put("/BorrowInventory", AuthCheck, (req, res) => {
-  const { id, Borrower, Quantity } = req.body;
+  const { id, Borrower, Quantity, Custodian } = req.body;
   let formerStatus = [];
   Inventories.findById(id)
     .exec()
@@ -139,7 +139,8 @@ Router.put("/BorrowInventory", AuthCheck, (req, res) => {
                 _id: new mongoose.Types.ObjectId(),
                 date: moment(Date.now()).format("MMM D YYYY hh A"),
                 borrower: Borrower,
-                quantity: Quantity
+                quantity: Quantity,
+                custodian: Custodian
               }
             ]
           }

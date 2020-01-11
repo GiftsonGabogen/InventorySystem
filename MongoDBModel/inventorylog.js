@@ -10,6 +10,10 @@ const inventoryLogSchema = new Schema({
     ref: "Inventory",
     required: true
   },
+  Custodian: {
+    type: String,
+    required: true
+  },
   ItemName: {
     type: String,
     required: true
