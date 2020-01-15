@@ -2,6 +2,7 @@ import React, { Component, Fragment } from "react";
 import Overview from "./Faculty/Overview";
 import Items from "./Faculty/Items";
 import Item from "./Faculty/Item";
+import Categories from "./Faculty/Categories";
 import AddInventory from "./Faculty/AddInventory";
 import { Route } from "react-router-dom";
 
@@ -18,6 +19,7 @@ export default class Faculty extends Component {
           path={`${this.props.match.url}/AddInventory`}
           component={AddInventory}
         />
+        <Route credential={this.props.credential} exact path={`${this.props.match.url}/Categories`} component={Categories} />
       </Fragment>
     );
   }

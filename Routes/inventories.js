@@ -1,12 +1,43 @@
 const Joi = require("joi");
 const express = require("express");
 const Router = express.Router();
-const Inventories = require("../MongoDBModel/Inventories");
-const Inventorylog = require("../MongoDBModel/Inventorylog");
+const Inventories = require("../MongoDBModel/inventories");
+const Inventorylog = require("../MongoDBModel/inventorylog");
 const mongoose = require("mongoose");
 const moment = require("moment");
 const AuthCheck = require("../middleware/authCheck");
+const multer = require("multer");
 
+const hashDate = new Date().toISOString();
+const fileFilter = (req, file, cb) => {
+  if (
+    file.mimetype === "image/jpeg" ||
+    file.mimetype === "image/jpg" ||
+    file.mimetype === "image/png" ||
+    file.mimetype === "image/svg"
+  ) {
+    cb(null, true);
+  } else {
+    cb(null, false);
+  }
+};
+
+const storage = multer.diskStorage({
+  destination: "./client/src/inventoryImageUpload",
+  filename: (req, file, cb) => {
+    cb(null, hashDate.slice(0, 10) + file.originalname);
+  }
+});
+
+const upload = multer({
+  storage: storage,
+  //only Accepts File Size of Not More Than 20 Megabytes
+  limits: {
+    fileSize: 1024 * 1024 * 20
+  },
+  //Filtering The Types of The Uploaded File
+  fileFilter: fileFilter
+});
 //Get All Post
 Router.get("/", (req, res) => {
   Inventories.find()
@@ -29,7 +60,7 @@ Router.get("/inventorylog", (req, res) => {
     .then(result => {
       res.status(200).json({
         success: true,
-        Inventories: result,
+        InventoryLogs: result,
         message: "Successfully Fetched Inventories"
       });
     })
@@ -63,15 +94,17 @@ Router.get("/:id", (req, res) => {
 });
 
 //Add Inventory
-Router.post("/AddInventory", AuthCheck, (req, res) => {
-  const { Name, From, Location, PricePerUnit, Quantity } = req.body;
+Router.post("/AddInventory", AuthCheck, upload.single("InventoryImage"), (req, res) => {
+  const { Name, From, Location, PricePerUnit, Quantity, Category } = req.body;
   const newInventories = new Inventories({
     _id: new mongoose.Types.ObjectId(),
     Name,
     From,
     Location,
     PricePerUnit,
-    Quantity
+    Quantity,
+    Category,
+    Image: req.file.path
   });
   newInventories.save().then(result => {
     res.status(200).json({
@@ -83,40 +116,51 @@ Router.post("/AddInventory", AuthCheck, (req, res) => {
 });
 
 Router.post("/inventorylog/AddInventoryLog", AuthCheck, (req, res) => {
-  const { ItemName, ItemId, Returnee, Borrower, Borrowed, Quantity } = req.body;
+  const { ItemName, ItemID, Returnee, Borrower, Borrowed, Quantity, Custodian, BorrowID, BorrowingCustodian } = req.body;
   const newInventories = new Inventorylog({
     _id: new mongoose.Types.ObjectId(),
     ItemName: ItemName,
-    ItemId: ItemId,
+    ItemID: ItemID,
     Returnee: Returnee,
     Borrower: Borrower,
     Borrowed: Borrowed,
-    Quantity: Quantity
+    Custodian: Custodian,
+    Quantity: Quantity,
+    BorrowingCustodian: BorrowingCustodian
   });
 
-  newInventories.save().then(result => {
-    Inventories.findById(ItemId)
+  newInventories.save().then(newResult => {
+    Inventories.findById(ItemID)
       .exec()
       .then(result => {
-        if (result.Quantity > Quantity) {
-          Inventories.findByIdAndUpdate(
-            id,
-            {
-              $set: {
-                Status: []
-              }
-            },
-            { new: true }
-          )
-            .exec()
-            .then(remove => {
-              res.status(200).json({
-                success: true,
-                Inventory: result,
-                message: `Successfully Returned ${Quantity} of ${ItemName} by ${Returnee}`
-              });
-            });
+        console.log(result.Status[0]._id == BorrowID);
+        let selectedStatus = result.Status.filter(stat => stat._id == BorrowID)[0];
+        let filteredStatus = result.Status.filter(stat => stat._id != BorrowID);
+        let newStatus = [];
+        if (parseInt(selectedStatus.quantity) <= Quantity) {
+          newStatus = [...filteredStatus];
+        } else {
+          const { quantity, ...restOfTheStatus } = selectedStatus;
+          let newDataOfStatus = { ...restOfTheStatus, quantity: selectedStatus.quantity - Quantity };
+          newStatus = [...filteredStatus, newDataOfStatus];
         }
+        Inventories.findByIdAndUpdate(
+          ItemID,
+          {
+            $set: {
+              Status: newStatus
+            }
+          },
+          { new: true }
+        )
+          .exec()
+          .then(newInventory => {
+            res.status(200).json({
+              success: true,
+              Inventory: newInventory,
+              message: `Successfully Returned ${Quantity} of ${ItemName} by ${Returnee}`
+            });
+          });
       });
   });
 });

@@ -1,14 +1,20 @@
 import React, { Component } from "react";
+import { FetchAllInventoryLogsAction } from "../../Actions/InventoriesActions";
 import { connect } from "react-redux";
-import shoppingBag from "../Images/shopping-bag.png";
 
 function mapStateToProps(state) {
   return {
-    users: state.users
+    users: state.users,
+    inventories: state.inventories
   };
 }
 
 class SuperAdminHome extends Component {
+  constructor(props) {
+    super(props);
+    this.props.FetchAllInventoryLogsAction();
+  }
+
   render() {
     return (
       <div className="SuperAdminHome">
@@ -19,7 +25,13 @@ class SuperAdminHome extends Component {
               <div className="card">
                 <div className="card-body">
                   <h2>{this.props.users.Users.length}</h2>
-                  <h2>Users</h2>
+                  <h2>Custodians</h2>
+                </div>
+              </div>
+              <div className="card">
+                <div className="card-body">
+                  <h2>{this.props.inventories.InventoryLogs.length}</h2>
+                  <h2>Reports</h2>
                 </div>
               </div>
             </div>
@@ -30,4 +42,4 @@ class SuperAdminHome extends Component {
   }
 }
 
-export default connect(mapStateToProps)(SuperAdminHome);
+export default connect(mapStateToProps, { FetchAllInventoryLogsAction })(SuperAdminHome);

@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { FetchAllUsersAction } from "../Actions/UsersActions";
 import SuperAdminHome from "./SuperAdmin/SuperAdmin";
 import SuperAdminUsers from "./SuperAdmin/SuperAdminUsers";
+import SuperAdminReports from "./SuperAdmin/SuperAdminReports";
 import { Route } from "react-router-dom";
 
 function mapStateToProps(state) {
@@ -25,12 +26,10 @@ class SuperAdmin extends Component {
       <div className="SuperAdmin">
         <Route path="/SuperAdmin/Home" component={SuperAdminHome} />
         <Route path="/SuperAdmin/Users" component={SuperAdminUsers} />
+        <Route path="/SuperAdmin/Reports" component={SuperAdminReports} />
       </div>
     );
   }
 }
 
-export default connect(
-  mapStateToProps,
-  { FetchAllUsersAction }
-)(SuperAdmin);
+export default connect(mapStateToProps, { FetchAllUsersAction })(SuperAdmin);

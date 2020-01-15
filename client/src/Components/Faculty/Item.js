@@ -1,8 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import PopAlert from "../Comps/PopAlert";
-import moment from "moment";
-import { FetchInventoryAction, BorrowInventoriesAction } from "../../Actions/InventoriesActions";
+import { FetchInventoryAction, BorrowInventoriesAction, BackInventoriesAction } from "../../Actions/InventoriesActions";
 import { UnMountAlertAction } from "../../Actions/UnMountActions";
 
 function mapStateToProps(state) {
@@ -39,12 +38,14 @@ class Inventories extends Component {
         let maxBorrow = this.props.inventories.Inventory.Quantity - borrowed;
         this.setState({
           maxBorrow: maxBorrow,
-          Status: this.props.inventories.Inventory.Status
+          Status: this.props.inventories.Inventory.Status,
+          inventoryLoaded: true
         });
       } else {
         this.setState({
           maxBorrow: this.props.inventories.Inventory.Quantity,
-          Status: this.props.inventories.Inventory.Status
+          Status: this.props.inventories.Inventory.Status,
+          inventoryLoaded: true
         });
       }
     }
@@ -68,7 +69,12 @@ class Inventories extends Component {
   openReturn = id => {
     let returningItem = this.props.inventories.Inventory.Status.filter(stat => stat._id === id);
     this.refs.returnQuantity.max = returningItem[0].quantity;
+    this.refs.returnQuantity.value = returningItem[0].quantity;
     this.refs.Borrower.value = returningItem[0].borrower;
+    this.refs.Returnee.value = returningItem[0].borrower;
+    this.refs.BorrowDate.value = returningItem[0].date;
+    this.refs.BorrowID.value = returningItem[0]._id;
+    this.refs.BorrowingCustodian.value = returningItem[0].custodian;
     document.getElementById("BorrowerText").innerText = returningItem[0].borrower;
     document.querySelector(".returnModal").style.display = "grid";
   };
@@ -77,6 +83,19 @@ class Inventories extends Component {
   };
   returnSubmit = e => {
     e.preventDefault();
+    let data = {
+      Quantity: this.refs.returnQuantity.value,
+      Returnee: this.refs.Returnee.value,
+      ItemName: this.props.inventories.Inventory.Name,
+      ItemID: this.props.inventories.Inventory._id,
+      Custodian: this.props.credential.Username,
+      BorrowingCustodian: this.props.credential.Username,
+      Borrowed: this.refs.BorrowDate.value,
+      Borrower: this.refs.Borrower.value,
+      BorrowID: this.refs.BorrowID.value
+    };
+    document.querySelector(".returnModal").style.display = "none";
+    this.props.BackInventoriesAction(data);
   };
 
   render() {
@@ -85,7 +104,7 @@ class Inventories extends Component {
     if (this.state.inventoryLoaded === true) {
       Inventory = this.props.inventories.Inventory;
     }
-    if (this.props.inventories.Loading === true) {
+    if (this.props.inventories.Loading === true && this.state.inventoryLoaded === false) {
       return <h1>Loading...</h1>;
     } else {
       return (
@@ -106,7 +125,10 @@ class Inventories extends Component {
                   <label htmlFor="Quantity">Quantity</label>
                   <input type="number" ref="returnQuantity" className="form-control" placeholder="Quantity" />
                 </div>
-                <input type="hidden" ref="Borrower" id="Borrower" />
+                <input type="hidden" ref="BorrowDate" />
+                <input type="hidden" ref="BorrowingCustodian" />
+                <input type="hidden" ref="Borrower" />
+                <input type="hidden" ref="BorrowID" />
                 <input type="submit" className="btn btn-primary" value="Return" />
                 <div>
                   Borrowed by <p id="BorrowerText"></p>
@@ -118,7 +140,7 @@ class Inventories extends Component {
           <hr />
           <div className="head">
             <div className="image">
-              <img src="/inventoryImageUpload/sample.png" alt="imagesample" />
+              <img src={`/${Inventory.Image}`} alt="imagesample" />
             </div>
             {/* informations of the item */}
             <div className="info">
@@ -132,7 +154,7 @@ class Inventories extends Component {
               <form onSubmit={this.BorrowSubmit}>
                 <div className="form-group">
                   <label htmlFor="Name">Name</label>
-                  <input type="text" className="form-control" id="Name" placeholder="Name" ref="Name" />
+                  <input type="text" className="form-control" id="Name" placeholder="Name" ref="Name" required />
                 </div>
                 <div className="form-group">
                   <label htmlFor="Quantity">Quantity</label>
@@ -143,6 +165,7 @@ class Inventories extends Component {
                     className="form-control"
                     id="Quantity"
                     placeholder="Quantity"
+                    required
                   />
                 </div>
                 <input type="submit" className="btn btn-primary" value="Borrow" />
@@ -186,5 +209,6 @@ class Inventories extends Component {
 export default connect(mapStateToProps, {
   UnMountAlertAction,
   FetchInventoryAction,
-  BorrowInventoriesAction
+  BorrowInventoriesAction,
+  BackInventoriesAction
 })(Inventories);

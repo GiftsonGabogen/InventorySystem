@@ -17,6 +17,7 @@ import SuperAdmin from "./Components/SuperAdmin";
 import errorPage from "./Components/errorPage";
 import { FetchAllUsersAction } from "./Actions/UsersActions";
 import { FetchAllInventoriesAction } from "./Actions/InventoriesActions";
+import { FetchCategoriesAction } from "./Actions/CategoriesActions";
 import { AuthCheckAction } from "./Actions/CredentialActions";
 import moment from "moment";
 
@@ -37,6 +38,7 @@ class App extends React.Component {
 
     this.props.FetchAllUsersAction();
     this.props.FetchAllInventoriesAction();
+    this.props.FetchCategoriesAction();
   }
 
   render() {
@@ -59,6 +61,7 @@ class App extends React.Component {
         <Route exact path="/" component={Login} />
         <div className="col-9 content">
           <Switch>
+            <Route exact path="/" render={() => <div></div>} />
             <PrivateRoute credential={this.props.credential} path="/Faculty" component={Faculty} />
             <Route path="/Reload/:url" component={Reload} />
 
@@ -73,5 +76,6 @@ class App extends React.Component {
 
 export default connect(mapStateToProps, {
   FetchAllUsersAction,
-  FetchAllInventoriesAction
+  FetchAllInventoriesAction,
+  FetchCategoriesAction
 })(App);

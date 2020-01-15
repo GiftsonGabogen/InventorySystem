@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { UnMountAlertAction } from "../../Actions/UnMountActions";
 import { connect } from "react-redux";
 
 function mapStateToProps(state) {
@@ -10,13 +11,18 @@ function mapStateToProps(state) {
 class Overview extends Component {
   constructor(props) {
     super(props);
-    let Borrowed = this.props.inventories.Inventories.filter(inv => inv.Status !== "false");
+    let BorrowedList = this.props.inventories.Inventories.filter(inv => inv.Status.length !== 0);
+    let Borrowed = 0;
     let Items = 0;
-    this.props.inventories.Inventories.map(inventory => (Items += inventory.Quantity));
+    BorrowedList.map(borrow => borrow.Status.map(borrowCount => (Borrowed += parseInt(borrowCount.quantity))));
+    this.props.inventories.Inventories.map(inventory => (Items += parseInt(inventory.Quantity)));
     this.state = {
-      BorrowedNum: Borrowed.length,
+      BorrowedNum: Borrowed,
       ItemLength: Items
     };
+  }
+  componentWillUnmount() {
+    this.props.UnMountAlertAction();
   }
 
   render() {
@@ -48,4 +54,4 @@ class Overview extends Component {
   }
 }
 
-export default connect(mapStateToProps)(Overview);
+export default connect(mapStateToProps, { UnMountAlertAction })(Overview);

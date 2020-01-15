@@ -23,6 +23,14 @@ const inventoriesSchema = new Schema({
     default: "None",
     required: true
   },
+  Image: {
+    type: String,
+    required: true
+  },
+  Category: {
+    type: String,
+    required: true
+  },
   Location: {
     type: String,
     required: true

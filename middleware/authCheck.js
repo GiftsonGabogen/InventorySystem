@@ -12,7 +12,7 @@ module.exports = (req, res, next) => {
     req.userData = decoded;
     next();
   } catch (error) {
-    res.status(200).json({
+    res.status(201).json({
       message: "Login First",
       success: false
     });

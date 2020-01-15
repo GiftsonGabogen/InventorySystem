@@ -11,7 +11,13 @@ function mapStateToProps(state) {
 }
 
 class Login extends Component {
+  constructor(props) {
+    super(props);
+    document.getElementsByTagName("body")[0].style.overflow = "hidden";
+  }
+
   componentWillUnmount() {
+    document.getElementsByTagName("body")[0].style.overflow = "unset";
     this.props.UnMountAlertAction();
   }
   LoginHandler = e => {

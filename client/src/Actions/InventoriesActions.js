@@ -1,10 +1,10 @@
 import {
   FetchAllInventories,
   AddInventories,
-  RemoveInventories,
   BorrowInventories,
   BackInventories,
-  FetchInventory
+  FetchInventory,
+  FetchAllInventoryLogs
 } from "./Actions";
 
 import axios from "axios";
@@ -13,6 +13,15 @@ export const FetchAllInventoriesAction = () => dispatch => {
   axios.get("/api/inventories").then(inventories => {
     dispatch({
       type: FetchAllInventories,
+      payload: inventories.data
+    });
+  });
+};
+
+export const FetchAllInventoryLogsAction = () => dispatch => {
+  axios.get("/api/inventories/inventorylog").then(inventories => {
+    dispatch({
+      type: FetchAllInventoryLogs,
       payload: inventories.data
     });
   });
@@ -28,9 +37,16 @@ export const FetchInventoryAction = id => dispatch => {
 };
 
 export const AddInventoriesAction = data => dispatch => {
+  const Data = new FormData();
+  Data.append("Name", data.Name);
+  Data.append("InventoryImage", data.InventoryImage);
+  Data.append("From", data.From);
+  Data.append("PricePerUnit", data.PricePerUnit);
+  Data.append("Quantity", data.Quantity);
+  Data.append("Location", data.Location);
   let Token = localStorage.getItem("Authorization");
   axios
-    .post("/api/inventories/AddInventory", data, {
+    .post("/api/inventories/AddInventory", Data, {
       headers: { Authorization: "Bearer " + Token }
     })
     .then(inventories => {

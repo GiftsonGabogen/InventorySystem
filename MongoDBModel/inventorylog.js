@@ -14,6 +14,10 @@ const inventoryLogSchema = new Schema({
     type: String,
     required: true
   },
+  BorrowingCustodian: {
+    type: String,
+    required: true
+  },
   ItemName: {
     type: String,
     required: true

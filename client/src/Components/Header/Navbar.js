@@ -51,9 +51,9 @@ class Navbar extends Component {
 
   render() {
     return (
-      <div className="Navbar col-3 bg-light">
+      <div className="Navbar col-3">
         <h5 className="light-gray">Navigation</h5>
-        <nav className="bg-light sidebar">
+        <nav className="sidebar">
           <div className="sidebar-sticky">
             <ul className="nav flex-column">
               {this.state.navs.map((nav, i) =>

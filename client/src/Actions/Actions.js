@@ -9,8 +9,13 @@ export const Logout = "logout";
 export const Register = "register";
 export const AuthCheck = "authCheck";
 
+export const FetchCategories = "FetchCategories";
+export const AddCategories = "AddCategories";
+export const DeleteCategories = "DeleteCategories";
+
 export const FetchAllInventories = "fetchAllInventoriesoftheFaculty";
 export const FetchInventory = "FetchInventory";
+export const FetchAllInventoryLogs = "FetchAllInventoryLogs";
 export const AddInventories = "addInventories";
 export const RemoveInventories = "removeInventories";
 export const BorrowInventories = "borrowInventories";

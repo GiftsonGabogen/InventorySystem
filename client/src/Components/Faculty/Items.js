@@ -34,7 +34,7 @@ class Inventories extends Component {
           ) : (
             this.props.inventories.Inventories.map((inventory, i) => (
               <div className="card Inventory" key={i}>
-                <img src="/inventoryImageUpload/sample.png" className="card-img-top" alt="sampleImage" />
+                <img src={`/${inventory.Image}`} className="card-img-top" alt="sampleImage" />
                 <div className="card-body">
                   <h5 className="card-title">{inventory.Name}</h5>
                   <p className="card-text">this Item is Located at {inventory.Location}</p>

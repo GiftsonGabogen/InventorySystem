@@ -6,6 +6,7 @@ import {
   BorrowInventories,
   BackInventories,
   FetchInventory,
+  FetchAllInventoryLogs,
   UnMountAlert
 } from "../Actions/Actions";
 
@@ -14,6 +15,7 @@ const initialState = {
   message: "",
   Inventories: [],
   Inventory: {},
+  InventoryLogs: [],
   Loading: true
 };
 
@@ -49,14 +51,26 @@ export default (state = initialState, action) => {
       }
     case FetchAllInventories:
       if (action.payload.success === true) {
-        if (action.payload.Inventories.length !== 0) {
-          return {
-            ...state,
-            Inventories: action.payload.Inventories,
-            Success: true,
-            Loading: false
-          };
-        }
+        return {
+          ...state,
+          Inventories: action.payload.Inventories,
+          Success: true,
+          Loading: false
+        };
+      } else {
+        return {
+          ...state,
+          Loading: false
+        };
+      }
+    case FetchAllInventoryLogs:
+      if (action.payload.success === true) {
+        return {
+          ...state,
+          InventoryLogs: action.payload.InventoryLogs,
+          Success: true,
+          Loading: false
+        };
       } else {
         return {
           ...state,
@@ -69,6 +83,23 @@ export default (state = initialState, action) => {
           ...state,
           Inventory: action.payload.Inventory,
           Success: true,
+          Loading: false
+        };
+      } else {
+        return {
+          ...state,
+          Loading: false
+        };
+      }
+    case BackInventories:
+      if (action.payload.success === true) {
+        let filteredInventories = state.Inventories.filter(inventory => inventory._id !== action.payload.Inventory._id);
+        return {
+          ...state,
+          Inventory: action.payload.Inventory,
+          Inventories: [...filteredInventories, action.payload.Inventory],
+          Success: true,
+          message: action.payload.message,
           Loading: false
         };
       } else {

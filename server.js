@@ -3,6 +3,7 @@ const path = require("path");
 const bodyParser = require("body-parser");
 const usersRouter = require("./Routes/users");
 const inventoriesRouter = require("./Routes/inventories");
+const categoriesRouter = require("./Routes/categories");
 const morgan = require("morgan");
 const mongoose = require("mongoose");
 const mongoURI = require("./config/keys").mongoURI;
@@ -18,11 +19,12 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 //makes userImageUpload Folder Accesible Even on Client Side
 app.use("/userImageUpload", express.static("userImageUpload"));
-app.use("/inventoryImageUpload", express.static("client/src/inventoryImageUpload"));
+app.use("/client/src/inventoryImageUpload", express.static("client/src/inventoryImageUpload"));
 app.use(express.static(path.join(__dirname, "client/build")));
 
 app.use("/api/users", usersRouter);
 app.use("/api/inventories", inventoriesRouter);
+app.use("/api/categories", categoriesRouter);
 
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname + "/client/build/index.html"));
