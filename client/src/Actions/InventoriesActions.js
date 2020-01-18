@@ -44,6 +44,7 @@ export const AddInventoriesAction = data => dispatch => {
   Data.append("PricePerUnit", data.PricePerUnit);
   Data.append("Quantity", data.Quantity);
   Data.append("Location", data.Location);
+  Data.append("Category", data.Category);
   let Token = localStorage.getItem("Authorization");
   axios
     .post("/api/inventories/AddInventory", Data, {

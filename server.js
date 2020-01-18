@@ -4,6 +4,7 @@ const bodyParser = require("body-parser");
 const usersRouter = require("./Routes/users");
 const inventoriesRouter = require("./Routes/inventories");
 const categoriesRouter = require("./Routes/categories");
+const locationsRouter = require("./Routes/locations");
 const morgan = require("morgan");
 const mongoose = require("mongoose");
 const mongoURI = require("./config/keys").mongoURI;
@@ -25,6 +26,7 @@ app.use(express.static(path.join(__dirname, "client/build")));
 app.use("/api/users", usersRouter);
 app.use("/api/inventories", inventoriesRouter);
 app.use("/api/categories", categoriesRouter);
+app.use("/api/locations", locationsRouter);
 
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname + "/client/build/index.html"));

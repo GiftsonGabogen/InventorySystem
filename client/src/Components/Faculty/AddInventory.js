@@ -7,7 +7,8 @@ import PopAlert from "../Comps/PopAlert";
 function mapStateToProps(state) {
   return {
     inventories: state.inventories,
-    categories: state.categories
+    categories: state.categories,
+    locations: state.locations
   };
 }
 
@@ -52,11 +53,11 @@ class AddInventory extends Component {
           <div className="form-row">
             <div className="form-group col">
               <label htmlFor="PricePerUnit">Price Per Unit</label>
-              <input type="number" defaultValue="1" ref="PricePerUnit" className="form-control" required />
+              <input type="number" min="0" defaultValue="1" ref="PricePerUnit" className="form-control" required />
             </div>
             <div className="form-group col">
               <label htmlFor="Quantity">Quantity</label>
-              <input type="number" defaultValue="1" ref="Quantity" className="form-control" required />
+              <input type="number" min="0" defaultValue="1" ref="Quantity" className="form-control" required />
             </div>
             <div className="form-group col">
               <label htmlFor="Image">Image</label>
@@ -66,7 +67,13 @@ class AddInventory extends Component {
           <div className="form-row">
             <div className="form-group col">
               <label htmlFor="Location">Location</label>
-              <input type="text" ref="Location" className="form-control" required />
+              <select className="custom-select" id="Location" ref="Location" required>
+                {this.props.locations.Locations.map((loc, i) => (
+                  <option value={loc.Name} key={i}>
+                    {loc.Name}
+                  </option>
+                ))}
+              </select>
             </div>
             <div className="form-group col">
               <label htmlFor="Category">Category</label>

@@ -21,7 +21,8 @@ class Navbar extends Component {
         { Name: "Inventory" },
         { Name: "Inventories", Image: shoppingBag, link: "/Inventories" },
         { Name: "AddInventory", Image: tag, link: "/AddInventory" },
-        { Name: "Categories", Image: tag, link: "/Categories" }
+        { Name: "Categories", Image: tag, link: "/Categories" },
+        { Name: "Locations", Image: tag, link: "/Locations" }
       ]
     };
   }

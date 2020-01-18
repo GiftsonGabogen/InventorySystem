@@ -1,3 +1,11 @@
+@font-face {
+  font-family: one;
+  src: url("./Fonts/1.otf");
+}
+@font-face {
+  font-family: two;
+  src: url("./Fonts/2.ttf");
+}
 * {
   margin: 0;
   padding: 0;
@@ -14,6 +22,7 @@ p {
 }
 
 body {
+  font-family: two;
   margin: 0;
   background-color: #d8d8d8;
 }
@@ -176,8 +185,13 @@ body {
 }
 .Inventories .Inventory {
   width: 100%;
+  height: 20rem;
+  display: grid;
+  grid-template-rows: 1fr 1fr;
 }
 .Inventories .Inventory img {
+  width: 100%;
+  height: 100%;
   object-fit: cover;
 }
 
@@ -221,7 +235,8 @@ body {
   width: 100%;
 }
 .IndividualInventory .head .image img {
-  max-width: 100%;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
 }
 .IndividualInventory .head .info p {

@@ -18,6 +18,7 @@ import errorPage from "./Components/errorPage";
 import { FetchAllUsersAction } from "./Actions/UsersActions";
 import { FetchAllInventoriesAction } from "./Actions/InventoriesActions";
 import { FetchCategoriesAction } from "./Actions/CategoriesActions";
+import { FetchLocationsAction } from "./Actions/LocationsActions";
 import { AuthCheckAction } from "./Actions/CredentialActions";
 import moment from "moment";
 
@@ -39,6 +40,7 @@ class App extends React.Component {
     this.props.FetchAllUsersAction();
     this.props.FetchAllInventoriesAction();
     this.props.FetchCategoriesAction();
+    this.props.FetchLocationsAction();
   }
 
   render() {
@@ -77,5 +79,6 @@ class App extends React.Component {
 export default connect(mapStateToProps, {
   FetchAllUsersAction,
   FetchAllInventoriesAction,
-  FetchCategoriesAction
+  FetchCategoriesAction,
+  FetchLocationsAction
 })(App);

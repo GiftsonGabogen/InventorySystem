@@ -13,6 +13,10 @@ export const FetchCategories = "FetchCategories";
 export const AddCategories = "AddCategories";
 export const DeleteCategories = "DeleteCategories";
 
+export const FetchLocations = "FetchLocations";
+export const AddLocations = "AddLocations";
+export const DeleteLocations = "DeleteLocations";
+
 export const FetchAllInventories = "fetchAllInventoriesoftheFaculty";
 export const FetchInventory = "FetchInventory";
 export const FetchAllInventoryLogs = "FetchAllInventoryLogs";

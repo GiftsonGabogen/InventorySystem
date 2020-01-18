@@ -126,11 +126,21 @@ export default (state = initialState, action) => {
     case BorrowInventories:
       if (action.payload.success === true) {
         let newInventories = state.Inventories.filter(inventory => inventory._id !== action.payload.Inventory._id);
-        return {
-          ...state,
-          Inventories: [...newInventories, action.payload.Inventory],
-          Loading: false
-        };
+        if (newInventories.length > 0) {
+          return {
+            ...state,
+            Inventories: [...newInventories, action.payload.Inventory],
+            message: action.payload.message,
+            Loading: false
+          };
+        } else {
+          return {
+            ...state,
+            Inventories: [action.payload.Inventory],
+            message: action.payload.message,
+            Loading: false
+          };
+        }
       } else {
         return {
           ...state,

@@ -161,6 +161,7 @@ class Inventories extends Component {
                   <input
                     type="number"
                     ref="Quantity"
+                    min="0"
                     max={this.state.maxBorrow}
                     className="form-control"
                     id="Quantity"
