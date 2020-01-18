@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { FetchAllInventoryLogsAction } from "../../Actions/InventoriesActions";
 import { connect } from "react-redux";
 
 function mapStateToProps(state) {
@@ -10,11 +9,6 @@ function mapStateToProps(state) {
 }
 
 class SuperAdminHome extends Component {
-  constructor(props) {
-    super(props);
-    this.props.FetchAllInventoryLogsAction();
-  }
-
   render() {
     return (
       <div className="SuperAdminHome">
@@ -42,4 +36,4 @@ class SuperAdminHome extends Component {
   }
 }
 
-export default connect(mapStateToProps, { FetchAllInventoryLogsAction })(SuperAdminHome);
+export default connect(mapStateToProps)(SuperAdminHome);

@@ -96,7 +96,7 @@ class SuperAdminUsers extends Component {
         </table>
 
         <button className="btn btn-primary col-3" data-toggle="modal" data-target="#AddUsersModal">
-          Add Users
+          Add Custodians
         </button>
       </div>
     );

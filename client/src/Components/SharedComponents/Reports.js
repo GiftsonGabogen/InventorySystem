@@ -4,11 +4,29 @@ import { connect } from "react-redux";
 
 function mapStateToProps(state) {
   return {
-    inventories: state.inventories
+    inventories: state.inventories,
+    credential: state.credential
   };
 }
 
 class SuperAdminReports extends Component {
+  constructor(props) {
+    super(props);
+    if (this.props.credential.Type === "SuperAdmin") {
+      this.state = {
+        Reports: this.props.inventories.InventoryLogs
+      };
+    } else {
+      let filteredLogs = this.props.inventories.InventoryLogs.filter(
+        logs =>
+          logs.Custodian === this.props.credential.Username || logs.BorrowingCustodian === this.props.credential.Username
+      );
+      this.state = {
+        Reports: filteredLogs
+      };
+    }
+  }
+
   render() {
     return (
       <div className="InventoryReports">
@@ -45,7 +63,7 @@ class SuperAdminReports extends Component {
             </tr>
           </thead>
           <tbody>
-            {this.props.inventories.InventoryLogs.map((inventory, i) => (
+            {this.state.Reports.map((inventory, i) => (
               <tr key={i}>
                 <th scope="row">{i + 1}</th>
                 <td>{inventory.ItemName}</td>

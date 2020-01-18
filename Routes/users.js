@@ -12,7 +12,12 @@ const bcrypt = require("bcryptjs");
 const hashDate = new Date().toISOString();
 
 const fileFilter = (req, file, cb) => {
-  if (file.mimetype === ("image/jpeg" || "image/png" || "image/gif" || "image/svg" || "image/jpg")) {
+  if (
+    file.mimetype === "image/jpeg" ||
+    file.mimetype === "image/jpg" ||
+    file.mimetype === "image/png" ||
+    file.mimetype === "image/svg"
+  ) {
     cb(null, true);
   } else {
     cb(null, false);

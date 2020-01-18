@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { NavLink } from "react-router-dom";
+import tag from "../Images/tag.png";
+import magnifyingGlass from "../Images/magnifying-glass.png";
 
 function mapStateToProps(state) {
   return {};
@@ -12,9 +14,12 @@ class SuperAdminNavbar extends Component {
     this.state = {
       navs: [
         { Name: "Overview" },
-        { Name: "Overview", Image: "magnifying-glass.png", link: "/Home" },
-        { Name: "Users", Image: "magnifying-glass.png", link: "/Users" },
-        { Name: "Reports", Image: "magnifying-glass.png", link: "/Reports" }
+        { Name: "Overview", Image: magnifyingGlass, link: "/Home" },
+        { Name: "Custodians", Image: tag, link: "/Custodians" },
+        { Name: "Add Inventory", Image: tag, link: "/AddInventory" },
+        { Name: "Locations", Image: tag, link: "/Locations" },
+        { Name: "Categories", Image: tag, link: "/Categories" },
+        { Name: "Reports", Image: tag, link: "/Reports" }
       ]
     };
   }
@@ -36,7 +41,7 @@ class SuperAdminNavbar extends Component {
                 ) : (
                   <li className="nav-item sub-nav" key={i}>
                     <span className="badge">
-                      <img src={`./Images/${nav.Image}`} alt="" />
+                      <img src={nav.Image} alt="" />
                     </span>
                     <NavLink to={`/SuperAdmin${nav.link}`} className="nav-link">
                       {nav.Name}
