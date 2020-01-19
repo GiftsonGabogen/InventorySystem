@@ -2,10 +2,12 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { NavLink } from "react-router-dom";
 import magnifyingGlass from "../Images/magnifying-glass.png";
-import shoppingBag from "../Images/shopping-bag.png";
-import tag from "../Images/tag.png";
-import edit from "../Images/edit.png";
-import pieChart from "../Images/pie-chart.png";
+import AddInventoryIcon from "../Images/AddInventory.svg";
+import InventoriesIcon from "../Images/Inventories.svg";
+import CustodianIcon from "../Images/Custodian.svg";
+import LocationIcon from "../Images/Location.svg";
+import CategoriesIcon from "../Images/Categories.svg";
+import ReportsIcon from "../Images/Reports.svg";
 
 function mapStateToProps(state) {
   return {};
@@ -16,14 +18,12 @@ class Navbar extends Component {
     super(params);
     this.state = {
       navs: [
-        { Name: "Overview" },
         { Name: "Overview", Image: magnifyingGlass, link: "/Overview" },
-        { Name: "Inventory" },
-        { Name: "Inventories", Image: shoppingBag, link: "/Inventories" },
-        { Name: "AddInventory", Image: tag, link: "/AddInventory" },
-        { Name: "Categories", Image: tag, link: "/Categories" },
-        { Name: "Locations", Image: tag, link: "/Locations" },
-        { Name: "Reports", Image: tag, link: "/Reports" }
+        { Name: "Inventories", Image: InventoriesIcon, link: "/Inventories" },
+        { Name: "AddInventory", Image: AddInventoryIcon, link: "/AddInventory" },
+        { Name: "Categories", Image: CategoriesIcon, link: "/Categories" },
+        { Name: "Locations", Image: LocationIcon, link: "/Locations" },
+        { Name: "Reports", Image: ReportsIcon, link: "/Reports" }
       ]
     };
   }

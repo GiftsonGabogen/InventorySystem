@@ -1,4 +1,4 @@
-import { FetchAllUsers, UnMountAlert, RegisterUser } from "../Actions/Actions";
+import { FetchAllUsers, UnMountAlert, RegisterUser, DeleteUsers } from "../Actions/Actions";
 
 const initialState = {
   Success: false,
@@ -27,6 +27,7 @@ export default (state = initialState, action) => {
       }
     case RegisterUser:
       if (action.payload.success === true) {
+        console.log(action.payload.user);
         return {
           ...state,
           message: action.payload.message,
@@ -37,6 +38,22 @@ export default (state = initialState, action) => {
         return {
           ...state,
           message: action.payload.message
+        };
+      }
+    case DeleteUsers:
+      if (action.payload.success === true) {
+        let filteredUsers = state.Users.filter(user => user._id !== action.payload.User._id);
+        return {
+          ...state,
+          Users: [...filteredUsers],
+          Success: true,
+          message: action.payload.message,
+          Loading: false
+        };
+      } else {
+        return {
+          ...state,
+          Loading: false
         };
       }
     case UnMountAlert:

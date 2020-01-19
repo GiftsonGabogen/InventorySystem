@@ -29,9 +29,6 @@ class AddInventory extends Component {
       InventoryImage: this.refs.InventoryImage.files[0]
     };
     this.props.AddInventoriesAction(Data);
-    /* Some of my updates actions items list messed when updating because the indexing of the items is being crumbled so what I do is
-    redirect the page to a page which redirect it again to the page where it came from */
-    this.props.history.push(`/Reload/-Faculty-AddInventory`);
   };
 
   render() {

@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from "react";
 import Overview from "./Faculty/Overview";
-import Items from "./Faculty/Items";
-import Item from "./Faculty/Item";
+import Items from "./SharedComponents/Items";
+import Item from "./SharedComponents/Item";
 import Categories from "./SharedComponents/Categories";
 import Locations from "./SharedComponents/Locations";
 import AddInventory from "./SharedComponents/AddInventory";

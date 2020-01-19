@@ -258,12 +258,12 @@ Router.put("/:id", AuthCheck, upload.single("userImage"), (req, res) => {
 //Deleting User
 Router.delete("/:id", (req, res) => {
   const { id } = req.params;
-  User.remove({ _id: id })
+  User.findByIdAndRemove({ _id: id })
     .exec()
     .then(result => {
       res.status(201).json({
-        message: "Deleted User Successfully",
-        user: result,
+        message: `Deleted User ${result.Name} Successfully`,
+        User: result,
         success: true
       });
     })

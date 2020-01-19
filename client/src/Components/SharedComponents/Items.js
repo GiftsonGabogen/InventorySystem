@@ -6,7 +6,8 @@ import { Link } from "react-router-dom";
 
 function mapStateToProps(state) {
   return {
-    inventories: state.inventories
+    inventories: state.inventories,
+    credential: state.credential
   };
 }
 
@@ -38,7 +39,14 @@ class Inventories extends Component {
                 <div className="card-body">
                   <h5 className="card-title">{inventory.Name}</h5>
                   <p className="card-text">this Item is Located at {inventory.Location}</p>
-                  <Link to={`/Faculty/Inventory/${inventory._id}`} className="btn btn-primary">
+                  <Link
+                    to={
+                      this.props.credential.Type === "SuperAdmin"
+                        ? `/SuperAdmin/Inventory/${inventory._id}`
+                        : `/Faculty/Inventory/${inventory._id}`
+                    }
+                    className="btn btn-primary"
+                  >
                     Borrow or Return
                   </Link>
                 </div>

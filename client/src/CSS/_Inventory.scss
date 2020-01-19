@@ -17,33 +17,22 @@
 
 .IndividualInventory {
   padding-top: 1rem;
-  .returnModal {
-    position: fixed;
-    left: 0;
-    top: 0;
-    justify-content: center;
-    align-content: center;
-    background-color: rgba($color: #4c38ff, $alpha: 0.3);
-    width: 100vw;
-    height: 100vh;
-    z-index: 2;
-    display: none;
-    .Modal {
-      width: 50vw;
-      height: 50vh;
-      padding: 2rem;
-      background-color: white;
-      border-radius: 0.4rem;
-      .closeReturnModal {
-        color: white;
-        font-size: 2rem;
-        cursor: pointer;
-        position: absolute;
-        top: 1rem;
-        right: 4rem;
-      }
+  position: relative;
+  .Title {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    justify-items: center;
+    align-items: center;
+    .deleteInventoryButton {
+      display: grid;
+      width: 50%;
+      height: 60%;
+    }
+    h1 {
+      justify-self: flex-start;
     }
   }
+
   .head {
     display: grid;
     grid-gap: 1rem;

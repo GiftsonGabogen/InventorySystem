@@ -63,7 +63,11 @@ class Inventories extends Component {
       Custodian: this.props.credential.Username
     };
     this.props.BorrowInventoriesAction(data);
-    this.props.history.push(`/Reload/-Faculty-Inventory-${this.props.match.params.id}`);
+    if (this.props.credential.Type === "SuperAdmin") {
+      this.props.history.push(`/Reload/-SuperAdmin-Inventory-${this.props.match.params.id}`);
+    } else {
+      this.props.history.push(`/Reload/-Faculty-Inventory-${this.props.match.params.id}`);
+    }
   };
 
   openReturn = id => {
@@ -76,10 +80,10 @@ class Inventories extends Component {
     this.refs.BorrowID.value = returningItem[0]._id;
     this.refs.BorrowingCustodian.value = returningItem[0].custodian;
     document.getElementById("BorrowerText").innerText = returningItem[0].borrower;
-    document.querySelector(".returnModal").style.display = "grid";
+    document.querySelector(".createdModal").style.display = "grid";
   };
   closeReturnModal = () => {
-    document.querySelector(".returnModal").style.display = "none";
+    document.querySelector(".createdModal").style.display = "none";
   };
   returnSubmit = e => {
     e.preventDefault();
@@ -89,12 +93,12 @@ class Inventories extends Component {
       ItemName: this.props.inventories.Inventory.Name,
       ItemID: this.props.inventories.Inventory._id,
       Custodian: this.props.credential.Username,
-      BorrowingCustodian: this.props.credential.Username,
+      BorrowingCustodian: this.refs.BorrowingCustodian.value,
       Borrowed: this.refs.BorrowDate.value,
       Borrower: this.refs.Borrower.value,
       BorrowID: this.refs.BorrowID.value
     };
-    document.querySelector(".returnModal").style.display = "none";
+    document.querySelector(".createdModal").style.display = "none";
     this.props.BackInventoriesAction(data);
   };
 
@@ -110,13 +114,13 @@ class Inventories extends Component {
       return (
         <div className="IndividualInventory jumbotron">
           <PopAlert {...this.props.inventories} />
-          <div className="returnModal">
+          <div className="createdModal">
             <div className="Modal">
-              <div className="closeReturnModal" onClick={this.closeReturnModal}>
+              <div className="closingModal" onClick={this.closeReturnModal}>
                 x
               </div>
               <form onSubmit={this.returnSubmit}>
-                <h2 id="returnModalTitle"></h2>
+                <h2 id="createdModalTitle"></h2>
                 <div className="form-group">
                   <label htmlFor="Name">Returnee</label>
                   <input type="text" className="form-control" id="Returnee" placeholder="Returnee" ref="Returnee" />
@@ -136,7 +140,10 @@ class Inventories extends Component {
               </form>
             </div>
           </div>
-          <h1>{Inventory.Name}</h1>
+          <div className="Title">
+            <h1>{Inventory.Name}</h1>
+            {/* <button className="btn btn-danger deleteInventoryButton">delete</button> */}
+          </div>
           <hr />
           <div className="head">
             <div className="image">

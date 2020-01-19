@@ -1,7 +1,12 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { NavLink } from "react-router-dom";
-import tag from "../Images/tag.png";
+import AddInventoryIcon from "../Images/AddInventory.svg";
+import InventoriesIcon from "../Images/Inventories.svg";
+import CustodianIcon from "../Images/Custodian.svg";
+import LocationIcon from "../Images/Location.svg";
+import CategoriesIcon from "../Images/Categories.svg";
+import ReportsIcon from "../Images/Reports.svg";
 import magnifyingGlass from "../Images/magnifying-glass.png";
 
 function mapStateToProps(state) {
@@ -13,13 +18,13 @@ class SuperAdminNavbar extends Component {
     super(params);
     this.state = {
       navs: [
-        { Name: "Overview" },
         { Name: "Overview", Image: magnifyingGlass, link: "/Home" },
-        { Name: "Custodians", Image: tag, link: "/Custodians" },
-        { Name: "Add Inventory", Image: tag, link: "/AddInventory" },
-        { Name: "Locations", Image: tag, link: "/Locations" },
-        { Name: "Categories", Image: tag, link: "/Categories" },
-        { Name: "Reports", Image: tag, link: "/Reports" }
+        { Name: "Custodians", Image: CustodianIcon, link: "/Custodians" },
+        { Name: "Inventories", Image: InventoriesIcon, link: "/Inventories" },
+        { Name: "Add Inventory", Image: AddInventoryIcon, link: "/AddInventory" },
+        { Name: "Locations", Image: LocationIcon, link: "/Locations" },
+        { Name: "Categories", Image: CategoriesIcon, link: "/Categories" },
+        { Name: "Reports", Image: ReportsIcon, link: "/Reports" }
       ]
     };
   }
