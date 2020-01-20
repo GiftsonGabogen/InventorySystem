@@ -24,9 +24,10 @@ p {
 body {
   font-family: two;
   margin: 0;
-  background-color: #d8d8d8;
 }
 
+/* .Content {
+} */
 .Home {
   padding: 1rem;
 }
@@ -112,24 +113,35 @@ body {
 }
 
 .Login {
+  color: black;
   display: grid;
   height: 100vh;
   width: 100%;
+  background: url("./Components/Images/WUPbackground.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-attachment: fixed;
 }
 .Login > .Title {
   display: grid;
   align-content: center;
+  letter-spacing: 0.7rem;
   height: 6rem;
   position: fixed;
+  color: white;
+  text-shadow: 4px 8px 8px rgba(0, 0, 0, 0.7);
   width: 100%;
   text-align: center;
 }
 .Login form {
+  background-color: rgba(128, 128, 128, 0.3);
   align-self: center;
   justify-self: center;
   width: 40%;
   padding: 1rem;
-  border: 1px solid rgba(0, 0, 0, 0.2);
+  border: none;
+  color: white;
+  text-shadow: 4px 8px 8px rgba(0, 0, 0, 0.7);
   box-shadow: 8px 8px 8px rgba(0, 0, 0, 0.2);
 }
 
