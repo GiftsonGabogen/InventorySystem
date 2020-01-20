@@ -2,7 +2,7 @@ import {
   FetchAll,
   FetchAllInventories,
   AddInventories,
-  RemoveInventories,
+  DeleteInventory,
   BorrowInventories,
   BackInventories,
   FetchInventory,
@@ -16,6 +16,7 @@ const initialState = {
   Inventories: [],
   Inventory: {},
   InventoryLogs: [],
+  InventoryModifies: [],
   Loading: true
 };
 
@@ -98,6 +99,25 @@ export default (state = initialState, action) => {
           ...state,
           Inventory: action.payload.Inventory,
           Inventories: [...filteredInventories, action.payload.Inventory],
+          InventoryLogs: [...state.InventoryLogs, action.payload.Report],
+          Success: true,
+          message: action.payload.message,
+          Loading: false
+        };
+      } else {
+        return {
+          ...state,
+          Loading: false
+        };
+      }
+    case DeleteInventory:
+      if (action.payload.success === true) {
+        let filteredInventories = state.Inventories.filter(inventory => inventory._id !== action.payload.Inventory._id);
+        return {
+          ...state,
+          Inventory: action.payload.Inventory,
+          Inventories: [...filteredInventories],
+          InventoryModifies: [...state.InventoryModifies, action.payload.modify],
           Success: true,
           message: action.payload.message,
           Loading: false

@@ -4,7 +4,8 @@ import {
   BorrowInventories,
   BackInventories,
   FetchInventory,
-  FetchAllInventoryLogs
+  FetchAllInventoryLogs,
+  DeleteInventory
 } from "./Actions";
 
 import axios from "axios";
@@ -81,6 +82,21 @@ export const BackInventoriesAction = data => dispatch => {
     .then(inventories => {
       dispatch({
         type: BackInventories,
+        payload: inventories.data
+      });
+    });
+};
+
+export const DeleteInventoryAction = data => dispatch => {
+  let id = data.id;
+  let Token = localStorage.getItem("Authorization");
+  axios
+    .post(`/api/inventories/deleteInventory/${id}`, data, {
+      headers: { Authorization: "Bearer " + Token }
+    })
+    .then(inventories => {
+      dispatch({
+        type: DeleteInventory,
         payload: inventories.data
       });
     });

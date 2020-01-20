@@ -21,7 +21,7 @@ export const FetchAllInventories = "fetchAllInventoriesoftheFaculty";
 export const FetchInventory = "FetchInventory";
 export const FetchAllInventoryLogs = "FetchAllInventoryLogs";
 export const AddInventories = "addInventories";
-export const RemoveInventories = "removeInventories";
+export const DeleteInventory = "DeleteInventory";
 export const BorrowInventories = "borrowInventories";
 export const BackInventories = "backInventories";
 

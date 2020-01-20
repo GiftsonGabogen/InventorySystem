@@ -1,7 +1,12 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import PopAlert from "../Comps/PopAlert";
-import { FetchInventoryAction, BorrowInventoriesAction, BackInventoriesAction } from "../../Actions/InventoriesActions";
+import {
+  FetchInventoryAction,
+  BorrowInventoriesAction,
+  BackInventoriesAction,
+  DeleteInventoryAction
+} from "../../Actions/InventoriesActions";
 import { UnMountAlertAction } from "../../Actions/UnMountActions";
 
 function mapStateToProps(state) {
@@ -101,6 +106,28 @@ class Inventories extends Component {
     document.querySelector(".createdModal").style.display = "none";
     this.props.BackInventoriesAction(data);
   };
+  openDeleteInventory = id => {
+    this.refs.DeleteID.value = id;
+    document.querySelector(".deleteModalContainer").style.display = "grid";
+  };
+  closeDeleteModal = () => {
+    document.querySelector(".deleteModalContainer").style.display = "none";
+  };
+  deleteInventory = e => {
+    e.preventDefault();
+    let data = {
+      Description: this.refs.Description.value,
+      Custodian: this.props.credential.Username,
+      id: this.refs.DeleteID.value
+    };
+    document.querySelector(".deleteModalContainer").style.display = "none";
+    this.props.DeleteInventoryAction(data);
+    if (this.props.credential.Type === "SuperAdmin") {
+      this.props.history.push(`/Reload/-SuperAdmin-Inventories`);
+    } else {
+      this.props.history.push(`/Reload/-Faculty-Inventories`);
+    }
+  };
 
   render() {
     // assign this.props.inventories.Inventory to Inventory for shorter syntax
@@ -114,6 +141,21 @@ class Inventories extends Component {
       return (
         <div className="IndividualInventory jumbotron">
           <PopAlert {...this.props.inventories} />
+          <div className="deleteModalContainer">
+            <div className="deleteModal">
+              <div className="deleteClosingModal" onClick={this.closeDeleteModal}>
+                x
+              </div>
+              <form onSubmit={this.deleteInventory}>
+                <div className="form-group">
+                  <label htmlFor="Description">Description</label>
+                  <input type="text" ref="Description" className="form-control" placeholder="Description" />
+                </div>
+                <input type="hidden" ref="DeleteID" />
+                <input type="submit" className="btn btn-primary" value="Delete" />
+              </form>
+            </div>
+          </div>
           <div className="createdModal">
             <div className="Modal">
               <div className="closingModal" onClick={this.closeReturnModal}>
@@ -142,7 +184,9 @@ class Inventories extends Component {
           </div>
           <div className="Title">
             <h1>{Inventory.Name}</h1>
-            {/* <button className="btn btn-danger deleteInventoryButton">delete</button> */}
+            <button className="btn btn-danger deleteInventoryButton" onClick={() => this.openDeleteInventory(Inventory._id)}>
+              delete
+            </button>
           </div>
           <hr />
           <div className="head">
@@ -218,5 +262,6 @@ export default connect(mapStateToProps, {
   UnMountAlertAction,
   FetchInventoryAction,
   BorrowInventoriesAction,
-  BackInventoriesAction
+  BackInventoriesAction,
+  DeleteInventoryAction
 })(Inventories);

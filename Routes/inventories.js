@@ -3,6 +3,7 @@ const express = require("express");
 const Router = express.Router();
 const Inventories = require("../MongoDBModel/inventories");
 const Inventorylog = require("../MongoDBModel/inventorylog");
+const Modify = require("../MongoDBModel/modify");
 const mongoose = require("mongoose");
 const moment = require("moment");
 const AuthCheck = require("../middleware/authCheck");
@@ -129,11 +130,10 @@ Router.post("/inventorylog/AddInventoryLog", AuthCheck, (req, res) => {
     BorrowingCustodian: BorrowingCustodian
   });
 
-  newInventories.save().then(newResult => {
+  newInventories.save().then(reportResult => {
     Inventories.findById(ItemID)
       .exec()
       .then(result => {
-        console.log(result.Status[0]._id == BorrowID);
         let selectedStatus = result.Status.filter(stat => stat._id == BorrowID)[0];
         let filteredStatus = result.Status.filter(stat => stat._id != BorrowID);
         let newStatus = [];
@@ -158,6 +158,7 @@ Router.post("/inventorylog/AddInventoryLog", AuthCheck, (req, res) => {
             res.status(200).json({
               success: true,
               Inventory: newInventory,
+              Report: reportResult,
               message: `Successfully Returned ${Quantity} of ${ItemName} by ${Returnee}`
             });
           });
@@ -209,54 +210,25 @@ Router.put("/BorrowInventory", AuthCheck, (req, res) => {
     });
 });
 
-Router.put("/Removed", AuthCheck, (req, res) => {
-  const { id, Quantity } = req.body;
-  Inventories.findById(id)
+Router.post("/deleteInventory/:id", AuthCheck, (req, res) => {
+  let id = req.params.id;
+  let { Description, Custodian } = req.body;
+  Inventories.findByIdAndDelete(id)
     .exec()
-    .then(result => {
-      if (result.Quantity > Quantity) {
-        Inventories.findByIdAndUpdate(
-          id,
-          {
-            $set: {
-              Quantity: result.Quantity - Quantity
-            }
-          },
-          { new: true }
-        )
-          .exec()
-          .then(removedResult => {
-            res.status(200).json({
-              success: true,
-              Inventory: removedResult,
-              message: `Successfully Removed ${Quantity} of ${result.Name} in the Inventory `
-            });
-          });
-      } else {
-        Inventories.findByIdAndUpdate(
-          id,
-          {
-            $set: {
-              Quantity: 0,
-              Status: "Removed"
-            }
-          },
-          { new: true }
-        )
-          .exec()
-          .then(removedResult => {
-            res.status(200).json({
-              success: true,
-              Inventory: removedResult,
-              message: `Successfully Removed all of ${result.Name} in the Inventory `
-            });
-          });
-      }
-    })
-    .catch(err => {
-      res.status(200).json({
-        success: false,
-        message: err
+    .then(removed => {
+      let newModify = Modify({
+        _id: new mongoose.Types.ObjectId(),
+        Custodian: Custodian,
+        InventoryInfo: removed,
+        Description: Description
+      });
+      newModify.save().then(modify => {
+        res.status(200).json({
+          success: true,
+          Inventory: removed,
+          modify: modify,
+          message: `Successfully Deleted Inventory ${removed.Name}`
+        });
       });
     });
 });

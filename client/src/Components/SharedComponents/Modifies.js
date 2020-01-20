@@ -9,45 +9,25 @@ function mapStateToProps(state) {
   };
 }
 
-class Reports extends Component {
+class Modifies extends Component {
   constructor(props) {
     super(props);
     let currentMonth = moment(Date.now()).format("MMM");
-    if (this.props.credential.Type === "SuperAdmin") {
-      this.state = {
-        Reports: this.props.inventories.InventoryLogs,
-        Year: [2020],
-        Months: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-        currentYear: 2020,
-        currentMonth: currentMonth
-      };
-    } else {
-      let filteredLogs = this.props.inventories.InventoryLogs.filter(
-        logs =>
-          logs.Custodian === this.props.credential.Username || logs.BorrowingCustodian === this.props.credential.Username
-      );
-      this.state = {
-        Reports: filteredLogs,
-        Year: [2020],
-        Months: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-        currentYear: 2020,
-        currentMonth: currentMonth
-      };
-    }
+    this.state = {
+      Modifies: this.props.inventories.InventoryModifies,
+      Year: [2020],
+      Months: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+      currentYear: 2020,
+      currentMonth: currentMonth
+    };
   }
   componentDidUpdate(prevProps, prevState) {
     if (this.state.currentMonth !== prevState.currentMonth) {
-      let filteredReports = this.props.inventories.InventoryLogs.filter(
+      let filteredModifies = this.props.inventories.InventoryModifies.filter(
         report => moment(report.Date).format("MMM") === this.state.currentMonth
       );
-      if (this.props.credential.Type !== "SuperAdmin") {
-        filteredReports = filteredReports.filter(
-          logs =>
-            logs.Custodian === this.props.credential.Username || logs.BorrowingCustodian === this.props.credential.Username
-        );
-      }
       this.setState({
-        Reports: filteredReports
+        Modifies: filteredModifies
       });
     }
   }
@@ -60,7 +40,7 @@ class Reports extends Component {
 
   render() {
     return (
-      <div className="InventoryReports">
+      <div className="InventoryModifies">
         <div className="form-row">
           <div className="form-group">
             <select className="custom-select" id="Year" ref="Year" required>
@@ -99,40 +79,28 @@ class Reports extends Component {
                 Item
               </th>
               <th className="small" scope="col">
-                Borrower
+                Custodian
               </th>
               <th className="small" scope="col">
-                Returnee
+                Description
               </th>
               <th className="small" scope="col">
-                Date of Borrow
+                Date
               </th>
-              <th className="small" scope="col">
-                Date of Return
-              </th>
-              <th className="small" scope="col">
-                Quantity
-              </th>
-              <th className="small" scope="col">
-                Custodian at Borrow
-              </th>
-              <th className="small" scope="col">
-                Custodian at Return
-              </th>
+              <th className="small" scope="col"></th>
             </tr>
           </thead>
           <tbody>
-            {this.state.Reports.map((inventory, i) => (
+            {this.state.Modifies.map((inventory, i) => (
               <tr key={i}>
                 <th scope="row">{i + 1}</th>
-                <td>{inventory.ItemName}</td>
-                <td>{inventory.Borrower}</td>
-                <td>{inventory.Returnee}</td>
-                <td>{inventory.Borrowed}</td>
-                <td>{moment(inventory.Date).format("MMM D YYYY hh A")}</td>
-                <td>{inventory.Quantity}</td>
-                <td>{inventory.BorrowingCustodian}</td>
+                <td>{inventory.inventoryInfo.Name}</td>
                 <td>{inventory.Custodian}</td>
+                <td>{inventory.Description}</td>
+                <td>{moment(inventory.Date).format("MMM D YYYY hh A")}</td>
+                <td>
+                  <button className="btn btn-sm btn-primary">info</button>
+                </td>
               </tr>
             ))}
           </tbody>
@@ -142,4 +110,4 @@ class Reports extends Component {
   }
 }
 
-export default connect(mapStateToProps)(Reports);
+export default connect(mapStateToProps)(Modifies);
