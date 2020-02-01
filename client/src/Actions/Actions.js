@@ -20,6 +20,7 @@ export const DeleteLocations = "DeleteLocations";
 export const FetchAllInventories = "fetchAllInventoriesoftheFaculty";
 export const FetchInventory = "FetchInventory";
 export const FetchAllInventoryLogs = "FetchAllInventoryLogs";
+export const FetchAllInventoryModifies = "FetchAllInventoryModifies";
 export const AddInventories = "addInventories";
 export const DeleteInventory = "DeleteInventory";
 export const BorrowInventories = "borrowInventories";

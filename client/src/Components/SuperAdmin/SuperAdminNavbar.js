@@ -24,7 +24,8 @@ class SuperAdminNavbar extends Component {
         { Name: "Add Inventory", Image: AddInventoryIcon, link: "/AddInventory" },
         { Name: "Locations", Image: LocationIcon, link: "/Locations" },
         { Name: "Categories", Image: CategoriesIcon, link: "/Categories" },
-        { Name: "Reports", Image: ReportsIcon, link: "/Reports" }
+        { Name: "Reports", Image: ReportsIcon, link: "/Reports" },
+        { Name: "Modifies", Image: ReportsIcon, link: "/Modifies" }
       ]
     };
   }

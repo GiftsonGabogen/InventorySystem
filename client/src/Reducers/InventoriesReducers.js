@@ -7,6 +7,7 @@ import {
   BackInventories,
   FetchInventory,
   FetchAllInventoryLogs,
+  FetchAllInventoryModifies,
   UnMountAlert
 } from "../Actions/Actions";
 
@@ -78,6 +79,20 @@ export default (state = initialState, action) => {
           Loading: false
         };
       }
+    case FetchAllInventoryModifies:
+      if (action.payload.success === true) {
+        return {
+          ...state,
+          InventoryModifies: action.payload.modify,
+          Success: true,
+          Loading: false
+        };
+      } else {
+        return {
+          ...state,
+          Loading: false
+        };
+      }
     case FetchInventory:
       if (action.payload.success === true) {
         return {
@@ -130,13 +145,24 @@ export default (state = initialState, action) => {
       }
     case AddInventories:
       if (action.payload.success === true) {
-        return {
-          ...state,
-          Inventories: [...state.Inventories, action.payload.Inventory],
-          message: action.payload.message,
-          Success: true,
-          Loading: false
-        };
+        if (action.payload.method === "add") {
+          return {
+            ...state,
+            Inventories: [...state.Inventories, action.payload.Inventory],
+            message: action.payload.message,
+            Success: true,
+            Loading: false
+          };
+        } else {
+          let updatedInventory = state.Inventories.filter(inv => action.payload.Inventory._id !== inv._id);
+          return {
+            ...state,
+            Inventories: [...updatedInventory, action.payload.Inventory],
+            message: action.payload.message,
+            Success: true,
+            Loading: false
+          };
+        }
       } else {
         return {
           ...state,

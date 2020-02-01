@@ -16,7 +16,7 @@ import Reload from "./Components/Reload";
 import SuperAdmin from "./Components/SuperAdmin";
 import errorPage from "./Components/errorPage";
 import { FetchAllUsersAction } from "./Actions/UsersActions";
-import { FetchAllInventoriesAction, FetchAllInventoryLogsAction } from "./Actions/InventoriesActions";
+import { FetchAllInventoriesAction, FetchAllInventoryLogsAction,FetchAllInventoryModifiesAction } from "./Actions/InventoriesActions";
 import { FetchCategoriesAction } from "./Actions/CategoriesActions";
 import { FetchLocationsAction } from "./Actions/LocationsActions";
 import { AuthCheckAction } from "./Actions/CredentialActions";
@@ -41,6 +41,7 @@ class App extends React.Component {
     this.props.FetchCategoriesAction();
     this.props.FetchLocationsAction();
     this.props.FetchAllInventoryLogsAction();
+    this.props.FetchAllInventoryModifiesAction();
   }
 
   render() {
@@ -81,5 +82,6 @@ export default connect(mapStateToProps, {
   FetchAllInventoriesAction,
   FetchCategoriesAction,
   FetchLocationsAction,
-  FetchAllInventoryLogsAction
+  FetchAllInventoryLogsAction,
+  FetchAllInventoryModifiesAction
 })(App);

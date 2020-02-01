@@ -6,6 +6,7 @@ import SuperAdminUsers from "./SuperAdmin/SuperAdminUsers";
 import Reports from "./SharedComponents/Reports";
 import Categories from "./SharedComponents/Categories";
 import Locations from "./SharedComponents/Locations";
+import Modifies from "./SharedComponents/Modifies";
 import AddInventory from "./SharedComponents/AddInventory";
 import Items from "./SharedComponents/Items";
 import Item from "./SharedComponents/Item";
@@ -34,6 +35,7 @@ class SuperAdmin extends Component {
         <Route path="/SuperAdmin/Locations" component={Locations} />
         <Route path="/SuperAdmin/Categories" component={Categories} />
         <Route path="/SuperAdmin/Reports" component={Reports} />
+        <Route path="/SuperAdmin/Modifies" component={Modifies} />
       </div>
     );
   }

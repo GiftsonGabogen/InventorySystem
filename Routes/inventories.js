@@ -70,6 +70,21 @@ Router.get("/inventorylog", (req, res) => {
     });
 });
 
+Router.get("/modifies", (req, res) => {
+  Modify.find()
+    .exec()
+    .then(result => {
+      res.status(200).json({
+        success: true,
+        modify: result,
+        message: "Successfully Fetched Modifies"
+      });
+    })
+    .catch(err => {
+      res.status(200).json({ success: false });
+    });
+});
+
 //Get Specific Inventory
 Router.get("/:id", (req, res) => {
   const { id } = req.params;
@@ -97,23 +112,45 @@ Router.get("/:id", (req, res) => {
 //Add Inventory
 Router.post("/AddInventory", AuthCheck, upload.single("InventoryImage"), (req, res) => {
   const { Name, From, Location, PricePerUnit, Quantity, Category } = req.body;
-  const newInventories = new Inventories({
-    _id: new mongoose.Types.ObjectId(),
-    Name,
-    From,
-    Location,
-    PricePerUnit,
-    Quantity,
-    Category,
-    Image: req.file.path
-  });
-  newInventories.save().then(result => {
-    res.status(200).json({
-      success: true,
-      Inventory: result,
-      message: `Successfully Added ${Quantity} ${Name} for ${Location} from ${From}`
+  Inventories.find({ Name: Name, PricePerUnit: PricePerUnit })
+    .exec()
+    .then(findingResult => {
+      if (findingResult.length === 0) {
+        const newInventories = new Inventories({
+          _id: new mongoose.Types.ObjectId(),
+          Name,
+          From,
+          Location,
+          PricePerUnit,
+          Quantity,
+          Category,
+          Image: req.file.path
+        });
+        newInventories.save().then(result => {
+          res.status(200).json({
+            success: true,
+            Inventory: result,
+            method: "add",
+            message: `Successfully Added ${Quantity} ${Name} for ${Location} from ${From}`
+          });
+        });
+      } else {
+        Inventories.findOneAndUpdate(
+          { Name: Name, PricePerUnit: PricePerUnit },
+          { $set: { Quantity: parseInt(Quantity) + parseInt(findingResult[0].Quantity) } },
+          { new: true }
+        )
+          .exec()
+          .then(updatingResult => {
+            res.status(200).json({
+              success: true,
+              Inventory: updatingResult,
+              method: "update",
+              message: `Successfully Added ${Quantity} ${Name} for ${Location} from ${From}`
+            });
+          });
+      }
     });
-  });
 });
 
 Router.post("/inventorylog/AddInventoryLog", AuthCheck, (req, res) => {

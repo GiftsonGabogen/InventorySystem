@@ -91,13 +91,13 @@ class Modifies extends Component {
             </tr>
           </thead>
           <tbody>
-            {this.state.Modifies.map((inventory, i) => (
+            {this.state.Modifies.map((modify, i) => (
               <tr key={i}>
                 <th scope="row">{i + 1}</th>
-                <td>{inventory.inventoryInfo.Name}</td>
-                <td>{inventory.Custodian}</td>
-                <td>{inventory.Description}</td>
-                <td>{moment(inventory.Date).format("MMM D YYYY hh A")}</td>
+                <td>{modify.InventoryInfo.Name}</td>
+                <td>{modify.Custodian}</td>
+                <td>{modify.Description}</td>
+                <td>{moment(modify.Date).format("MMM D YYYY hh A")}</td>
                 <td>
                   <button className="btn btn-sm btn-primary">info</button>
                 </td>

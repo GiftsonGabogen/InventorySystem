@@ -5,7 +5,8 @@ import {
   BackInventories,
   FetchInventory,
   FetchAllInventoryLogs,
-  DeleteInventory
+  DeleteInventory,
+  FetchAllInventoryModifies
 } from "./Actions";
 
 import axios from "axios";
@@ -23,6 +24,15 @@ export const FetchAllInventoryLogsAction = () => dispatch => {
   axios.get("/api/inventories/inventorylog").then(inventories => {
     dispatch({
       type: FetchAllInventoryLogs,
+      payload: inventories.data
+    });
+  });
+};
+
+export const FetchAllInventoryModifiesAction = () => dispatch => {
+  axios.get("/api/inventories/modifies").then(inventories => {
+    dispatch({
+      type: FetchAllInventoryModifies,
       payload: inventories.data
     });
   });
