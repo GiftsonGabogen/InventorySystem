@@ -35,6 +35,22 @@ Router.post("/", AuthCheck, (req, res) => {
   });
 });
 
+Router.post("/update", AuthCheck, (req, res) => {
+  const { id, Name } = req.body;
+  Categories.findByIdAndUpdate(id, { $set: { Name: Name } }, { new: true })
+    .exec()
+    .then(updatingResult => {
+      res.status(200).json({
+        success: true,
+        Category: updatingResult,
+        message: `Successfully Edited A Category to ${Name}`
+      });
+    })
+    .catch(err => {
+      console.log(err);
+    });
+});
+
 Router.delete("/:id", (req, res) => {
   const { id } = req.params;
   Categories.findOneAndRemove({ _id: id })

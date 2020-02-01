@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { FetchAllInventoriesAction } from "../../Actions/InventoriesActions";
 import { UnMountAlertAction } from "../../Actions/UnMountActions";
+import ReturnLocation from "../Comps/ReturnLocation";
 import { Link } from "react-router-dom";
 
 function mapStateToProps(state) {
@@ -38,7 +39,9 @@ class Inventories extends Component {
                 <img src={`/${inventory.Image}`} className="card-img-top" alt="sampleImage" />
                 <div className="card-body">
                   <h5 className="card-title">{inventory.Name}</h5>
-                  <p className="card-text">this Item is Located at {inventory.Location}</p>
+                  <p className="card-text">
+                    this Item is Located at <ReturnLocation Location={inventory.Location} />
+                  </p>
                   <Link
                     to={
                       this.props.credential.Type === "SuperAdmin"

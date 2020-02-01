@@ -1,4 +1,4 @@
-import { FetchCategories, AddCategories, DeleteCategories } from "./Actions";
+import { FetchCategories, AddCategories, DeleteCategories, EditCategories } from "./Actions";
 
 import axios from "axios";
 
@@ -20,6 +20,20 @@ export const AddCategoriesAction = data => dispatch => {
     .then(categories => {
       dispatch({
         type: AddCategories,
+        payload: categories.data
+      });
+    });
+};
+
+export const EditCategoriesAction = data => dispatch => {
+  let Token = localStorage.getItem("Authorization");
+  axios
+    .post(`/api/categories/update`, data, {
+      headers: { Authorization: "Bearer " + Token }
+    })
+    .then(categories => {
+      dispatch({
+        type: EditCategories,
         payload: categories.data
       });
     });

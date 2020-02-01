@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import PopAlert from "../Comps/PopAlert";
+import ReturnLocation from "../Comps/ReturnLocation";
+import ReturnCategory from "../Comps/ReturnCategory";
 import {
   FetchInventoryAction,
   BorrowInventoriesAction,
@@ -12,7 +14,9 @@ import { UnMountAlertAction } from "../../Actions/UnMountActions";
 function mapStateToProps(state) {
   return {
     inventories: state.inventories,
-    credential: state.credential
+    credential: state.credential,
+    locations: state.locations,
+    categories: state.categories
   };
 }
 
@@ -196,7 +200,12 @@ class Inventories extends Component {
             {/* informations of the item */}
             <div className="info">
               <p>Quantity: {Inventory.Quantity}</p>
-              <p>Location: {Inventory.Location}</p>
+              <p>
+                Location: <ReturnLocation Location={Inventory.Location} />
+              </p>
+              <p>
+                Category: <ReturnCategory Category={Inventory.Category} />
+              </p>
               <p>Price Per Unit: {Inventory.PricePerUnit}</p>
               <p>Item Remaining : {this.state.maxBorrow}</p>
             </div>

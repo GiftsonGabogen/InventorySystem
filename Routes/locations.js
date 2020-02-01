@@ -35,6 +35,19 @@ Router.post("/", AuthCheck, (req, res) => {
   });
 });
 
+Router.post("/update", AuthCheck, (req, res) => {
+  const { id, Name } = req.body;
+  Locations.findByIdAndUpdate(id, { $set: { Name: Name } }, { new: true })
+    .exec()
+    .then(updatingResult => {
+      res.status(200).json({
+        success: true,
+        Location: updatingResult,
+        message: `Successfully Edited A Location to ${Name}`
+      });
+    });
+});
+
 Router.delete("/:id", (req, res) => {
   const { id } = req.params;
   Locations.findOneAndRemove({ _id: id })

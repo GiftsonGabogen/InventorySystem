@@ -28,11 +28,13 @@ const inventoriesSchema = new Schema({
     required: true
   },
   Category: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Category",
     required: true
   },
   Location: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Location",
     required: true
   },
   PricePerUnit: {

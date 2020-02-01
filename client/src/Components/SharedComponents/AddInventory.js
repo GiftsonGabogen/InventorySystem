@@ -66,7 +66,7 @@ class AddInventory extends Component {
               <label htmlFor="Location">Location</label>
               <select className="custom-select" id="Location" ref="Location" required>
                 {this.props.locations.Locations.map((loc, i) => (
-                  <option value={loc.Name} key={i}>
+                  <option value={loc._id} key={i}>
                     {loc.Name}
                   </option>
                 ))}
@@ -76,7 +76,7 @@ class AddInventory extends Component {
               <label htmlFor="Category">Category</label>
               <select className="custom-select" id="Category" ref="Category" required>
                 {this.props.categories.Categories.map((cat, i) => (
-                  <option value={cat.Name} key={i}>
+                  <option value={cat._id} key={i}>
                     {cat.Name}
                   </option>
                 ))}

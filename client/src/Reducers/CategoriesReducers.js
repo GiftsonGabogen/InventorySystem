@@ -1,4 +1,4 @@
-import { FetchCategories, AddCategories, DeleteCategories, UnMountAlert } from "../Actions/Actions";
+import { FetchCategories, AddCategories, DeleteCategories, UnMountAlert, EditCategories } from "../Actions/Actions";
 
 const initialState = {
   Success: false,
@@ -36,6 +36,22 @@ export default (state = initialState, action) => {
         return {
           ...state,
           Categories: [...filteredCategories],
+          Success: true,
+          message: action.payload.message,
+          Loading: false
+        };
+      } else {
+        return {
+          ...state,
+          Loading: false
+        };
+      }
+    case EditCategories:
+      if (action.payload.success === true) {
+        let filteredCategories = state.Categories.filter(category => category._id !== action.payload.Category._id);
+        return {
+          ...state,
+          Categories: [...filteredCategories, action.payload.Category],
           Success: true,
           message: action.payload.message,
           Loading: false

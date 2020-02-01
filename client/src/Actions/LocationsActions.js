@@ -1,4 +1,4 @@
-import { FetchLocations, AddLocations, DeleteLocations } from "./Actions";
+import { FetchLocations, AddLocations, DeleteLocations, EditLocations } from "./Actions";
 
 import axios from "axios";
 
@@ -20,6 +20,20 @@ export const AddLocationsAction = data => dispatch => {
     .then(locations => {
       dispatch({
         type: AddLocations,
+        payload: locations.data
+      });
+    });
+};
+
+export const EditLocationsAction = data => dispatch => {
+  let Token = localStorage.getItem("Authorization");
+  axios
+    .post(`/api/locations/update`, data, {
+      headers: { Authorization: "Bearer " + Token }
+    })
+    .then(locations => {
+      dispatch({
+        type: EditLocations,
         payload: locations.data
       });
     });

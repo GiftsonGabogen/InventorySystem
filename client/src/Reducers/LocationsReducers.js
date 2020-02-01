@@ -1,4 +1,4 @@
-import { FetchLocations, AddLocations, DeleteLocations, UnMountAlert } from "../Actions/Actions";
+import { FetchLocations, AddLocations, DeleteLocations, UnMountAlert, EditLocations } from "../Actions/Actions";
 
 const initialState = {
   Success: false,
@@ -36,6 +36,22 @@ export default (state = initialState, action) => {
         return {
           ...state,
           Locations: [...filteredLocations],
+          Success: true,
+          message: action.payload.message,
+          Loading: false
+        };
+      } else {
+        return {
+          ...state,
+          Loading: false
+        };
+      }
+    case EditLocations:
+      if (action.payload.success === true) {
+        let filteredLocations = state.Locations.filter(location => location._id !== action.payload.Location._id);
+        return {
+          ...state,
+          Locations: [...filteredLocations, action.payload.Location],
           Success: true,
           message: action.payload.message,
           Loading: false
