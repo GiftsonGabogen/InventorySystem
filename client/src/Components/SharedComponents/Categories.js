@@ -84,16 +84,14 @@ class Categories extends Component {
                 <th scope="row">{i + 1}</th>
                 <td>{cat.Name}</td>
                 <td>
-                  {" "}
                   <button onClick={() => this.openEditModal(cat._id, cat.Name)} className="btn btn-danger btn-sm">
                     edit
-                  </button>{" "}
+                  </button>
                 </td>
                 <td>
-                  {" "}
                   <button onClick={() => this.deleteCategory(cat._id)} className="btn btn-danger btn-sm">
                     delete
-                  </button>{" "}
+                  </button>
                 </td>
               </tr>
             ))}
