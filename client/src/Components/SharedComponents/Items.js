@@ -22,7 +22,9 @@ class Inventories extends Component {
     }
     this.state = {
       Inventories: this.props.inventories.Inventories,
-      filters: {}
+      NameFilter: "",
+      CategoriesFilter: [],
+      LocationsFilter: []
     };
   }
 
@@ -31,6 +33,9 @@ class Inventories extends Component {
   }
   AddFilter = e => {
     e.preventDefault();
+    //setting empty states for updating soon
+    let CategoriesFilter = [];
+    let LocationsFilter = [];
 
     //making copy of the Inventories That WIll Be FIltered
     let Inventories = this.props.inventories.Inventories.slice();
@@ -57,16 +62,51 @@ class Inventories extends Component {
         checked_locations.push(all_location_checkboxes[i]);
       }
     }
+
+    //create empty object for filteredCategories to be passed on the next filtering
+    let passingFilteredCategories = [];
+
     //Filtering Categories
-    checked_categories.map(
-      category => (Inventories = Inventories.filter(inventory => inventory.Category === category.value))
-    );
+    //If no checked checkboxes on categories filter it means that he dont want to filter categories
+    //so we will not filter categories
+    if (checked_categories.length !== 0) {
+      checked_categories.map(category => {
+        for (let i = 0; i < Inventories.length; i++) {
+          if (Inventories[i].Category === category.value) {
+            passingFilteredCategories.push(Inventories[i]);
+            Inventories.splice(i, 1, ["temp"]);
+          }
+        }
+        CategoriesFilter.push(category.nextElementSibling.innerText);
+      });
+    } else {
+      passingFilteredCategories = Inventories.slice();
+    }
+
+    //create empty object for filteredCategories to be passed on the next filtering
+    let passingFilteredLocations = [];
+
     //Filtering Locations
-    checked_locations.map(
-      location => (Inventories = Inventories.filter(inventory => inventory.Location === location.value))
-    );
+    //If no checked checkboxes on locations filter it means that he dont want to filter locations
+    //so we will not filter locations
+    if (checked_locations.length !== 0) {
+      checked_locations.map(location => {
+        for (let i = 0; i < passingFilteredCategories.length; i++) {
+          if (passingFilteredCategories[i].Location === location.value) {
+            passingFilteredLocations.push(passingFilteredCategories[i]);
+            passingFilteredCategories.splice(i, 1, ["temp"]);
+          }
+        }
+        LocationsFilter.push(location.nextElementSibling.innerText);
+      });
+    } else {
+      passingFilteredLocations = passingFilteredCategories;
+    }
+
     this.setState({
-      Inventories
+      Inventories: passingFilteredLocations,
+      CategoriesFilter,
+      LocationsFilter
     });
 
     document.querySelector(".createdModal").style.display = "none";
@@ -118,6 +158,12 @@ class Inventories extends Component {
           <button className="btn-sm btn-primary" onClick={this.openFilterModal}>
             Filter
           </button>
+          {this.state.CategoriesFilter.map((cat, i) => (
+            <p key={i}>{cat} </p>
+          ))}
+          {this.state.LocationsFilter.map((loc, i) => (
+            <p key={i}>{loc} </p>
+          ))}
           <div className="InventoriesContainer">
             {this.state.Inventories.length === 0 ? (
               <div className="">No Inventories found</div>
