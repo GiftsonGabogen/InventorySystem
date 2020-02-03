@@ -155,15 +155,23 @@ class Inventories extends Component {
               </form>
             </div>
           </div>
-          <button className="btn-sm btn-primary" onClick={this.openFilterModal}>
-            Filter
-          </button>
-          {this.state.CategoriesFilter.map((cat, i) => (
-            <p key={i}>{cat} </p>
-          ))}
-          {this.state.LocationsFilter.map((loc, i) => (
-            <p key={i}>{loc} </p>
-          ))}
+          <div className="filter">
+            <button className="btn-sm btn-primary" onClick={this.openFilterModal}>
+              Filter
+            </button>
+            <div className="categoriesFilterState">
+              {this.state.CategoriesFilter.length !== 0 ? <h1>Categories</h1> : ""}
+              {this.state.CategoriesFilter.map((cat, i) => (
+                <p key={i}>{cat}</p>
+              ))}
+            </div>
+            <div className="locationsFilterState">
+              {this.state.LocationsFilter.length !== 0 ? <h1>Locations</h1> : ""}
+              {this.state.LocationsFilter.map((loc, i) => (
+                <p key={i}>{loc}</p>
+              ))}
+            </div>
+          </div>
           <div className="InventoriesContainer">
             {this.state.Inventories.length === 0 ? (
               <div className="">No Inventories found</div>

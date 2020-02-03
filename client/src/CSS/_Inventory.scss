@@ -1,4 +1,27 @@
 .Inventories {
+  .filter {
+    div {
+      display: inline-block;
+    }
+    div > p {
+      font-size: 0.8rem;
+      font-weight: lighter;
+      font-family: "Courier New", Courier, monospace;
+      display: inline-block;
+      padding-right: 0.2rem;
+      padding-left: 0.1rem;
+      border-left: 1px solid rgba(0, 0, 0, 0.5);
+      opacity: 0.5;
+    }
+    div > h1 {
+      font-size: 1rem;
+      font-weight: normal;
+      display: inline-block;
+      padding-right: 0.2rem;
+      padding-left: 0.4rem;
+      font-family: "Courier New", Courier, monospace;
+    }
+  }
   .InventoriesContainer {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
