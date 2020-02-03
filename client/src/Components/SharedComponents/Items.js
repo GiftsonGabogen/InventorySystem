@@ -21,7 +21,8 @@ class Inventories extends Component {
       document.querySelector(".modal-backdrop").remove();
     }
     this.state = {
-      Inventories: this.props.inventories.Inventories
+      Inventories: this.props.inventories.Inventories,
+      filters: {}
     };
   }
 
@@ -30,8 +31,18 @@ class Inventories extends Component {
   }
   AddFilter = e => {
     e.preventDefault();
+
+    //making copy of the Inventories That WIll Be FIltered
+    let Inventories = this.props.inventories.Inventories.slice();
+    //Name filtering
+    let filterName = document.querySelector(".filterName").value;
+    //make a regular expression that if the filterName is found anywhere in the Inventory's Name(whether on middle,front or back of the Name) it will be return
+    let regexpFilterName = new RegExp(filterName, "gi");
+    if (filterName !== "") {
+      Inventories = Inventories.filter(inventory => regexpFilterName.test(inventory.Name));
+    }
     //filtering Inventories With Categories
-    let all_category_checkboxes = document.querySelectorAll("#categoryCheckbox");
+    let all_category_checkboxes = document.querySelectorAll(".categoryCheckbox");
     let checked_categories = [];
     for (let i = 0; i < all_category_checkboxes.length; i++) {
       if (all_category_checkboxes[i].checked) {
@@ -39,15 +50,13 @@ class Inventories extends Component {
       }
     }
     //filtering Inventories With Locations
-    let all_location_checkboxes = document.querySelectorAll("#locationCheckbox");
+    let all_location_checkboxes = document.querySelectorAll(".locationCheckbox");
     let checked_locations = [];
     for (let i = 0; i < all_location_checkboxes.length; i++) {
       if (all_location_checkboxes[i].checked) {
         checked_locations.push(all_location_checkboxes[i]);
       }
     }
-    //making copy of the Inventories That WIll Be FIltered
-    let Inventories = this.props.inventories.Inventories.slice();
     //Filtering Categories
     checked_categories.map(
       category => (Inventories = Inventories.filter(inventory => inventory.Category === category.value))
@@ -82,18 +91,22 @@ class Inventories extends Component {
                 x
               </div>
               <form onSubmit={this.AddFilter}>
-                <h2 id="createdModalTitle"></h2>
+                <h5>Categories</h5>
+                <div className="form-group">
+                  <label htmlFor="Name">Name</label>
+                  <input type="text" className="form-control filterName" placeholder="Name" />
+                </div>
                 <h5>Categories</h5>
                 {this.props.categories.Categories.map(cat => (
                   <div className="form-check form-check-inline" key={cat._id}>
-                    <input className="form-check-input" id="categoryCheckbox" type="checkbox" value={cat._id} />
+                    <input className="form-check-input categoryCheckbox" type="checkbox" value={cat._id} />
                     <label className="form-check-label">{cat.Name}</label>
                   </div>
                 ))}
                 <h5>Locations</h5>
                 {this.props.locations.Locations.map(loc => (
                   <div className="form-check form-check-inline" key={loc._id}>
-                    <input className="form-check-input" id="locationCheckbox" type="checkbox" value={loc._id} />
+                    <input className="form-check-input locationCheckbox" type="checkbox" value={loc._id} />
                     <label className="form-check-label">{loc.Name}</label>
                   </div>
                 ))}
