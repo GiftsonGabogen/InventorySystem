@@ -159,13 +159,13 @@ class Inventories extends Component {
             <button className="btn-sm btn-primary" onClick={this.openFilterModal}>
               Filter
             </button>
-            <div className="categoriesFilterState">
+            <div className="FilterState">
               {this.state.CategoriesFilter.length !== 0 ? <h1>Categories</h1> : ""}
               {this.state.CategoriesFilter.map((cat, i) => (
                 <p key={i}>{cat}</p>
               ))}
             </div>
-            <div className="locationsFilterState">
+            <div className="FilterState">
               {this.state.LocationsFilter.length !== 0 ? <h1>Locations</h1> : ""}
               {this.state.LocationsFilter.map((loc, i) => (
                 <p key={i}>{loc}</p>

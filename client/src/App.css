@@ -84,6 +84,28 @@ body {
   padding: 2rem;
 }
 
+.filter div {
+  display: inline-block;
+}
+.filter div > p {
+  font-size: 0.8rem;
+  font-weight: lighter;
+  font-family: "Courier New", Courier, monospace;
+  display: inline-block;
+  padding-right: 0.2rem;
+  padding-left: 0.1rem;
+  border-left: 1px solid rgba(0, 0, 0, 0.5);
+  opacity: 0.5;
+}
+.filter div > h1 {
+  font-size: 1rem;
+  font-weight: normal;
+  display: inline-block;
+  padding-right: 0.2rem;
+  padding-left: 0.4rem;
+  font-family: "Courier New", Courier, monospace;
+}
+
 .Login {
   color: black;
   display: grid;
@@ -190,27 +212,6 @@ body {
   margin-bottom: 0;
 }
 
-.Inventories .filter div {
-  display: inline-block;
-}
-.Inventories .filter div > p {
-  font-size: 0.8rem;
-  font-weight: lighter;
-  font-family: "Courier New", Courier, monospace;
-  display: inline-block;
-  padding-right: 0.2rem;
-  padding-left: 0.1rem;
-  border-left: 1px solid rgba(0, 0, 0, 0.5);
-  opacity: 0.5;
-}
-.Inventories .filter div > h1 {
-  font-size: 1rem;
-  font-weight: normal;
-  display: inline-block;
-  padding-right: 0.2rem;
-  padding-left: 0.4rem;
-  font-family: "Courier New", Courier, monospace;
-}
 .Inventories .InventoriesContainer {
   display: grid;
   grid-template-columns: repeat(4, 1fr);

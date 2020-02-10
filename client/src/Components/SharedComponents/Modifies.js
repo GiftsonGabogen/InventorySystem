@@ -13,59 +13,169 @@ class Modifies extends Component {
   constructor(props) {
     super(props);
     let currentMonth = moment(Date.now()).format("MMM");
-    this.state = {
-      Modifies: this.props.inventories.InventoryModifies,
-      Year: [2020],
-      Months: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-      currentYear: 2020,
-      currentMonth: currentMonth
-    };
-  }
-  componentDidUpdate(prevProps, prevState) {
-    if (this.state.currentMonth !== prevState.currentMonth) {
-      let filteredModifies = this.props.inventories.InventoryModifies.filter(
-        report => moment(report.Date).format("MMM") === this.state.currentMonth
+    let numberOfDays = moment(Date.now()).daysInMonth();
+    let from = `${currentMonth} 1 2020`;
+    let to = `${currentMonth} ${numberOfDays} 2020`;
+    let InventoryModifies = this.props.inventories.InventoryModifies.filter(modify =>
+      moment(modify.Date).isBetween(from, to)
+    );
+    let Days = [];
+    for (let i = 1; i <= numberOfDays; i++) {
+      Days.push(i);
+    }
+    if (this.props.credential.Type === "SuperAdmin") {
+      this.state = {
+        Modifies: InventoryModifies,
+        Year: [2020],
+        Months: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+        Days: Days,
+        from: from,
+        to: to
+      };
+    } else {
+      let filteredLogs = InventoryModifies.filter(
+        modify =>
+          modify.Custodian === this.props.credential.Username || modify.BorrowingCustodian === this.props.credential.Username
       );
-      this.setState({
-        Modifies: filteredModifies
-      });
+      this.state = {
+        Modifies: filteredLogs,
+        Year: [2020],
+        Months: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+        Days: Days,
+        from: from,
+        to: to
+      };
     }
   }
 
-  changeMonth = e => {
+  FilterHandler = e => {
+    e.preventDefault();
+    let { fromYear, fromMonth, fromDate, toYear, toMonth, toDate } = this.refs;
+    // the starting date for filtering reports
+    let from = `${fromMonth.value} ${fromDate.value} ${fromYear.value}`;
+    // the ending date for filtering reports
+    let to = `${toMonth.value} ${toDate.value} ${toYear.value}`;
+    let InventoryModifies = this.props.inventories.InventoryModifies.filter(modify =>
+      moment(modify.Date).isBetween(from, to)
+    );
+    //if the user is not the superadmin, he can only see the reports of himself, he can't see the reports of other custodian
+    //whereas when the user is superadmin he can see all the reports of custodians and himself
+    if (this.props.credential.Type !== "SuperAdmin") {
+      InventoryModifies = InventoryModifies.filter(
+        modify =>
+          modify.Custodian === this.props.credential.Username || modify.BorrowingCustodian === this.props.credential.Username
+      );
+    }
     this.setState({
-      currentMonth: e.target.value
+      to: to,
+      from: from,
+      Modifies: InventoryModifies
     });
+    document.querySelector(".createdModal").style.display = "none";
+  };
+  openFilterModal = () => {
+    document.querySelector(".createdModal").style.display = "grid";
+  };
+  closeFilterModal = () => {
+    document.querySelector(".createdModal").style.display = "none";
   };
 
   render() {
     return (
       <div className="InventoryModifies">
-        <div className="form-row">
-          <div className="form-group">
-            <select className="custom-select" id="Year" ref="Year" required>
-              {this.state.Year.map((year, i) => (
-                <option value={year} key={i}>
-                  {year}
-                </option>
-              ))}
-            </select>
+        <div className="filter">
+          <button className="btn-sm btn-primary" onClick={this.openFilterModal}>
+            Filter
+          </button>
+          <div className="FilterState">
+            {moment(this.state.from).isSameOrBefore(this.state.to) ? <h1>from</h1> : <h1>to</h1>}
+            <p>{this.state.from}</p>
           </div>
-          <div className="form-group">
-            <select
-              className="custom-select"
-              id="Month"
-              onChange={this.changeMonth}
-              value={this.state.currentMonth}
-              ref="Month"
-              required
-            >
-              {this.state.Months.map((mon, i) => (
-                <option value={mon} key={i}>
-                  {mon}
-                </option>
-              ))}
-            </select>
+          <div className="FilterState">
+            {moment(this.state.to).isSameOrAfter(this.state.from) ? <h1>to</h1> : <h1>from</h1>}
+            <p>{this.state.to}</p>
+          </div>
+        </div>
+        <div className="createdModal">
+          <div className="Modal">
+            <div className="closingModal" onClick={this.closeFilterModal}>
+              x
+            </div>
+            <form onSubmit={this.FilterHandler}>
+              <h2 id="createdModalTitle"></h2>
+              <h1>Between</h1>
+              <div className="from">
+                <div className="form-row">
+                  <div className="form-group">
+                    <label htmlFor="Year">Year</label>
+                    <select className="custom-select" ref="fromYear" required>
+                      {this.state.Year.map((year, i) => (
+                        <option value={year} key={i}>
+                          {year}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="Month">Month</label>
+                    <select className="custom-select" ref="fromMonth" required>
+                      {this.state.Months.map((month, i) => (
+                        <option value={month} key={i}>
+                          {month}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="Date">Date</label>
+                    <select className="custom-select" ref="fromDate" required>
+                      {this.state.Days.map((day, i) => (
+                        <option value={day} key={i}>
+                          {day}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div className="to">
+                <div className="form-row">
+                  <div className="form-group">
+                    <label htmlFor="Year">Year</label>
+                    <select className="custom-select" ref="toYear" required>
+                      {this.state.Year.map((year, i) => (
+                        <option value={year} key={i}>
+                          {year}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="Month">Month</label>
+                    <select className="custom-select" ref="toMonth" required>
+                      {this.state.Months.map((month, i) => (
+                        <option value={month} key={i}>
+                          {month}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="Date">Date</label>
+                    <select className="custom-select" ref="toDate" required>
+                      {this.state.Days.map((day, i) => (
+                        <option value={day} key={i}>
+                          {day}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <input type="submit" value="Submit" className="form-control btn btn-primary" />
+            </form>
           </div>
         </div>
 
