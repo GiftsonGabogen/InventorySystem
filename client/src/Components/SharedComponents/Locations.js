@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { AddLocationsAction, DeleteLocationsAction, EditLocationsAction } from "../../Actions/LocationsActions";
 import PopAlert from "../Comps/PopAlert";
+import { UnMountAlertAction } from "../../Actions/UnMountActions";
 
 function mapStateToProps(state) {
   return {
@@ -10,6 +11,9 @@ function mapStateToProps(state) {
 }
 
 class Locations extends Component {
+  componentWillUnmount() {
+    this.props.UnMountAlertAction();
+  }
   AddLocation = e => {
     e.preventDefault();
     let data = {
@@ -102,4 +106,9 @@ class Locations extends Component {
   }
 }
 
-export default connect(mapStateToProps, { AddLocationsAction, DeleteLocationsAction, EditLocationsAction })(Locations);
+export default connect(mapStateToProps, {
+  AddLocationsAction,
+  DeleteLocationsAction,
+  EditLocationsAction,
+  UnMountAlertAction
+})(Locations);

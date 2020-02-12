@@ -1,5 +1,8 @@
 import React, { Component } from "react";
 import moment from "moment";
+import { UnMountAlertAction } from "../../Actions/UnMountActions";
+import fileSaver from "file-saver";
+import xlsx from "xlsx";
 import { connect } from "react-redux";
 
 function mapStateToProps(state) {
@@ -47,6 +50,9 @@ class Modifies extends Component {
       };
     }
   }
+  componentWillUnmount() {
+    this.props.UnMountAlertAction();
+  }
 
   FilterHandler = e => {
     e.preventDefault();
@@ -79,6 +85,31 @@ class Modifies extends Component {
   closeFilterModal = () => {
     document.querySelector(".createdModal").style.display = "none";
   };
+  exportModifies = () => {
+    let table = document.querySelector(".modifiesTable");
+    let wb = xlsx.utils.table_to_book(table, {
+      sheet: moment(this.state.from).isSameOrBefore(this.state.to)
+        ? this.state.from + " - " + this.state.to
+        : this.state.to + " - " + this.state.from
+    });
+    let wbout = xlsx.write(wb, { bookType: "xlsx", bookSST: true, type: "binary" });
+
+    let s2ab = s => {
+      let buf = new ArrayBuffer(s.length);
+      let view = new Uint8Array(buf);
+      for (let i = 0; i < s.length; i++) view[i] = s.charCodeAt(i) & 0xff;
+      return buf;
+    };
+
+    fileSaver.saveAs(
+      new Blob([s2ab(wbout)], { type: "application/octet-stream" }),
+      `Reports on ${
+        moment(this.state.from).isSameOrBefore(this.state.to)
+          ? this.state.from + " - " + this.state.to
+          : this.state.to + " - " + this.state.from
+      }.xlsx`
+    );
+  };
 
   render() {
     return (
@@ -95,6 +126,11 @@ class Modifies extends Component {
             {moment(this.state.to).isSameOrAfter(this.state.from) ? <h1>to</h1> : <h1>from</h1>}
             <p>{this.state.to}</p>
           </div>
+        </div>
+        <div className="exportModifies">
+          <button className="btn btn-primary" onClick={this.exportModifies}>
+            export
+          </button>
         </div>
         <div className="createdModal">
           <div className="Modal">
@@ -179,7 +215,7 @@ class Modifies extends Component {
           </div>
         </div>
 
-        <table className="table table-striped table-dark">
+        <table className="table table-striped table-dark modifiesTable">
           <thead>
             <tr>
               <th className="small" scope="col">
@@ -220,4 +256,4 @@ class Modifies extends Component {
   }
 }
 
-export default connect(mapStateToProps)(Modifies);
+export default connect(mapStateToProps, { UnMountAlertAction })(Modifies);

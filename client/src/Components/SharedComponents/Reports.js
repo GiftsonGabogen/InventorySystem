@@ -3,6 +3,7 @@ import moment from "moment";
 import fileSaver from "file-saver";
 import xlsx from "xlsx";
 import { connect } from "react-redux";
+import { UnMountAlertAction } from "../../Actions/UnMountActions";
 
 function mapStateToProps(state) {
   return {
@@ -46,6 +47,9 @@ class Reports extends Component {
         to: to
       };
     }
+  }
+  componentWillUnmount() {
+    this.props.UnMountAlertAction();
   }
 
   FilterHandler = e => {
@@ -260,4 +264,4 @@ class Reports extends Component {
   }
 }
 
-export default connect(mapStateToProps)(Reports);
+export default connect(mapStateToProps, { UnMountAlertAction })(Reports);

@@ -272,7 +272,8 @@ body {
 }
 
 .createdModal,
-.deleteModalContainer {
+.deleteModalContainer,
+.editModalContainer {
   position: fixed;
   left: 0;
   top: 0;
@@ -286,8 +287,13 @@ body {
 }
 .createdModal .Modal,
 .createdModal .deleteModal,
+.createdModal .editModal,
 .deleteModalContainer .Modal,
-.deleteModalContainer .deleteModal {
+.deleteModalContainer .deleteModal,
+.deleteModalContainer .editModal,
+.editModalContainer .Modal,
+.editModalContainer .deleteModal,
+.editModalContainer .editModal {
   width: 50vw;
   min-height: 50vh;
   padding: 2rem;
@@ -296,12 +302,31 @@ body {
 }
 .createdModal .Modal .closingModal,
 .createdModal .Modal .deleteClosingModal,
+.createdModal .Modal .editClosingModal,
 .createdModal .deleteModal .closingModal,
 .createdModal .deleteModal .deleteClosingModal,
+.createdModal .deleteModal .editClosingModal,
+.createdModal .editModal .closingModal,
+.createdModal .editModal .deleteClosingModal,
+.createdModal .editModal .editClosingModal,
 .deleteModalContainer .Modal .closingModal,
 .deleteModalContainer .Modal .deleteClosingModal,
+.deleteModalContainer .Modal .editClosingModal,
 .deleteModalContainer .deleteModal .closingModal,
-.deleteModalContainer .deleteModal .deleteClosingModal {
+.deleteModalContainer .deleteModal .deleteClosingModal,
+.deleteModalContainer .deleteModal .editClosingModal,
+.deleteModalContainer .editModal .closingModal,
+.deleteModalContainer .editModal .deleteClosingModal,
+.deleteModalContainer .editModal .editClosingModal,
+.editModalContainer .Modal .closingModal,
+.editModalContainer .Modal .deleteClosingModal,
+.editModalContainer .Modal .editClosingModal,
+.editModalContainer .deleteModal .closingModal,
+.editModalContainer .deleteModal .deleteClosingModal,
+.editModalContainer .deleteModal .editClosingModal,
+.editModalContainer .editModal .closingModal,
+.editModalContainer .editModal .deleteClosingModal,
+.editModalContainer .editModal .editClosingModal {
   color: white;
   font-size: 2rem;
   cursor: pointer;

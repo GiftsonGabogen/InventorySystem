@@ -199,59 +199,28 @@ Router.post("/register", AuthCheck, upload.single("ProfilePicture"), (req, res) 
   }
 });
 
-Router.put("/:id", AuthCheck, upload.single("userImage"), (req, res) => {
-  const { id } = req.params;
-  const { Email, Username, Password } = req.body;
-  User.find({ Email: Email })
+//Update User
+Router.post("/update", AuthCheck, (req, res) => {
+  const { OldPassword, ConfirmNewPassword, NewPassword, Username } = req.body;
+
+  User.find({ Username: Username })
     .exec()
-    .then(result => {
-      //If The Given Email is Already Registered on The Database Respond Fail
-      if (result.length > 0) {
-        res.status(409).json({ success: false }, { message: "Your Email is Already Registered" });
-      } else {
-        User.find({ Username: Username })
-          .exec()
-          .then(result => {
-            //If The Given Username is Already Registered on The Database Respond Fail
-            if (result.length > 0) {
-              res.status(409).json({
-                success: false,
-                message: "Username is Already Registered"
+    .then(user => {
+      if (bcrypt.compareSync(OldPassword, user[0].Password) === true) {
+        if (ConfirmNewPassword !== NewPassword) {
+          res.status(200).json({ message: "The Given New Password Don't Match", success: false });
+        } else {
+          bcrypt.hash(NewPassword, 10, (err, newPass) => {
+            User.findByIdAndUpdate(user[0]._id, { $set: { Password: newPass } })
+              .exec()
+              .then(successUpdate => {
+                res.status(200).json({ message: "Your Password is Updated", success: true });
               });
-            } else {
-              bcrypt.hashSync(Password, 10, (err, hash) => {
-                if (err) {
-                  res.status(500).json({ message: "Error Password Hashing" });
-                } else {
-                  User.update(
-                    { _id: id },
-                    {
-                      $set: {
-                        Email: Email,
-                        Username: Username,
-                        Password: hash,
-                        UserImage: req.file.path
-                      }
-                    }
-                  )
-                    .exec()
-                    .then(result => {
-                      res.status(201).json({
-                        success: true,
-                        message: "Updated User Successfully",
-                        user: result
-                      });
-                    });
-                }
-              });
-            }
           });
+        }
+      } else {
+        res.status(200).json({ message: "Your Old Password is Invalid", success: false });
       }
-    })
-    .catch(err => {
-      res.status(500).json({
-        message: err
-      });
     });
 });
 

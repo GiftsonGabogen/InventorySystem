@@ -1,4 +1,4 @@
-import { FetchAllUsers, UnMountAlert, RegisterUser, DeleteUsers } from "../Actions/Actions";
+import { FetchAllUsers, UnMountAlert, RegisterUser, DeleteUsers, UpdateUser } from "../Actions/Actions";
 
 const initialState = {
   Success: false,
@@ -32,6 +32,19 @@ export default (state = initialState, action) => {
           ...state,
           message: action.payload.message,
           Users: [...state.Users, action.payload.user],
+          Success: true
+        };
+      } else {
+        return {
+          ...state,
+          message: action.payload.message
+        };
+      }
+    case UpdateUser:
+      if (action.payload.success === true) {
+        return {
+          ...state,
+          message: action.payload.message,
           Success: true
         };
       } else {

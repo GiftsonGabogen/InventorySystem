@@ -1,4 +1,4 @@
-import { RegisterUser, FetchAllUsers, DeleteUsers } from "./Actions";
+import { RegisterUser, FetchAllUsers, DeleteUsers, UpdateUser } from "./Actions";
 
 import axios from "axios";
 
@@ -17,6 +17,20 @@ export const RegisterUserAction = data => dispatch => {
     .then(users =>
       dispatch({
         type: RegisterUser,
+        payload: users.data
+      })
+    );
+};
+
+export const UpdateUserAction = data => dispatch => {
+  let Token = localStorage.getItem("Authorization");
+  axios
+    .post("/api/users/update", data, {
+      headers: { Authorization: "Bearer " + Token }
+    })
+    .then(users =>
+      dispatch({
+        type: UpdateUser,
         payload: users.data
       })
     );

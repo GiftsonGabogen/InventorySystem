@@ -146,7 +146,7 @@ Router.post("/AddInventory", AuthCheck, upload.single("InventoryImage"), (req, r
               success: true,
               Inventory: updatingResult,
               method: "update",
-              message: `Successfully Added ${Quantity} ${Name} for ${Location} from ${From}`
+              message: `Successfully Added ${Quantity} ${Name} from ${From}`
             });
           });
       }

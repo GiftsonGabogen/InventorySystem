@@ -2,6 +2,7 @@ export const FetchAll = "fetchAll";
 
 export const RegisterUser = "registerUser";
 export const FetchAllUsers = "fetchAllUsers";
+export const UpdateUser = "UpdateUser";
 export const DeleteUsers = "DeleteUsers";
 
 export const Login = "login";

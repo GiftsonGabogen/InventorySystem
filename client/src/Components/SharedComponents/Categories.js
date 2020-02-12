@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { AddCategoriesAction, DeleteCategoriesAction, EditCategoriesAction } from "../../Actions/CategoriesActions";
+import { UnMountAlertAction } from "../../Actions/UnMountActions";
 import PopAlert from "../Comps/PopAlert";
 
 function mapStateToProps(state) {
@@ -10,6 +11,9 @@ function mapStateToProps(state) {
 }
 
 class Categories extends Component {
+  componentWillUnmount() {
+    this.props.UnMountAlertAction();
+  }
   AddCategory = e => {
     e.preventDefault();
     let data = {
@@ -102,4 +106,9 @@ class Categories extends Component {
   }
 }
 
-export default connect(mapStateToProps, { AddCategoriesAction, DeleteCategoriesAction, EditCategoriesAction })(Categories);
+export default connect(mapStateToProps, {
+  AddCategoriesAction,
+  DeleteCategoriesAction,
+  EditCategoriesAction,
+  UnMountAlertAction
+})(Categories);
