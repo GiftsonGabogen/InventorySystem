@@ -24,7 +24,7 @@ const inventoriesSchema = new Schema({
     required: true
   },
   Image: {
-    type: String,
+    type: Array,
     required: true
   },
   Category: {

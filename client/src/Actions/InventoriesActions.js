@@ -50,7 +50,8 @@ export const FetchInventoryAction = id => dispatch => {
 export const AddInventoriesAction = data => dispatch => {
   const Data = new FormData();
   Data.append("Name", data.Name);
-  Data.append("InventoryImage", data.InventoryImage);
+  let Images = [...data.InventoryImage];
+  Images.map(file => Data.append("InventoryImage", file));
   Data.append("From", data.From);
   Data.append("PricePerUnit", data.PricePerUnit);
   Data.append("Quantity", data.Quantity);
@@ -59,7 +60,7 @@ export const AddInventoriesAction = data => dispatch => {
   let Token = localStorage.getItem("Authorization");
   axios
     .post("/api/inventories/AddInventory", Data, {
-      headers: { Authorization: "Bearer " + Token }
+      headers: { Authorization: "Bearer " + Token, "Content-Type": "multipart/form-data" }
     })
     .then(inventories => {
       dispatch({

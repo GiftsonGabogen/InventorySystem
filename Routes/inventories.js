@@ -110,12 +110,14 @@ Router.get("/:id", (req, res) => {
 });
 
 //Add Inventory
-Router.post("/AddInventory", AuthCheck, upload.single("InventoryImage"), (req, res) => {
+Router.post("/AddInventory", AuthCheck, upload.array("InventoryImage", 12), (req, res) => {
   const { Name, From, Location, PricePerUnit, Quantity, Category } = req.body;
   Inventories.find({ Name: Name, PricePerUnit: PricePerUnit })
     .exec()
     .then(findingResult => {
       if (findingResult.length === 0) {
+        let Images = [];
+        req.files.map(file => Images.push(file.path));
         const newInventories = new Inventories({
           _id: new mongoose.Types.ObjectId(),
           Name,
@@ -124,7 +126,7 @@ Router.post("/AddInventory", AuthCheck, upload.single("InventoryImage"), (req, r
           PricePerUnit,
           Quantity,
           Category,
-          Image: req.file.path
+          Image: Images
         });
         newInventories.save().then(result => {
           res.status(200).json({

@@ -178,7 +178,7 @@ class Inventories extends Component {
             ) : (
               this.state.Inventories.map((inventory, i) => (
                 <div className="card Inventory" key={i}>
-                  <img src={`/${inventory.Image}`} className="card-img-top" alt="sampleImage" />
+                  <img src={`/${inventory.Image[0]}`} className="card-img-top" alt="sampleImage" />
                   <div className="card-body">
                     <h5 className="card-title">{inventory.Name}</h5>
                     <p className="card-text">

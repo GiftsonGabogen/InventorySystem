@@ -195,7 +195,8 @@ class Inventories extends Component {
           <hr />
           <div className="head">
             <div className="image">
-              <img src={`/${Inventory.Image}`} alt="imagesample" />
+              
+            <img src={(Inventory.Name === undefined || null || false) ? "" : `/${Inventory.Image[0]}`} alt="imagesample" />
             </div>
             {/* informations of the item */}
             <div className="info">

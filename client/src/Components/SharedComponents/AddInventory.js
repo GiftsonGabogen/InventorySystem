@@ -19,6 +19,7 @@ class AddInventory extends Component {
 
   AddInventoriesHandler = e => {
     e.preventDefault();
+    console.log(this.refs.InventoryImage.files);
     let Data = {
       Name: this.refs.Name.value,
       From: this.refs.From.value,
@@ -26,7 +27,7 @@ class AddInventory extends Component {
       Quantity: this.refs.Quantity.value,
       Location: this.refs.Location.value,
       Category: this.refs.Category.value,
-      InventoryImage: this.refs.InventoryImage.files[0]
+      InventoryImage: this.refs.InventoryImage.files
     };
     this.props.AddInventoriesAction(Data);
   };
@@ -58,7 +59,7 @@ class AddInventory extends Component {
             </div>
             <div className="form-group col">
               <label htmlFor="Image">Image</label>
-              <input type="file" ref="InventoryImage" className="form-control-file" required />
+              <input type="file" ref="InventoryImage" className="form-control-file" required multiple />
             </div>
           </div>
           <div className="form-row">
