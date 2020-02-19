@@ -110,23 +110,25 @@ class Reports extends Component {
   render() {
     return (
       <div className="InventoryReports">
-        <div className="filter">
-          <button className="btn-sm btn-primary" onClick={this.openFilterModal}>
-            Filter
-          </button>
-          <div className="FilterState">
-            {moment(this.state.from).isSameOrBefore(this.state.to) ? <h1>from</h1> : <h1>to</h1>}
-            <p>{this.state.from}</p>
+        <div className="row">
+          <div className="filter col-9">
+            <button className="btn-sm btn-primary" onClick={this.openFilterModal}>
+              Filter
+            </button>
+            <div className="FilterState">
+              {moment(this.state.from).isSameOrBefore(this.state.to) ? <h1>from</h1> : <h1>to</h1>}
+              <p>{this.state.from}</p>
+            </div>
+            <div className="FilterState">
+              {moment(this.state.to).isSameOrAfter(this.state.from) ? <h1>to</h1> : <h1>from</h1>}
+              <p>{this.state.to}</p>
+            </div>
           </div>
-          <div className="FilterState">
-            {moment(this.state.to).isSameOrAfter(this.state.from) ? <h1>to</h1> : <h1>from</h1>}
-            <p>{this.state.to}</p>
+          <div className="exportReport col-3">
+            <button className="btn-sm btn-primary" onClick={this.exportReport}>
+              export
+            </button>
           </div>
-        </div>
-        <div className="exportReport">
-          <button className="btn btn-primary" onClick={this.exportReport}>
-            export
-          </button>
         </div>
         <div className="createdModal">
           <div className="Modal">
