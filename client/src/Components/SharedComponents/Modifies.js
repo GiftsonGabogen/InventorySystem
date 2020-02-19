@@ -128,7 +128,7 @@ class Modifies extends Component {
               <p>{this.state.to}</p>
             </div>
           </div>
-          <div className="exportModifies col-3">
+          <div className="exportModifies d-flex justify-content-end col-3">
             <button className="btn-sm btn-primary" onClick={this.exportModifies}>
               export
             </button>

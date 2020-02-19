@@ -293,6 +293,7 @@ body {
   width: 100%;
 }
 .IndividualInventory .head .image img {
+  cursor: pointer;
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -309,6 +310,7 @@ body {
 
 .createdModal,
 .deleteModalContainer,
+.galleryModalContainer,
 .editModalContainer {
   position: fixed;
   left: 0;
@@ -323,12 +325,19 @@ body {
 }
 .createdModal .Modal,
 .createdModal .deleteModal,
+.createdModal .galleryModal,
 .createdModal .editModal,
 .deleteModalContainer .Modal,
 .deleteModalContainer .deleteModal,
+.deleteModalContainer .galleryModal,
 .deleteModalContainer .editModal,
+.galleryModalContainer .Modal,
+.galleryModalContainer .deleteModal,
+.galleryModalContainer .galleryModal,
+.galleryModalContainer .editModal,
 .editModalContainer .Modal,
 .editModalContainer .deleteModal,
+.editModalContainer .galleryModal,
 .editModalContainer .editModal {
   width: 50vw;
   min-height: 50vh;
@@ -338,30 +347,67 @@ body {
 }
 .createdModal .Modal .closingModal,
 .createdModal .Modal .deleteClosingModal,
+.createdModal .Modal .galleryClosingModal,
 .createdModal .Modal .editClosingModal,
 .createdModal .deleteModal .closingModal,
 .createdModal .deleteModal .deleteClosingModal,
+.createdModal .deleteModal .galleryClosingModal,
 .createdModal .deleteModal .editClosingModal,
+.createdModal .galleryModal .closingModal,
+.createdModal .galleryModal .deleteClosingModal,
+.createdModal .galleryModal .galleryClosingModal,
+.createdModal .galleryModal .editClosingModal,
 .createdModal .editModal .closingModal,
 .createdModal .editModal .deleteClosingModal,
+.createdModal .editModal .galleryClosingModal,
 .createdModal .editModal .editClosingModal,
 .deleteModalContainer .Modal .closingModal,
 .deleteModalContainer .Modal .deleteClosingModal,
+.deleteModalContainer .Modal .galleryClosingModal,
 .deleteModalContainer .Modal .editClosingModal,
 .deleteModalContainer .deleteModal .closingModal,
 .deleteModalContainer .deleteModal .deleteClosingModal,
+.deleteModalContainer .deleteModal .galleryClosingModal,
 .deleteModalContainer .deleteModal .editClosingModal,
+.deleteModalContainer .galleryModal .closingModal,
+.deleteModalContainer .galleryModal .deleteClosingModal,
+.deleteModalContainer .galleryModal .galleryClosingModal,
+.deleteModalContainer .galleryModal .editClosingModal,
 .deleteModalContainer .editModal .closingModal,
 .deleteModalContainer .editModal .deleteClosingModal,
+.deleteModalContainer .editModal .galleryClosingModal,
 .deleteModalContainer .editModal .editClosingModal,
+.galleryModalContainer .Modal .closingModal,
+.galleryModalContainer .Modal .deleteClosingModal,
+.galleryModalContainer .Modal .galleryClosingModal,
+.galleryModalContainer .Modal .editClosingModal,
+.galleryModalContainer .deleteModal .closingModal,
+.galleryModalContainer .deleteModal .deleteClosingModal,
+.galleryModalContainer .deleteModal .galleryClosingModal,
+.galleryModalContainer .deleteModal .editClosingModal,
+.galleryModalContainer .galleryModal .closingModal,
+.galleryModalContainer .galleryModal .deleteClosingModal,
+.galleryModalContainer .galleryModal .galleryClosingModal,
+.galleryModalContainer .galleryModal .editClosingModal,
+.galleryModalContainer .editModal .closingModal,
+.galleryModalContainer .editModal .deleteClosingModal,
+.galleryModalContainer .editModal .galleryClosingModal,
+.galleryModalContainer .editModal .editClosingModal,
 .editModalContainer .Modal .closingModal,
 .editModalContainer .Modal .deleteClosingModal,
+.editModalContainer .Modal .galleryClosingModal,
 .editModalContainer .Modal .editClosingModal,
 .editModalContainer .deleteModal .closingModal,
 .editModalContainer .deleteModal .deleteClosingModal,
+.editModalContainer .deleteModal .galleryClosingModal,
 .editModalContainer .deleteModal .editClosingModal,
+.editModalContainer .galleryModal .closingModal,
+.editModalContainer .galleryModal .deleteClosingModal,
+.editModalContainer .galleryModal .galleryClosingModal,
+.editModalContainer .galleryModal .editClosingModal,
 .editModalContainer .editModal .closingModal,
 .editModalContainer .editModal .deleteClosingModal,
+.editModalContainer .editModal .galleryClosingModal,
 .editModalContainer .editModal .editClosingModal {
   color: white;
   font-size: 2rem;
@@ -369,6 +415,38 @@ body {
   position: absolute;
   top: 1rem;
   right: 4rem;
+}
+.createdModal .galleryModal,
+.deleteModalContainer .galleryModal,
+.galleryModalContainer .galleryModal,
+.editModalContainer .galleryModal {
+  width: 80vw;
+  height: 80vh;
+}
+.createdModal .galleryModal .photoGallery,
+.deleteModalContainer .galleryModal .photoGallery,
+.galleryModalContainer .galleryModal .photoGallery,
+.editModalContainer .galleryModal .photoGallery {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 1rem;
+}
+.createdModal .galleryModal .photoGallery .image,
+.deleteModalContainer .galleryModal .photoGallery .image,
+.galleryModalContainer .galleryModal .photoGallery .image,
+.editModalContainer .galleryModal .photoGallery .image {
+  width: 100%;
+  border-radius: 5px;
+  border: 1px solid black;
+  padding: 1rem;
+}
+.createdModal .galleryModal .photoGallery .image img,
+.deleteModalContainer .galleryModal .photoGallery .image img,
+.galleryModalContainer .galleryModal .photoGallery .image img,
+.editModalContainer .galleryModal .photoGallery .image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 /*# sourceMappingURL=App.css.map */

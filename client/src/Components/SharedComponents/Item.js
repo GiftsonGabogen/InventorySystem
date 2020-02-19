@@ -117,6 +117,13 @@ class Inventories extends Component {
   closeDeleteModal = () => {
     document.querySelector(".deleteModalContainer").style.display = "none";
   };
+
+  openGalleryModal = () => {
+    document.querySelector(".galleryModalContainer").style.display = "grid";
+  };
+  closeGalleryModal = () => {
+    document.querySelector(".galleryModalContainer").style.display = "none";
+  };
   deleteInventory = e => {
     e.preventDefault();
     let data = {
@@ -127,9 +134,9 @@ class Inventories extends Component {
     document.querySelector(".deleteModalContainer").style.display = "none";
     this.props.DeleteInventoryAction(data);
     if (this.props.credential.Type === "SuperAdmin") {
-      this.props.history.push(`/Reload/-SuperAdmin-Inventories`);
+      this.props.history.push(`/Reload/-SuperAdmin-Home`);
     } else {
-      this.props.history.push(`/Reload/-Faculty-Inventories`);
+      this.props.history.push(`/Reload/-Faculty-Overview`);
     }
   };
 
@@ -158,6 +165,22 @@ class Inventories extends Component {
                 <input type="hidden" ref="DeleteID" />
                 <input type="submit" className="btn btn-primary" value="Delete" />
               </form>
+            </div>
+          </div>
+          <div className="galleryModalContainer">
+            <div className="galleryModal">
+              <div className="galleryClosingModal" onClick={this.closeGalleryModal}>
+                x
+              </div>
+              <div className="photoGallery">
+                {Inventory.Name === undefined || null || false
+                  ? ""
+                  : Inventory.Image.map(image => (
+                      <div className="image">
+                        <img src={`/${image}`} alt="photo" />
+                      </div>
+                    ))}
+              </div>
             </div>
           </div>
           <div className="createdModal">
@@ -195,8 +218,11 @@ class Inventories extends Component {
           <hr />
           <div className="head">
             <div className="image">
-              
-            <img src={(Inventory.Name === undefined || null || false) ? "" : `/${Inventory.Image[0]}`} alt="imagesample" />
+              <img
+                src={Inventory.Name === undefined || null || false ? "" : `/${Inventory.Image[0]}`}
+                alt="imagesample"
+                onClick={this.openGalleryModal}
+              />
             </div>
             {/* informations of the item */}
             <div className="info">
