@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { LogoutAction } from "../../Actions/CredentialActions";
 import { UpdateUserAction } from "../../Actions/UsersActions";
+import userIcon from "../Images/016-user.svg";
 import PopAlert from "../Comps/PopAlert";
 
 function mapStateToProps(state) {
@@ -34,9 +35,16 @@ class Heading extends Component {
   };
   openEditModal = () => {
     document.querySelector(".editModalContainer").style.display = "grid";
+    document.querySelector(".accountPopover").style.display = "none";
   };
   closeEditModal = () => {
     document.querySelector(".editModalContainer").style.display = "none";
+  };
+
+  openAccountPopover = () => {
+    document.querySelector(".accountPopover").style.display === "inline-block"
+      ? (document.querySelector(".accountPopover").style.display = "none")
+      : (document.querySelector(".accountPopover").style.display = "inline-block");
   };
   render() {
     return (
@@ -72,13 +80,14 @@ class Heading extends Component {
         <div className="col-6 justify-content-start">
           <h4>WUP Inventory System</h4>
         </div>
-        <div className="col-6 d-flex justify-content-end">
-          <button className="btn btn-primary" onClick={this.openEditModal}>
-            Edit Account
-          </button>
-          <button className="btn btn-primary" onClick={this.LogoutHandler}>
-            Logout
-          </button>
+        <div className="col-6 d-flex justify-content-end accountIconContainer">
+          <img src={userIcon} alt="account" ref="account" onClick={this.openAccountPopover} />
+          <div className="accountPopover">
+            <ul>
+              <li onClick={this.openEditModal}>Edit Account</li>
+              <li onClick={this.LogoutHandler}>Logout</li>
+            </ul>
+          </div>
         </div>
       </div>
     );
