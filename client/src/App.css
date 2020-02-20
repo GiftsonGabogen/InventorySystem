@@ -471,5 +471,12 @@ body {
   width: 100%;
   object-fit: cover;
 }
+.createdModal .galleryModal .photoGallery .buttons button,
+.deleteModalContainer .galleryModal .photoGallery .buttons button,
+.galleryModalContainer .galleryModal .photoGallery .buttons button,
+.editModalContainer .galleryModal .photoGallery .buttons button {
+  height: 2rem;
+  margin-right: 1rem;
+}
 
 /*# sourceMappingURL=App.css.map */

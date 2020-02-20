@@ -205,67 +205,71 @@ Router.post("/inventorylog/AddInventoryLog", AuthCheck, (req, res) => {
   });
 });
 
-Router.post("/AddDeleteImage", AuthCheck, upload.array("AddImage", 12), (req, res) => {
+Router.post("/AddImage", AuthCheck, upload.array("AddImage", 12), (req, res) => {
   const { id } = req.body;
-  if (req.body.Method === "Add") {
-    Inventories.findById(id)
-      .exec()
-      .then(findRes => {
-        let Images = [];
-        req.files.map(file => Images.push(file.path));
-        newImages = [...findRes.Image, ...Images];
-        Inventories.findByIdAndUpdate(
-          id,
-          {
-            $set: {
-              Image: newImages
-            }
-          },
-          { new: true }
-        )
-          .exec()
-          .then(updateRes => {
-            res.status(200).json({
-              success: true,
-              Inventory: updateRes,
-              message: `Successfully Added an Image`
-            });
-          });
-      });
-  } else {
-    Inventories.findById(id)
-      .exec()
-      .then(findRes => {
-        newImages = [];
-        findRes.Image.map(img => {
-          req.body.Images.map(imgs => {
-            if (img === imgs) {
-              return;
-            } else {
-              newImages.push(img);
-            }
+  Inventories.findById(id)
+    .exec()
+    .then(findRes => {
+      let Images = [];
+      req.files.map(file => Images.push(file.path));
+      newImages = [...findRes.Image, ...Images];
+      Inventories.findByIdAndUpdate(
+        id,
+        {
+          $set: {
+            Image: newImages
+          }
+        },
+        { new: true }
+      )
+        .exec()
+        .then(updateRes => {
+          res.status(200).json({
+            success: true,
+            Inventory: updateRes,
+            message: `Successfully Added an Image`
           });
         });
-        console.log(newImages);
-        Inventories.findByIdAndUpdate(
-          id,
-          {
-            $set: {
-              Image: newImages
-            }
-          },
-          { new: true }
-        )
-          .exec()
-          .then(updateRes => {
-            res.status(200).json({
-              success: true,
-              Inventory: updateRes,
-              message: `Successfully Deleted an Image`
-            });
+    });
+});
+
+Router.post("/DeleteImage", AuthCheck, (req, res) => {
+  console.log(req.body);
+  const { id } = req.body;
+
+  Inventories.findById(id)
+    .exec()
+    .then(findRes => {
+      let EmptyImages = [];
+      let newImages = findRes.Image.slice();
+      for (let i = 0; i < req.body.DeleteImages.length; i++) {
+        for (let j = 0; j < newImages.length; j++) {
+          if (req.body.DeleteImages[i] !== newImages[j]) {
+            EmptyImages.push(newImages[j]);
+          }
+        }
+        newImages = EmptyImages.slice();
+        EmptyImages = [];
+      }
+      console.log(newImages);
+      Inventories.findByIdAndUpdate(
+        id,
+        {
+          $set: {
+            Image: newImages
+          }
+        },
+        { new: true }
+      )
+        .exec()
+        .then(updateRes => {
+          res.status(200).json({
+            success: true,
+            Inventory: updateRes,
+            message: `Successfully Deleted an Image`
           });
-      });
-  }
+        });
+    });
 });
 
 Router.put("/BorrowInventory", AuthCheck, (req, res) => {

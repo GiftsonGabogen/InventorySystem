@@ -8,7 +8,8 @@ import {
   BorrowInventoriesAction,
   BackInventoriesAction,
   DeleteInventoryAction,
-  AddDeleteImageAction
+  AddImageAction,
+  DeleteImageAction
 } from "../../Actions/InventoriesActions";
 import { UnMountAlertAction } from "../../Actions/UnMountActions";
 
@@ -30,7 +31,8 @@ class Inventories extends Component {
     this.state = {
       maxBorrow: 0,
       inventoryLoaded: false,
-      Status: []
+      Status: [],
+      deleteImages: []
     };
   }
   componentDidMount() {
@@ -141,7 +143,18 @@ class Inventories extends Component {
     }
   };
   addToDelete = e => {
-    e.target.style.opacity !== "0.3" ? (e.target.style.opacity = "0.3") : (e.target.style.opacity = "0");
+    if (e.target.style.opacity !== "0.3") {
+      this.setState({
+        deleteImages: [...this.state.deleteImages, e.target.nextElementSibling.alt]
+      });
+      e.target.style.opacity = "0.3";
+    } else {
+      let filteredDeleteImages = this.state.deleteImages.filter(delImg => delImg !== e.target.nextElementSibling.alt);
+      this.setState({
+        deleteImages: filteredDeleteImages
+      });
+      e.target.style.opacity = "0";
+    }
   };
   AddImage = () => {
     let data = {
@@ -149,7 +162,20 @@ class Inventories extends Component {
       id: this.props.match.params.id,
       Method: "Add"
     };
-    this.props.AddDeleteImageAction(data);
+    this.props.AddImageAction(data);
+    if (this.props.credential.Type === "SuperAdmin") {
+      this.props.history.push(`/Reload/-SuperAdmin-Inventories`);
+    } else {
+      this.props.history.push(`/Reload/-Faculty-Inventories`);
+    }
+  };
+  deleteImage = () => {
+    let data = {
+      DeleteImages: this.state.deleteImages,
+      id: this.props.match.params.id,
+      Method: "Delete"
+    };
+    this.props.DeleteImageAction(data);
     if (this.props.credential.Type === "SuperAdmin") {
       this.props.history.push(`/Reload/-SuperAdmin-Inventories`);
     } else {
@@ -193,21 +219,30 @@ class Inventories extends Component {
                 <div className="Images">
                   {Inventory.Name === undefined || null || false
                     ? ""
-                    : Inventory.Image.map(image => (
-                        <div className="image">
+                    : Inventory.Image.map((image, imgIndex) => (
+                        <div className="image" key={imgIndex}>
                           <div className="cover" onClick={this.addToDelete}></div>
-                          <img src={`/${image}`} alt="photo" />
+                          <img src={`/${image}`} alt={image} />
                         </div>
                       ))}
                 </div>
-                <div className="buttons d-flex justify-content-end">
-                  <form onSubmit={this.AddImage}>
+                <div className="buttons d-flex justify-content-end align-content-end">
+                  <div className="form">
                     <div className="form-group col">
                       <label htmlFor="AddImage">Add Image</label>
                       <input type="file" className="form-control-file d-flex justify-content-end" ref="AddImage" multiple />
                     </div>
-                    <input type="submit" className="form-control" value="Add" />
-                  </form>
+                    <div className="form-row">
+                      {this.state.deleteImages.length === 0 ? (
+                        <div className="col"></div>
+                      ) : (
+                        <button className="btn-sm btn-danger col" onClick={this.deleteImage}>
+                          Delete
+                        </button>
+                      )}
+                      <input type="submit" className="form-control col" value="Add" onClick={this.AddImage} />
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -329,5 +364,6 @@ export default connect(mapStateToProps, {
   BorrowInventoriesAction,
   BackInventoriesAction,
   DeleteInventoryAction,
-  AddDeleteImageAction
+  AddImageAction,
+  DeleteImageAction
 })(Inventories);
