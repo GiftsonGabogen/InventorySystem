@@ -7,7 +7,8 @@ import {
   FetchInventoryAction,
   BorrowInventoriesAction,
   BackInventoriesAction,
-  DeleteInventoryAction
+  DeleteInventoryAction,
+  AddDeleteImageAction
 } from "../../Actions/InventoriesActions";
 import { UnMountAlertAction } from "../../Actions/UnMountActions";
 
@@ -139,6 +140,22 @@ class Inventories extends Component {
       this.props.history.push(`/Reload/-Faculty-Overview`);
     }
   };
+  addToDelete = e => {
+    e.target.style.opacity !== "0.3" ? (e.target.style.opacity = "0.3") : (e.target.style.opacity = "0");
+  };
+  AddImage = () => {
+    let data = {
+      AddImage: this.refs.AddImage.files,
+      id: this.props.match.params.id,
+      Method: "Add"
+    };
+    this.props.AddDeleteImageAction(data);
+    if (this.props.credential.Type === "SuperAdmin") {
+      this.props.history.push(`/Reload/-SuperAdmin-Inventories`);
+    } else {
+      this.props.history.push(`/Reload/-Faculty-Inventories`);
+    }
+  };
 
   render() {
     // assign this.props.inventories.Inventory to Inventory for shorter syntax
@@ -173,13 +190,25 @@ class Inventories extends Component {
                 x
               </div>
               <div className="photoGallery">
-                {Inventory.Name === undefined || null || false
-                  ? ""
-                  : Inventory.Image.map(image => (
-                      <div className="image">
-                        <img src={`/${image}`} alt="photo" />
-                      </div>
-                    ))}
+                <div className="Images">
+                  {Inventory.Name === undefined || null || false
+                    ? ""
+                    : Inventory.Image.map(image => (
+                        <div className="image">
+                          <div className="cover" onClick={this.addToDelete}></div>
+                          <img src={`/${image}`} alt="photo" />
+                        </div>
+                      ))}
+                </div>
+                <div className="buttons d-flex justify-content-end">
+                  <form onSubmit={this.AddImage}>
+                    <div className="form-group col">
+                      <label htmlFor="AddImage">Add Image</label>
+                      <input type="file" className="form-control-file d-flex justify-content-end" ref="AddImage" multiple />
+                    </div>
+                    <input type="submit" className="form-control" value="Add" />
+                  </form>
+                </div>
               </div>
             </div>
           </div>
@@ -299,5 +328,6 @@ export default connect(mapStateToProps, {
   FetchInventoryAction,
   BorrowInventoriesAction,
   BackInventoriesAction,
-  DeleteInventoryAction
+  DeleteInventoryAction,
+  AddDeleteImageAction
 })(Inventories);

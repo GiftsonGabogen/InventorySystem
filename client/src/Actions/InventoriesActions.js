@@ -70,6 +70,30 @@ export const AddInventoriesAction = data => dispatch => {
     });
 };
 
+export const AddDeleteImageAction = data => dispatch => {
+  let Data;
+  if (data.Method === "Add") {
+    Data = new FormData();
+    Data.append("id", data.id);
+    Data.append("Method", data.Method);
+    let Images = [...data.AddImage];
+    Images.map(file => Data.append("AddImage", file));
+  } else {
+    Data = data;
+  }
+  let Token = localStorage.getItem("Authorization");
+  axios
+    .post("/api/inventories/AddDeleteImage", Data, {
+      headers: { Authorization: "Bearer " + Token, "Content-Type": "multipart/form-data" }
+    })
+    .then(inventories => {
+      dispatch({
+        type: BorrowInventories,
+        payload: inventories.data
+      });
+    });
+};
+
 export const BorrowInventoriesAction = data => dispatch => {
   let Token = localStorage.getItem("Authorization");
   axios

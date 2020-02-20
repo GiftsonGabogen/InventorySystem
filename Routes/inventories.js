@@ -205,6 +205,69 @@ Router.post("/inventorylog/AddInventoryLog", AuthCheck, (req, res) => {
   });
 });
 
+Router.post("/AddDeleteImage", AuthCheck, upload.array("AddImage", 12), (req, res) => {
+  const { id } = req.body;
+  if (req.body.Method === "Add") {
+    Inventories.findById(id)
+      .exec()
+      .then(findRes => {
+        let Images = [];
+        req.files.map(file => Images.push(file.path));
+        newImages = [...findRes.Image, ...Images];
+        Inventories.findByIdAndUpdate(
+          id,
+          {
+            $set: {
+              Image: newImages
+            }
+          },
+          { new: true }
+        )
+          .exec()
+          .then(updateRes => {
+            res.status(200).json({
+              success: true,
+              Inventory: updateRes,
+              message: `Successfully Added an Image`
+            });
+          });
+      });
+  } else {
+    Inventories.findById(id)
+      .exec()
+      .then(findRes => {
+        newImages = [];
+        findRes.Image.map(img => {
+          req.body.Images.map(imgs => {
+            if (img === imgs) {
+              return;
+            } else {
+              newImages.push(img);
+            }
+          });
+        });
+        console.log(newImages);
+        Inventories.findByIdAndUpdate(
+          id,
+          {
+            $set: {
+              Image: newImages
+            }
+          },
+          { new: true }
+        )
+          .exec()
+          .then(updateRes => {
+            res.status(200).json({
+              success: true,
+              Inventory: updateRes,
+              message: `Successfully Deleted an Image`
+            });
+          });
+      });
+  }
+});
+
 Router.put("/BorrowInventory", AuthCheck, (req, res) => {
   const { id, Borrower, Quantity, Custodian } = req.body;
   let formerStatus = [];

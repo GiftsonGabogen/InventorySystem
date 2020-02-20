@@ -421,31 +421,54 @@ body {
 .galleryModalContainer .galleryModal,
 .editModalContainer .galleryModal {
   width: 80vw;
-  height: 80vh;
+  min-height: 80vh;
+  overflow: scroll;
 }
 .createdModal .galleryModal .photoGallery,
 .deleteModalContainer .galleryModal .photoGallery,
 .galleryModalContainer .galleryModal .photoGallery,
 .editModalContainer .galleryModal .photoGallery {
   display: grid;
+  grid-gap: 1rem;
+  grid-template-rows: 85% 15%;
+  width: 100%;
+}
+.createdModal .galleryModal .photoGallery .Images,
+.deleteModalContainer .galleryModal .photoGallery .Images,
+.galleryModalContainer .galleryModal .photoGallery .Images,
+.editModalContainer .galleryModal .photoGallery .Images {
+  display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   grid-gap: 1rem;
 }
-.createdModal .galleryModal .photoGallery .image,
-.deleteModalContainer .galleryModal .photoGallery .image,
-.galleryModalContainer .galleryModal .photoGallery .image,
-.editModalContainer .galleryModal .photoGallery .image {
+.createdModal .galleryModal .photoGallery .Images .image,
+.deleteModalContainer .galleryModal .photoGallery .Images .image,
+.galleryModalContainer .galleryModal .photoGallery .Images .image,
+.editModalContainer .galleryModal .photoGallery .Images .image {
+  position: relative;
   width: 100%;
   border-radius: 5px;
   border: 1px solid black;
   padding: 1rem;
 }
-.createdModal .galleryModal .photoGallery .image img,
-.deleteModalContainer .galleryModal .photoGallery .image img,
-.galleryModalContainer .galleryModal .photoGallery .image img,
-.editModalContainer .galleryModal .photoGallery .image img {
+.createdModal .galleryModal .photoGallery .Images .image .cover,
+.deleteModalContainer .galleryModal .photoGallery .Images .image .cover,
+.galleryModalContainer .galleryModal .photoGallery .Images .image .cover,
+.editModalContainer .galleryModal .photoGallery .Images .image .cover {
+  cursor: pointer;
+  position: absolute;
   width: 100%;
   height: 100%;
+  left: 0;
+  top: 0;
+  opacity: 0;
+  background-color: black;
+}
+.createdModal .galleryModal .photoGallery .Images .image img,
+.deleteModalContainer .galleryModal .photoGallery .Images .image img,
+.galleryModalContainer .galleryModal .photoGallery .Images .image img,
+.editModalContainer .galleryModal .photoGallery .Images .image img {
+  width: 100%;
   object-fit: cover;
 }
 
