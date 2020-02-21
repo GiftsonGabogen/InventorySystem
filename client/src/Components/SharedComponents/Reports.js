@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import moment from "moment";
 import fileSaver from "file-saver";
 import xlsx from "xlsx";
+import PrintButton from "../Comps/PrintButton";
 import { connect } from "react-redux";
 import { UnMountAlertAction } from "../../Actions/UnMountActions";
 
@@ -128,6 +129,7 @@ class Reports extends Component {
             <button className="btn-sm btn-primary" onClick={this.exportReport}>
               export
             </button>
+            <PrintButton element="reportsTable" type="html"></PrintButton>
           </div>
         </div>
         <div className="createdModal">
@@ -213,7 +215,7 @@ class Reports extends Component {
           </div>
         </div>
 
-        <table className="table table-striped table-dark reportsTable">
+        <table className="table table-striped table-dark reportsTable" id="reportsTable">
           <thead>
             <tr>
               <th className="small" scope="col">
