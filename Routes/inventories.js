@@ -3,6 +3,7 @@ const express = require("express");
 const Router = express.Router();
 const Inventories = require("../MongoDBModel/inventories");
 const Inventorylog = require("../MongoDBModel/inventorylog");
+const Notes = require("../MongoDBModel/notes");
 const Modify = require("../MongoDBModel/modify");
 const mongoose = require("mongoose");
 const moment = require("moment");
@@ -48,6 +49,20 @@ Router.get("/", (req, res) => {
         success: true,
         Inventories: result,
         message: "Successfully Fetched Inventories"
+      });
+    })
+    .catch(err => {
+      res.status(200).json({ success: false });
+    });
+});
+Router.get("/notes", (req, res) => {
+  Notes.find()
+    .exec()
+    .then(result => {
+      res.status(200).json({
+        success: true,
+        Notes: result,
+        message: "Successfully Fetched notes"
       });
     })
     .catch(err => {
@@ -164,6 +179,7 @@ Router.post("/inventorylog/AddInventoryLog", AuthCheck, (req, res) => {
     Returnee: Returnee,
     Borrower: Borrower,
     Borrowed: Borrowed,
+    Date: Date.now(),
     Custodian: Custodian,
     Quantity: Quantity,
     BorrowingCustodian: BorrowingCustodian
@@ -202,6 +218,25 @@ Router.post("/inventorylog/AddInventoryLog", AuthCheck, (req, res) => {
             });
           });
       });
+  });
+});
+
+Router.get("/addDeleteNote", AuthCheck, (req, res) => {
+  const { id, Description, Custodian } = req.body;
+
+  let newNotes = new Notes({
+    _id: new mongoose.Types.ObjectId(),
+    ItemID: id,
+    Description: Description,
+    Custodian: Custodian,
+    Date: Date.now()
+  });
+
+  newNotes.save().then(addNote => {
+    res.status(200).json({
+      success: true,
+      message: `Successfully requested a deletion to the admin`
+    });
   });
 });
 
@@ -288,7 +323,7 @@ Router.put("/BorrowInventory", AuthCheck, (req, res) => {
               ...formerStatus,
               {
                 _id: new mongoose.Types.ObjectId(),
-                date: moment(Date.now()).format("MMM D YYYY hh A"),
+                date: Date.now(),
                 borrower: Borrower,
                 quantity: Quantity,
                 custodian: Custodian

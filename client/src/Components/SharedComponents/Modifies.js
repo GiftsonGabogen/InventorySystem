@@ -115,9 +115,9 @@ class Modifies extends Component {
   render() {
     return (
       <div className="InventoryModifies">
-        <div className="row">
-          <div className="filter col-9">
-            <button className="btn-sm btn-primary" onClick={this.openFilterModal}>
+        <div className="d-flex mb-2">
+          <div className="filter mr-auto">
+            <button className="btn-sm btn-success" onClick={this.openFilterModal}>
               Filter
             </button>
             <div className="FilterState">
@@ -129,8 +129,8 @@ class Modifies extends Component {
               <p>{this.state.to}</p>
             </div>
           </div>
-          <div className="exportModifies d-flex justify-content-end col-3">
-            <button className="btn-sm btn-primary" onClick={this.exportModifies}>
+          <div className="exportModifies">
+            <button className="btn-sm btn-success" onClick={this.exportModifies}>
               export
             </button>
             <PrintButton element="modifiesTable" type="html"></PrintButton>
@@ -214,47 +214,55 @@ class Modifies extends Component {
                 </div>
               </div>
 
-              <input type="submit" value="Submit" className="form-control btn btn-primary" />
+              <input type="submit" value="Submit" className="form-control btn btn-success" />
             </form>
           </div>
         </div>
 
-        <table className="table table-striped table-dark modifiesTable" id="modifiesTable">
-          <thead>
-            <tr>
-              <th className="small" scope="col">
-                #
-              </th>
-              <th className="small" scope="col">
-                Item
-              </th>
-              <th className="small" scope="col">
-                Custodian
-              </th>
-              <th className="small" scope="col">
-                Description
-              </th>
-              <th className="small" scope="col">
-                Date
-              </th>
-              <th className="small" scope="col"></th>
-            </tr>
-          </thead>
-          <tbody>
-            {this.state.Modifies.map((modify, i) => (
-              <tr key={i}>
-                <th scope="row">{i + 1}</th>
-                <td>{modify.InventoryInfo.Name}</td>
-                <td>{modify.Custodian}</td>
-                <td>{modify.Description}</td>
-                <td>{moment(modify.Date).format("MMM D YYYY hh A")}</td>
-                <td>
-                  <button className="btn btn-sm btn-primary">info</button>
-                </td>
+        <div id="modifiesTable">
+          <table className="table table-striped table-dark modifiesTable">
+            <thead>
+              <tr>
+                <th className="small" scope="col">
+                  #
+                </th>
+                <th className="small" scope="col">
+                  Item
+                </th>
+                <th className="small" scope="col">
+                  Custodian
+                </th>
+                <th className="small" scope="col">
+                  Description
+                </th>
+                <th className="small" scope="col">
+                  Date
+                </th>
+                <th className="small" scope="col"></th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {this.state.Modifies.map((modify, i) => (
+                <tr key={i}>
+                  <th scope="row">{i + 1}</th>
+                  <td>{modify.InventoryInfo.Name}</td>
+                  <td>{modify.Custodian}</td>
+                  <td>{modify.Description}</td>
+                  <td>{moment(modify.Date).format("MMM D YYYY hh A")}</td>
+                  <td>
+                    <button className="btn btn-sm btn-success">info</button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <div className="Signature">
+            <div className="content">
+              <p className="Name">{this.props.credential.Name}</p>
+              <p>{this.props.credential.Type === "SuperAdmin" ? "Admin" : "Custodian"}</p>
+            </div>
+          </div>
+        </div>
       </div>
     );
   }

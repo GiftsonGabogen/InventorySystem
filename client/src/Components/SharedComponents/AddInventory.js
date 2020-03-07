@@ -30,6 +30,11 @@ class AddInventory extends Component {
       InventoryImage: this.refs.InventoryImage.files
     };
     this.props.AddInventoriesAction(Data);
+    if (this.props.credential.Type === "SuperAdmin") {
+      this.props.history.push(`/Reload/-SuperAdmin-Inventories`);
+    } else {
+      this.props.history.push(`/Reload/-Faculty-Inventories`);
+    }
   };
 
   render() {
@@ -43,14 +48,14 @@ class AddInventory extends Component {
               <input type="text" ref="Name" className="form-control" required />
             </div>
             <div className="form-group col">
-              <label htmlFor="From">From</label>
+              <label htmlFor="From">Acquisition Source</label>
               <input type="text" ref="From" className="form-control" required />
             </div>
           </div>
 
           <div className="form-row">
             <div className="form-group col">
-              <label htmlFor="PricePerUnit">Price Per Unit</label>
+              <label htmlFor="PricePerUnit">Acquisition Cost</label>
               <input type="number" min="0" defaultValue="1" ref="PricePerUnit" className="form-control" required />
             </div>
             <div className="form-group col">
@@ -64,7 +69,7 @@ class AddInventory extends Component {
           </div>
           <div className="form-row">
             <div className="form-group col">
-              <label htmlFor="Location">Location</label>
+              <label htmlFor="Location">Stock Location</label>
               <select className="custom-select" id="Location" ref="Location" required>
                 {this.props.locations.Locations.map((loc, i) => (
                   <option value={loc._id} key={i}>
@@ -86,7 +91,7 @@ class AddInventory extends Component {
           </div>
 
           <div className="form-group d-flex justify-content-end">
-            <input type="submit" value="Add" className="btn btn-primary w-25" />
+            <input type="submit" value="Add" className="btn btn-success w-25" />
           </div>
         </form>
       </div>

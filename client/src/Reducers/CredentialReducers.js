@@ -5,7 +5,9 @@ const initialState = {
   Success: false,
   message: "",
   Username: "",
-  Type: ""
+  Name: "",
+  Type: "",
+  Password: ""
 };
 
 export default (state = initialState, action) => {
@@ -17,7 +19,9 @@ export default (state = initialState, action) => {
           Login: true,
           Success: true,
           Username: action.payload.User.Username,
-          Type: action.payload.User.Type
+          Name: action.payload.User.Name,
+          Type: action.payload.User.Type,
+          Password: action.payload.Password
         };
       } else {
         return {
@@ -32,7 +36,9 @@ export default (state = initialState, action) => {
         Success: false,
         message: "",
         Username: "",
-        Type: ""
+        Name: "",
+        Type: "",
+        Password: ""
       };
     case AuthCheck:
       if (action.payload.success === true) {
@@ -41,7 +47,9 @@ export default (state = initialState, action) => {
           Login: true,
           Success: true,
           Username: action.payload.User.Username,
-          Type: action.payload.User.Type
+          Name: action.payload.User.Name,
+          Type: action.payload.User.Type,
+          Password: action.payload.Password
         };
       } else {
         return {

@@ -3,13 +3,15 @@ import { connect } from "react-redux";
 import PopAlert from "../Comps/PopAlert";
 import ReturnLocation from "../Comps/ReturnLocation";
 import ReturnCategory from "../Comps/ReturnCategory";
+import moment from "moment";
 import {
   FetchInventoryAction,
   BorrowInventoriesAction,
   BackInventoriesAction,
   DeleteInventoryAction,
   AddImageAction,
-  DeleteImageAction
+  DeleteImageAction,
+  AddDeleteNoteAction
 } from "../../Actions/InventoriesActions";
 import { UnMountAlertAction } from "../../Actions/UnMountActions";
 
@@ -129,17 +131,24 @@ class Inventories extends Component {
   };
   deleteInventory = e => {
     e.preventDefault();
-    let data = {
-      Description: this.refs.Description.value,
-      Custodian: this.props.credential.Username,
-      id: this.refs.DeleteID.value
-    };
-    document.querySelector(".deleteModalContainer").style.display = "none";
-    this.props.DeleteInventoryAction(data);
-    if (this.props.credential.Type === "SuperAdmin") {
-      this.props.history.push(`/Reload/-SuperAdmin-Home`);
+    if (this.props.credential.Password === this.refs.Password.value) {
+      let data = {
+        Description: this.refs.Description.value,
+        Custodian: this.props.credential.Username,
+        id: this.refs.DeleteID.value
+      };
+      document.querySelector(".deleteModalContainer").style.display = "none";
+
+      document.querySelector(".deleteAlert").innerText = "";
+
+      if (this.props.credential.Type === "SuperAdmin") {
+        this.props.DeleteInventoryAction(data);
+        this.props.history.push(`/Reload/-SuperAdmin-Home`);
+      } else {
+        this.props.AddDeleteNoteAction(data);
+      }
     } else {
-      this.props.history.push(`/Reload/-Faculty-Overview`);
+      document.querySelector(".deleteAlert").innerText = "Password Don't Match";
     }
   };
   addToDelete = e => {
@@ -202,11 +211,14 @@ class Inventories extends Component {
               </div>
               <form onSubmit={this.deleteInventory}>
                 <div className="form-group">
+                  <div className="alert-danger deleteAlert" role="alert"></div>
                   <label htmlFor="Description">Description</label>
                   <input type="text" ref="Description" className="form-control" placeholder="Description" />
+                  <label htmlFor="Password">Password</label>
+                  <input type="password" ref="Password" className="form-control" placeholder="Password" />
                 </div>
                 <input type="hidden" ref="DeleteID" />
-                <input type="submit" className="btn btn-primary" value="Delete" />
+                <input type="submit" className="btn btn-success" value="Delete" />
               </form>
             </div>
           </div>
@@ -266,7 +278,7 @@ class Inventories extends Component {
                 <input type="hidden" ref="BorrowingCustodian" />
                 <input type="hidden" ref="Borrower" />
                 <input type="hidden" ref="BorrowID" />
-                <input type="submit" className="btn btn-primary" value="Return" />
+                <input type="submit" className="btn btn-success" value="Return" />
                 <div>
                   Borrowed by <p id="BorrowerText"></p>
                 </div>
@@ -275,8 +287,9 @@ class Inventories extends Component {
           </div>
           <div className="Title">
             <h1>{Inventory.Name}</h1>
+
             <button className="btn btn-danger deleteInventoryButton" onClick={() => this.openDeleteInventory(Inventory._id)}>
-              delete
+              {this.props.credential.Type === "SuperAdmin" ? "delete" : "request delete"}
             </button>
           </div>
           <hr />
@@ -292,12 +305,13 @@ class Inventories extends Component {
             <div className="info">
               <p>Quantity: {Inventory.Quantity}</p>
               <p>
-                Location: <ReturnLocation Location={Inventory.Location} />
+                Stock Location: <ReturnLocation Location={Inventory.Location} />
               </p>
               <p>
                 Category: <ReturnCategory Category={Inventory.Category} />
               </p>
-              <p>Price Per Unit: {Inventory.PricePerUnit}</p>
+              <p>Acquisition Cost: {Inventory.PricePerUnit}</p>
+              <p>Acquisition Source: {Inventory.From}</p>
               <p>Item Remaining : {this.state.maxBorrow}</p>
             </div>
             {/* form for borrowing an item */}
@@ -320,7 +334,7 @@ class Inventories extends Component {
                     required
                   />
                 </div>
-                <input type="submit" className="btn btn-primary" value="Borrow" />
+                <input type="submit" className="btn btn-success" value="Borrow" />
               </form>
             </div>
           </div>
@@ -341,9 +355,9 @@ class Inventories extends Component {
                     <th scope="row">{i + 1}</th>
                     <td>{stat.borrower}</td>
                     <td>{stat.quantity}</td>
-                    <td>{stat.date}</td>
+                    <td>{moment(stat.date).format("MMM D YYYY hh:mm A")}</td>
                     <td>
-                      <button className="btn btn-primary" onClick={() => this.openReturn(stat._id)}>
+                      <button className="btn btn-success" onClick={() => this.openReturn(stat._id)}>
                         Return
                       </button>
                     </td>
@@ -365,5 +379,6 @@ export default connect(mapStateToProps, {
   BackInventoriesAction,
   DeleteInventoryAction,
   AddImageAction,
-  DeleteImageAction
+  DeleteImageAction,
+  AddDeleteNoteAction
 })(Inventories);

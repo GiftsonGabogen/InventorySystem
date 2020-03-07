@@ -3,11 +3,13 @@ import {
   FetchAllInventories,
   AddInventories,
   DeleteInventory,
+  AddDeleteNote,
   BorrowInventories,
   BackInventories,
   FetchInventory,
   FetchAllInventoryLogs,
   FetchAllInventoryModifies,
+  FetchAllNotes,
   UnMountAlert
 } from "../Actions/Actions";
 
@@ -18,6 +20,7 @@ const initialState = {
   Inventory: {},
   InventoryLogs: [],
   InventoryModifies: [],
+  Notes: [],
   Loading: true
 };
 
@@ -56,6 +59,20 @@ export default (state = initialState, action) => {
         return {
           ...state,
           Inventories: action.payload.Inventories,
+          Success: true,
+          Loading: false
+        };
+      } else {
+        return {
+          ...state,
+          Loading: false
+        };
+      }
+    case FetchAllNotes:
+      if (action.payload.success === true) {
+        return {
+          ...state,
+          Notes: action.payload.Notes,
           Success: true,
           Loading: false
         };
@@ -175,6 +192,19 @@ export default (state = initialState, action) => {
         return {
           ...state,
           Inventories: [...newInventories, action.payload.Inventory],
+          message: action.payload.message,
+          Loading: false
+        };
+      } else {
+        return {
+          ...state,
+          Loading: false
+        };
+      }
+    case AddDeleteNote:
+      if (action.payload.success === true) {
+        return {
+          ...state,
           message: action.payload.message,
           Loading: false
         };

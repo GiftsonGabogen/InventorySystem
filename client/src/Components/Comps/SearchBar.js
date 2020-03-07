@@ -43,7 +43,7 @@ class SearchBar extends Component {
               ))}
             </select>
           </div>
-          <input type="submit" value="Search" className="btn btn-primary" />
+          <input type="submit" value="Search" className="btn btn-success" />
         </div>
       </form>
     );

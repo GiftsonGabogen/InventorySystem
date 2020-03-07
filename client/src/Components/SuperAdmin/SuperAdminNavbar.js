@@ -21,26 +21,25 @@ class SuperAdminNavbar extends Component {
         { Name: "Overview", Image: magnifyingGlass, link: "/Home" },
         { Name: "Custodians", Image: CustodianIcon, link: "/Custodians" },
         { Name: "Inventories", Image: InventoriesIcon, link: "/Inventories" },
-        { Name: "Add Inventory", Image: AddInventoryIcon, link: "/AddInventory" },
-        { Name: "Locations", Image: LocationIcon, link: "/Locations" },
+        { Name: "Stock Locations", Image: LocationIcon, link: "/Locations" },
         { Name: "Categories", Image: CategoriesIcon, link: "/Categories" },
         { Name: "Reports", Image: ReportsIcon, link: "/Reports" },
-        { Name: "Modifies", Image: ReportsIcon, link: "/Modifies" }
+        { Name: "Alterations", Image: ReportsIcon, link: "/Alterations" }
       ]
     };
   }
 
   render() {
     return (
-      <div className="Navbar col-3 bg-light">
+      <div className="Navbar col-3">
         <h5 className="light-gray">Navigation</h5>
-        <nav className="bg-light sidebar">
+        <nav className="sidebar">
           <div className="sidebar-sticky">
             <ul className="nav flex-column">
               {this.state.navs.map((nav, i) =>
                 nav.link === undefined ? (
                   <li className="nav-item" key={i}>
-                    <button href="#" className="nav-link btn btn-primary" disabled>
+                    <button href="#" className="nav-link btn btn-success" disabled>
                       {nav.Name}
                     </button>
                   </li>

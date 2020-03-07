@@ -18,13 +18,12 @@ import errorPage from "./Components/errorPage";
 import { FetchAllUsersAction } from "./Actions/UsersActions";
 import {
   FetchAllInventoriesAction,
+  FetchAllNotesAction,
   FetchAllInventoryLogsAction,
   FetchAllInventoryModifiesAction
 } from "./Actions/InventoriesActions";
 import { FetchCategoriesAction } from "./Actions/CategoriesActions";
 import { FetchLocationsAction } from "./Actions/LocationsActions";
-import { AuthCheckAction } from "./Actions/CredentialActions";
-import moment from "moment";
 
 function mapStateToProps(state) {
   return {
@@ -40,6 +39,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
 
+    this.props.FetchAllNotesAction();
     this.props.FetchAllUsersAction();
     this.props.FetchAllInventoriesAction();
     this.props.FetchCategoriesAction();
@@ -55,8 +55,8 @@ class App extends React.Component {
           <div className="AlertModalForm">
             <h2 className="AlertModalMessage"></h2>
             <div className="form-row">
-              <button className="btn btn-primary okButton">Ok</button>
-              <button className="btn btn-primary cancelButton">Cancel</button>
+              <button className="btn btn-success okButton">Ok</button>
+              <button className="btn btn-success cancelButton">Cancel</button>
             </div>
           </div>
         </div>
@@ -87,5 +87,6 @@ export default connect(mapStateToProps, {
   FetchCategoriesAction,
   FetchLocationsAction,
   FetchAllInventoryLogsAction,
+  FetchAllNotesAction,
   FetchAllInventoryModifiesAction
 })(App);

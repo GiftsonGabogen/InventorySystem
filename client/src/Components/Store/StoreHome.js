@@ -114,7 +114,7 @@ class StoreHome extends Component {
                       disabled
                     />
                   </div>
-                  <input type="submit" className="btn btn-primary" value="Sold" />
+                  <input type="submit" className="btn btn-success" value="Sold" />
                 </form>
               </div>
             </div>
@@ -143,7 +143,7 @@ class StoreHome extends Component {
                 <td>{item.Unit}</td>
                 <td>
                   <button
-                    className="btn btn-primary"
+                    className="btn btn-success"
                     data-toggle="modal"
                     data-target="#SoldModal"
                     onClick={() => this.SoldHandler(item.Name, item.SellingPrice, item._id, item.Category.Name)}

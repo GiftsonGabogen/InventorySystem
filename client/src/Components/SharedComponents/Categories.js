@@ -6,7 +6,8 @@ import PopAlert from "../Comps/PopAlert";
 
 function mapStateToProps(state) {
   return {
-    categories: state.categories
+    categories: state.categories,
+    credential: state.credential
   };
 }
 
@@ -42,6 +43,14 @@ class Categories extends Component {
   deleteCategory = id => {
     this.props.DeleteCategoriesAction(id);
   };
+
+  category = name => {
+    this.props.history.push(
+      this.props.credential.Type === "SuperAdmin"
+        ? `/Reload/-SuperAdmin-Category-${name}`
+        : `/Reload/-Faculty-Category-${name}`
+    );
+  };
   render() {
     return (
       <div className="Categories">
@@ -59,7 +68,7 @@ class Categories extends Component {
               </div>
               <input type="hidden" ref="id" className="form-control" />
 
-              <input type="submit" value="Submit" className="form-control btn btn-primary" />
+              <input type="submit" value="Submit" className="form-control btn btn-success" />
             </form>
           </div>
         </div>
@@ -88,13 +97,18 @@ class Categories extends Component {
                 <th scope="row">{i + 1}</th>
                 <td>{cat.Name}</td>
                 <td>
-                  <button onClick={() => this.openEditModal(cat._id, cat.Name)} className="btn btn-danger btn-sm">
+                  <button onClick={() => this.openEditModal(cat._id, cat.Name)} className="btn btn-success btn-sm">
                     edit
                   </button>
                 </td>
                 <td>
                   <button onClick={() => this.deleteCategory(cat._id)} className="btn btn-danger btn-sm">
                     delete
+                  </button>
+                </td>
+                <td>
+                  <button className="btn-sm btn-success" onClick={() => this.category(cat._id)}>
+                    see items
                   </button>
                 </td>
               </tr>

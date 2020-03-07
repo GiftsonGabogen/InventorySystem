@@ -111,9 +111,9 @@ class Reports extends Component {
   render() {
     return (
       <div className="InventoryReports">
-        <div className="row">
-          <div className="filter col-9">
-            <button className="btn-sm btn-primary" onClick={this.openFilterModal}>
+        <div className="d-flex mb-2">
+          <div className="filter mr-auto">
+            <button className="btn-sm btn-success" onClick={this.openFilterModal}>
               Filter
             </button>
             <div className="FilterState">
@@ -125,11 +125,11 @@ class Reports extends Component {
               <p>{this.state.to}</p>
             </div>
           </div>
-          <div className="exportReport d-flex justify-content-end col-3">
-            <button className="btn-sm btn-primary" onClick={this.exportReport}>
+          <div className="exportReport">
+            <button className="btn-sm btn-success" onClick={this.exportReport}>
               export
             </button>
-            <PrintButton element="reportsTable" type="html"></PrintButton>
+            <PrintButton element="reportsTable" type="html" header="WUP Inventory System Reports"></PrintButton>
           </div>
         </div>
         <div className="createdModal">
@@ -210,59 +210,66 @@ class Reports extends Component {
                 </div>
               </div>
 
-              <input type="submit" value="Submit" className="form-control btn btn-primary" />
+              <input type="submit" value="Submit" className="form-control btn btn-success" />
             </form>
           </div>
         </div>
-
-        <table className="table table-striped table-dark reportsTable" id="reportsTable">
-          <thead>
-            <tr>
-              <th className="small" scope="col">
-                #
-              </th>
-              <th className="small" scope="col">
-                Item
-              </th>
-              <th className="small" scope="col">
-                Borrower
-              </th>
-              <th className="small" scope="col">
-                Returnee
-              </th>
-              <th className="small" scope="col">
-                Date of Borrow
-              </th>
-              <th className="small" scope="col">
-                Date of Return
-              </th>
-              <th className="small" scope="col">
-                Quantity
-              </th>
-              <th className="small" scope="col">
-                Custodian at Borrow
-              </th>
-              <th className="small" scope="col">
-                Custodian at Return
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {this.state.Reports.map((inventory, i) => (
-              <tr key={i}>
-                <th scope="row">{i + 1}</th>
-                <td>{inventory.ItemName}</td>
-                <td>{inventory.Borrower}</td>
-                <td>{inventory.Returnee}</td>
-                <td>{inventory.Borrowed}</td>
-                <td>{moment(inventory.Date).format("MMM D YYYY hh A")}</td>
-                <td>{inventory.Quantity}</td>
-                <td>{inventory.BorrowingCustodian}</td>
-                <td>{inventory.Custodian}</td>
+        <div id="reportsTable">
+          <table className="table table-striped table-dark reportsTable">
+            <thead>
+              <tr>
+                <th className="small" scope="col">
+                  #
+                </th>
+                <th className="small" scope="col">
+                  Item
+                </th>
+                <th className="small" scope="col">
+                  Borrower
+                </th>
+                <th className="small" scope="col">
+                  Returnee
+                </th>
+                <th className="small" scope="col">
+                  Date of Borrow
+                </th>
+                <th className="small" scope="col">
+                  Date of Return
+                </th>
+                <th className="small" scope="col">
+                  Quantity
+                </th>
+                <th className="small" scope="col">
+                  Custodian at Borrow
+                </th>
+                <th className="small" scope="col">
+                  Custodian at Return
+                </th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {this.state.Reports.map((inventory, i) => (
+                <tr key={i}>
+                  <th scope="row">{i + 1}</th>
+                  <td>{inventory.ItemName}</td>
+                  <td>{inventory.Borrower}</td>
+                  <td>{inventory.Returnee}</td>
+                  <td>{moment(inventory.Borrowed).format("MMM D YYYY hh:mm A")}</td>
+                  <td>{moment(inventory.Date).format("MMM D YYYY hh:mm A")}</td>
+                  <td>{inventory.Quantity}</td>
+                  <td>{inventory.BorrowingCustodian}</td>
+                  <td>{inventory.Custodian}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <div className="Signature">
+            <div className="content">
+              <p className="Name">{this.props.credential.Name}</p>
+              <p>{this.props.credential.Type === "SuperAdmin" ? "Admin" : "Custodian"}</p>
+            </div>
+          </div>
+        </div>
       </div>
     );
   }

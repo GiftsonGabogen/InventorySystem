@@ -3,6 +3,10 @@ import { connect } from "react-redux";
 import { FetchAllInventoriesAction } from "../../Actions/InventoriesActions";
 import { UnMountAlertAction } from "../../Actions/UnMountActions";
 import ReturnLocation from "../Comps/ReturnLocation";
+import ReturnCategory from "../Comps/ReturnCategory";
+import ReturnBorrowedQuantity from "../Comps/ReturnBorrowedQuantity";
+import PrintButton from "../Comps/PrintButton";
+import AddInventory from "./AddInventory";
 import { Link } from "react-router-dom";
 
 function mapStateToProps(state) {
@@ -118,13 +122,35 @@ class Inventories extends Component {
   closeFilterModal = () => {
     document.querySelector(".createdModal").style.display = "none";
   };
+  moreInfo = id => {
+    this.props.history.push(
+      this.props.credential.Type === "SuperAdmin"
+        ? `/Reload/-SuperAdmin-Inventory-${id}`
+        : `/Reload/-Faculty-Inventory-${id}`
+    );
+  };
+
+  openAddModal = () => {
+    document.querySelector(".AddModalContainer").style.display = "grid";
+  };
+  closeAddModal = () => {
+    document.querySelector(".AddModalContainer").style.display = "none";
+  };
 
   render() {
     if (this.props.inventories.Loading === true) {
       return <h1>Loading...</h1>;
     } else {
       return (
-        <div className="Inventories">
+        <div className="Inventories" id="PrintInventories">
+          <div className="AddModalContainer">
+            <div className="AddModal">
+              <div className="AddClosingModal" onClick={this.closeAddModal}>
+                x
+              </div>
+              <AddInventory></AddInventory>
+            </div>
+          </div>
           <div className="createdModal">
             <div className="Modal">
               <div className="closingModal" onClick={this.closeFilterModal}>
@@ -151,52 +177,88 @@ class Inventories extends Component {
                   </div>
                 ))}
 
-                <input type="submit" value="Submit" className="form-control btn btn-primary" />
+                <input type="submit" value="Submit" className="form-control btn btn-success" />
               </form>
             </div>
           </div>
-          <div className="filter">
-            <button className="btn-sm btn-primary" onClick={this.openFilterModal}>
-              Filter
-            </button>
-            <div className="FilterState">
-              {this.state.CategoriesFilter.length !== 0 ? <h1>Categories</h1> : ""}
-              {this.state.CategoriesFilter.map((cat, i) => (
-                <p key={i}>{cat}</p>
-              ))}
+          <div className="tools d-flex mb-3" id="ignore">
+            <div className="filter mr-auto">
+              <button className="btn-sm btn-success" onClick={this.openFilterModal}>
+                Filter
+              </button>
+              <div className="FilterState">
+                {this.state.CategoriesFilter.length !== 0 ? <h1>Categories</h1> : ""}
+                {this.state.CategoriesFilter.map((cat, i) => (
+                  <p key={i}>{cat}</p>
+                ))}
+              </div>
+              <div className="FilterState">
+                {this.state.LocationsFilter.length !== 0 ? <h1>Locations</h1> : ""}
+                {this.state.LocationsFilter.map((loc, i) => (
+                  <p key={i}>{loc}</p>
+                ))}
+              </div>
             </div>
-            <div className="FilterState">
-              {this.state.LocationsFilter.length !== 0 ? <h1>Locations</h1> : ""}
-              {this.state.LocationsFilter.map((loc, i) => (
-                <p key={i}>{loc}</p>
-              ))}
+            <div className="printButton">
+              <PrintButton
+                element="PrintInventories"
+                type="html"
+                header="WUP Inventory System Properties"
+                ignore={["ignore"]}
+              ></PrintButton>
+            </div>
+            <div className="addInventory" onClick={this.openAddModal}>
+              <button className="btn-sm btn-success">Add Inventory</button>
             </div>
           </div>
+
           <div className="InventoriesContainer">
             {this.state.Inventories.length === 0 ? (
               <div className="">No Inventories found</div>
             ) : (
-              this.state.Inventories.map((inventory, i) => (
-                <div className="card Inventory" key={i}>
-                  <img src={`/${inventory.Image[0]}`} className="card-img-top" alt="sampleImage" />
-                  <div className="card-body">
-                    <h5 className="card-title">{inventory.Name}</h5>
-                    <p className="card-text">
-                      this Item is Located at <ReturnLocation Location={inventory.Location} />
-                    </p>
-                    <Link
-                      to={
-                        this.props.credential.Type === "SuperAdmin"
-                          ? `/SuperAdmin/Inventory/${inventory._id}`
-                          : `/Faculty/Inventory/${inventory._id}`
-                      }
-                      className="btn btn-primary"
-                    >
-                      Borrow or Return
-                    </Link>
+              <div>
+                <table className="table table-striped table-dark">
+                  <thead>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Name</th>
+                      <th scope="col">Quantity</th>
+                      <th scope="col">Borrowed</th>
+                      <th scope="col">Location</th>
+                      <th scope="col">Category</th>
+                      <th scope="col"></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {this.state.Inventories.map((inventory, i) => (
+                      <tr className="Inventory" key={i} onClick={() => this.moreInfo(inventory._id)}>
+                        <th scope="row">{i + 1}</th>
+                        <td>{inventory.Name}</td>
+                        <td>{inventory.Quantity}</td>
+                        <td>
+                          <ReturnBorrowedQuantity Inventory={inventory._id} />
+                        </td>
+                        <td>
+                          <ReturnLocation Location={inventory.Location} />
+                        </td>
+                        <td>
+                          <ReturnCategory Category={inventory.Category} />
+                        </td>
+                        <td className="ItemsImage">
+                          <img src={inventory.Name === undefined || null || false ? "" : `/${inventory.Image[0]}`} />
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+
+                <div className="Signature">
+                  <div className="content">
+                    <p className="Name">{this.props.credential.Name}</p>
+                    <p>{this.props.credential.Type === "SuperAdmin" ? "Admin" : "Custodian"}</p>
                   </div>
                 </div>
-              ))
+              </div>
             )}
           </div>
         </div>

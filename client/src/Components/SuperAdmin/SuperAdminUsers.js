@@ -78,7 +78,7 @@ class SuperAdminUsers extends Component {
                 <label htmlFor="ConfirmPassword">Confirm Password</label>
                 <input type="password" ref="ConfirmPassword" className="form-control" />
               </div>
-              <input type="submit" value="Register" className="form-control btn btn-primary" />
+              <input type="submit" value="Register" className="form-control btn btn-success" />
             </form>
           </div>
         </div>
@@ -99,7 +99,7 @@ class SuperAdminUsers extends Component {
                 <td>{user.Name}</td>
                 <td>{user.Username}</td>
                 <td>
-                  <button onClick={() => this.DeleteHandler(user._id)} className="btn btn-sm btn-primary">
+                  <button onClick={() => this.DeleteHandler(user._id)} className="btn btn-sm btn-success">
                     delete
                   </button>
                 </td>
@@ -108,7 +108,7 @@ class SuperAdminUsers extends Component {
           </tbody>
         </table>
 
-        <button className="btn btn-primary col-3" onClick={this.openAddModal}>
+        <button className="btn btn-success col-3" onClick={this.openAddModal}>
           Add Custodians
         </button>
       </div>

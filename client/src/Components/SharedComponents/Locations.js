@@ -6,7 +6,8 @@ import { UnMountAlertAction } from "../../Actions/UnMountActions";
 
 function mapStateToProps(state) {
   return {
-    locations: state.locations
+    locations: state.locations,
+    credential: state.credential
   };
 }
 
@@ -42,6 +43,13 @@ class Locations extends Component {
   deleteLocation = id => {
     this.props.DeleteLocationsAction(id);
   };
+  location = name => {
+    this.props.history.push(
+      this.props.credential.Type === "SuperAdmin"
+        ? `/Reload/-SuperAdmin-Locations-${name}`
+        : `/Reload/-Faculty-Locations-${name}`
+    );
+  };
   render() {
     return (
       <div className="Locations">
@@ -59,7 +67,7 @@ class Locations extends Component {
               </div>
               <input type="hidden" ref="id" className="form-control" />
 
-              <input type="submit" value="Submit" className="form-control btn btn-primary" />
+              <input type="submit" value="Submit" className="form-control btn btn-success" />
             </form>
           </div>
         </div>
@@ -73,28 +81,34 @@ class Locations extends Component {
             </div>
           </div>
         </form>
-        <table className="table table-striped table-dark">
+        <table className="table table-striped table-dark Locations">
           <thead>
             <tr>
               <th scope="col">#</th>
               <th scope="col">Name</th>
               <th></th>
               <th></th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
             {this.props.locations.Locations.map((loc, i) => (
-              <tr key={i}>
+              <tr className="Location" key={i}>
                 <th scope="row">{i + 1}</th>
                 <td>{loc.Name}</td>
                 <td>
-                  <button onClick={() => this.openEditModal(loc._id, loc.Name)} className="btn btn-danger btn-sm">
+                  <button onClick={() => this.openEditModal(loc._id, loc.Name)} className="btn btn-success btn-sm">
                     edit
                   </button>
                 </td>
                 <td>
                   <button onClick={() => this.deleteCategory(loc._id)} className="btn btn-danger btn-sm">
                     delete
+                  </button>
+                </td>
+                <td>
+                  <button className="btn-sm btn-success" onClick={() => this.location(loc._id)}>
+                    see items
                   </button>
                 </td>
               </tr>

@@ -6,7 +6,9 @@ import {
   FetchInventory,
   FetchAllInventoryLogs,
   DeleteInventory,
-  FetchAllInventoryModifies
+  AddDeleteNote,
+  FetchAllInventoryModifies,
+  FetchAllNotes
 } from "./Actions";
 
 import axios from "axios";
@@ -129,6 +131,29 @@ export const BackInventoriesAction = data => dispatch => {
         payload: inventories.data
       });
     });
+};
+
+export const AddDeleteNoteAction = data => dispatch => {
+  let Token = localStorage.getItem("Authorization");
+  axios
+    .post("/api/inventories/addDeleteNote", data, {
+      headers: { Authorization: "Bearer " + Token }
+    })
+    .then(inventories => {
+      dispatch({
+        type: AddDeleteNote,
+        payload: inventories.data
+      });
+    });
+};
+
+export const FetchAllNotesAction = () => dispatch => {
+  axios.get("/api/inventories/notes").then(notes => {
+    dispatch({
+      type: FetchAllNotes,
+      payload: notes.data
+    });
+  });
 };
 
 export const DeleteInventoryAction = data => dispatch => {

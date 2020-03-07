@@ -112,6 +112,7 @@ Router.post("/login", (req, res) => {
               res.status(200).json({
                 message: "Login Successfully",
                 User: result[0],
+                Password: Password,
                 success: true,
                 token: token
               });

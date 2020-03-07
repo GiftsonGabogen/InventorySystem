@@ -2,11 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { NavLink } from "react-router-dom";
 import magnifyingGlass from "../Images/magnifying-glass.png";
-import AddInventoryIcon from "../Images/AddInventory.svg";
 import InventoriesIcon from "../Images/Inventories.svg";
-import CustodianIcon from "../Images/Custodian.svg";
-import LocationIcon from "../Images/Location.svg";
-import CategoriesIcon from "../Images/Categories.svg";
 import ReportsIcon from "../Images/Reports.svg";
 
 function mapStateToProps(state) {
@@ -20,9 +16,6 @@ class Navbar extends Component {
       navs: [
         { Name: "Overview", Image: magnifyingGlass, link: "/Overview" },
         { Name: "Inventories", Image: InventoriesIcon, link: "/Inventories" },
-        { Name: "AddInventory", Image: AddInventoryIcon, link: "/AddInventory" },
-        { Name: "Categories", Image: CategoriesIcon, link: "/Categories" },
-        { Name: "Locations", Image: LocationIcon, link: "/Locations" },
         { Name: "Reports", Image: ReportsIcon, link: "/Reports" }
       ]
     };
@@ -30,15 +23,15 @@ class Navbar extends Component {
 
   render() {
     return (
-      <div className="Navbar col-3 bg-light">
+      <div className="Navbar col-3">
         <h5 className="light-gray">Navigation</h5>
-        <nav className="bg-light sidebar">
+        <nav className="sidebar">
           <div className="sidebar-sticky">
             <ul className="nav flex-column">
               {this.state.navs.map((nav, i) =>
                 nav.link === undefined ? (
                   <li className="nav-item" key={i}>
-                    <button href="#" className="nav-link btn btn-primary" disabled>
+                    <button href="#" className="nav-link btn btn-success" disabled>
                       {nav.Name}
                     </button>
                   </li>

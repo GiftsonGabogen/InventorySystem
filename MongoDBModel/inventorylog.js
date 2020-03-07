@@ -27,7 +27,7 @@ const inventoryLogSchema = new Schema({
     required: true
   },
   Borrowed: {
-    type: String,
+    type: Date,
     required: true
   },
   Quantity: {
@@ -40,7 +40,7 @@ const inventoryLogSchema = new Schema({
   },
   Date: {
     type: Date,
-    default: Date.now()
+    required: true
   }
 });
 

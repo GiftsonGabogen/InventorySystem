@@ -59,7 +59,7 @@ class Navbar extends Component {
               {this.state.navs.map((nav, i) =>
                 nav.link === undefined ? (
                   <li className="nav-item" key={i}>
-                    <button href="#" className="nav-link btn btn-primary" disabled>
+                    <button href="#" className="nav-link btn btn-success" disabled>
                       {nav.Name}
                     </button>
                   </li>

@@ -48,7 +48,7 @@ class Heading extends Component {
   };
   render() {
     return (
-      <div className="Heading col-12 row bg-dark">
+      <div className="Heading col-12 row bg-success">
         <div className="editModalContainer">
           <PopAlert {...this.props.users} />
           <div className="editModal">
@@ -73,7 +73,7 @@ class Heading extends Component {
                   placeholder="Confirm New Password"
                 />
               </div>
-              <input type="submit" className="btn btn-primary" value="Edit" />
+              <input type="submit" className="btn btn-success" value="Edit" />
             </form>
           </div>
         </div>
