@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { AddLocationsAction, DeleteLocationsAction, EditLocationsAction } from "../../Actions/LocationsActions";
 import PopAlert from "../Comps/PopAlert";
+import Sort from "../Comps/Sort";
 import { UnMountAlertAction } from "../../Actions/UnMountActions";
 
 function mapStateToProps(state) {
@@ -92,7 +93,7 @@ class Locations extends Component {
             </tr>
           </thead>
           <tbody>
-            {this.props.locations.Locations.map((loc, i) => (
+            {Sort(this.props.locations.Locations, "Name").map((loc, i) => (
               <tr className="Location" key={i}>
                 <th scope="row">{i + 1}</th>
                 <td>{loc.Name}</td>

@@ -30,6 +30,8 @@ export const DeleteInventoryCheck = "DeleteInventoryCheck";
 export const AddDeleteNote = "AddDeleteNote";
 export const FetchAllNotes = "FetchAllNotes";
 export const BorrowInventories = "borrowInventories";
+export const ConfirmDeleteNotes = "ConfirmDeleteNotes";
+export const DeclineDeleteNotes = "DeclineDeleteNotes";
 export const BackInventories = "backInventories";
 
 export const UnMountAlert = "unMountAlert";

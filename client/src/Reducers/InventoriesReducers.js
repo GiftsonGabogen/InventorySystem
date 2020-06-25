@@ -10,6 +10,7 @@ import {
   FetchAllInventoryLogs,
   FetchAllInventoryModifies,
   FetchAllNotes,
+  DeclineDeleteNotes,
   UnMountAlert
 } from "../Actions/Actions";
 
@@ -160,6 +161,22 @@ export default (state = initialState, action) => {
           Loading: false
         };
       }
+    case DeclineDeleteNotes:
+      if (action.payload.success === true) {
+        let filteredNotes = state.Notes.filter(notes => notes._id !== action.payload.Note._id);
+        return {
+          ...state,
+          Notes: [...filteredNotes],
+          Success: true,
+          message: action.payload.message,
+          Loading: false
+        };
+      } else {
+        return {
+          ...state,
+          Loading: false
+        };
+      }
     case AddInventories:
       if (action.payload.success === true) {
         if (action.payload.method === "add") {
@@ -206,6 +223,7 @@ export default (state = initialState, action) => {
         return {
           ...state,
           message: action.payload.message,
+          Notes: [...state.Notes, action.payload.Note],
           Loading: false
         };
       } else {

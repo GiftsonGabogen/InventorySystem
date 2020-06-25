@@ -8,7 +8,8 @@ function mapStateToProps(state) {
   return {
     inventories: state.inventories,
     categories: state.categories,
-    locations: state.locations
+    locations: state.locations,
+    credential: state.credential
   };
 }
 
@@ -48,7 +49,7 @@ class AddInventory extends Component {
               <input type="text" ref="Name" className="form-control" required />
             </div>
             <div className="form-group col">
-              <label htmlFor="From">Acquisition Source</label>
+              <label htmlFor="From">Source of Fund</label>
               <input type="text" ref="From" className="form-control" required />
             </div>
           </div>

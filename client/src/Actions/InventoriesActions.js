@@ -8,7 +8,9 @@ import {
   DeleteInventory,
   AddDeleteNote,
   FetchAllInventoryModifies,
-  FetchAllNotes
+  FetchAllNotes,
+  DeclineDeleteNotes,
+  ConfirmDeleteNotes
 } from "./Actions";
 
 import axios from "axios";
@@ -102,6 +104,41 @@ export const DeleteImageAction = data => dispatch => {
         type: BorrowInventories,
         payload: inventories.data
       });
+    });
+};
+
+export const DeclineDeleteNotesAction = data => dispatch => {
+  let Token = localStorage.getItem("Authorization");
+  axios
+    .post(`/api/inventories/deletenotes/${data.id}`, data, {
+      headers: { Authorization: "Bearer " + Token }
+    })
+    .then(inventories => {
+      dispatch({
+        type: DeclineDeleteNotes,
+        payload: inventories.data
+      });
+    });
+};
+
+export const ConfirmDeleteNotesAction = data => dispatch => {
+  console.log(data);
+  let Token = localStorage.getItem("Authorization");
+  axios
+    .post(`/api/inventories/deletenotes/${data.id}`, data, {
+      headers: { Authorization: "Bearer " + Token }
+    })
+    .then(inventories => {
+      axios
+        .post(`/api/inventories/deleteInventory/${data.ItemID}`, data, {
+          headers: { Authorization: "Bearer " + Token }
+        })
+        .then(deleteInv => {
+          dispatch({
+            type: DeleteInventory,
+            payload: deleteInv.data
+          });
+        });
     });
 };
 

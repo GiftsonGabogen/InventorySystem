@@ -70,6 +70,22 @@ Router.get("/notes", (req, res) => {
     });
 });
 
+Router.post("/deletenotes/:id", AuthCheck, (req, res) => {
+  const { id } = req.params;
+  Notes.findOneAndRemove({ _id: id })
+    .exec()
+    .then(result => {
+      res.status(200).json({
+        success: true,
+        Note: result,
+        message: `Successfully Deleted Note`
+      });
+    })
+    .catch(err => {
+      res.status(200).json({ success: false, message: err });
+    });
+});
+
 Router.get("/inventorylog", (req, res) => {
   Inventorylog.find()
     .exec()
@@ -221,7 +237,7 @@ Router.post("/inventorylog/AddInventoryLog", AuthCheck, (req, res) => {
   });
 });
 
-Router.get("/addDeleteNote", AuthCheck, (req, res) => {
+Router.post("/addDeleteNote", AuthCheck, (req, res) => {
   const { id, Description, Custodian } = req.body;
 
   let newNotes = new Notes({
@@ -235,6 +251,7 @@ Router.get("/addDeleteNote", AuthCheck, (req, res) => {
   newNotes.save().then(addNote => {
     res.status(200).json({
       success: true,
+      Note: addNote,
       message: `Successfully requested a deletion to the admin`
     });
   });

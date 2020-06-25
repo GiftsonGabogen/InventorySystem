@@ -311,7 +311,7 @@ class Inventories extends Component {
                 Category: <ReturnCategory Category={Inventory.Category} />
               </p>
               <p>Acquisition Cost: {Inventory.PricePerUnit}</p>
-              <p>Acquisition Source: {Inventory.From}</p>
+              <p>Source of Fund: {Inventory.From}</p>
               <p>Item Remaining : {this.state.maxBorrow}</p>
             </div>
             {/* form for borrowing an item */}

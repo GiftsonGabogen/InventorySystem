@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import BorrowIcon from "../Images/borrow.png";
 import InventoriesIcon from "../Images/Inventories.svg";
 import ReturnInventoryNote from "../Comps/ReturnInventoryNote";
+import { ConfirmDeleteNotesAction, DeclineDeleteNotesAction } from "../../Actions/InventoriesActions";
 import moment from "moment";
 
 function mapStateToProps(state) {
@@ -31,11 +33,19 @@ class SuperAdminHome extends Component {
     document.querySelector(".createdModal").style.display = "none";
   };
 
-  decline = () => {
-    console.log("decline");
+  decline = note => {
+    this.props.DeclineDeleteNotesAction({ id: note._id });
   };
-  confirm = () => {
-    console.log("confirm");
+  confirm = note => {
+    this.props.ConfirmDeleteNotesAction({
+      id: note._id,
+      ItemID: note.ItemID,
+      Custodian: note.Custodian,
+      Description: `${note.Description} --Requested By ${note.Custodian}--`
+    });
+  };
+  goToInventories = () => {
+    this.props.history.push(`/Reload/-SuperAdmin-Inventories`);
   };
   render() {
     return (
@@ -77,8 +87,8 @@ class SuperAdminHome extends Component {
                     <ReturnInventoryNote
                       Inventory={note.ItemID}
                       Description={note.Description}
-                      decline={this.decline}
-                      confirm={this.confirm}
+                      decline={() => this.decline(note)}
+                      confirm={() => this.confirm(note)}
                     ></ReturnInventoryNote>
                   </tr>
                 ))}
@@ -97,7 +107,7 @@ class SuperAdminHome extends Component {
             <div className="card-deck">
               <div className="card">
                 <div className="card-body">
-                  <div className="overviewCard">
+                  <div className="overviewCard" onClick={this.goToInventories}>
                     <div className="image">
                       <img src={InventoriesIcon} className="w-25" alt="" />
                     </div>
@@ -110,9 +120,9 @@ class SuperAdminHome extends Component {
               </div>
               <div className="card">
                 <div className="card-body">
-                  <div className="overviewCard">
+                  <div className="overviewCard" onClick={this.goToInventories}>
                     <div className="image">
-                      <img src={InventoriesIcon} className="w-25" alt="" />
+                      <img src={BorrowIcon} className="w-25" alt="" />
                     </div>
                     <div className="info">
                       <h2>{this.state.BorrowedNum}</h2>
@@ -172,4 +182,4 @@ class SuperAdminHome extends Component {
   }
 }
 
-export default connect(mapStateToProps)(SuperAdminHome);
+export default connect(mapStateToProps, { ConfirmDeleteNotesAction, DeclineDeleteNotesAction })(SuperAdminHome);

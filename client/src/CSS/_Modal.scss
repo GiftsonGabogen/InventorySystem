@@ -18,6 +18,7 @@
   .deleteModal,
   .galleryModal,
   .editModal {
+    position: relative;
     width: 50vw;
     min-height: 50vh;
     padding: 2rem;
@@ -28,12 +29,12 @@
     .galleryClosingModal,
     .editClosingModal,
     .AddClosingModal {
-      color: white;
+      color: black;
       font-size: 2rem;
       cursor: pointer;
       position: absolute;
-      top: 1rem;
-      right: 4rem;
+      top: 0.2rem;
+      right: 1rem;
     }
   }
   .galleryModal {

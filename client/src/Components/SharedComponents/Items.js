@@ -2,12 +2,15 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { FetchAllInventoriesAction } from "../../Actions/InventoriesActions";
 import { UnMountAlertAction } from "../../Actions/UnMountActions";
+import Sort from "../Comps/Sort";
+import fileSaver from "file-saver";
+import xlsx from "xlsx";
 import ReturnLocation from "../Comps/ReturnLocation";
 import ReturnCategory from "../Comps/ReturnCategory";
 import ReturnBorrowedQuantity from "../Comps/ReturnBorrowedQuantity";
 import PrintButton from "../Comps/PrintButton";
 import AddInventory from "./AddInventory";
-import { Link } from "react-router-dom";
+import moment from "moment";
 
 function mapStateToProps(state) {
   return {
@@ -136,6 +139,25 @@ class Inventories extends Component {
   closeAddModal = () => {
     document.querySelector(".AddModalContainer").style.display = "none";
   };
+  exportReport = () => {
+    let table = document.querySelector("#InventoriesTable");
+    let wb = xlsx.utils.table_to_book(table, {
+      sheet: moment(Date.now()).format("MMM-D-YYYY")
+    });
+    let wbout = xlsx.write(wb, { bookType: "xlsx", bookSST: true, type: "binary" });
+
+    let s2ab = s => {
+      let buf = new ArrayBuffer(s.length);
+      let view = new Uint8Array(buf);
+      for (let i = 0; i < s.length; i++) view[i] = s.charCodeAt(i) & 0xff;
+      return buf;
+    };
+
+    fileSaver.saveAs(
+      new Blob([s2ab(wbout)], { type: "application/octet-stream" }),
+      `Inventories on date ${moment(Date.now()).format("MMM D YYYY hh:mm A")}.xlsx`
+    );
+  };
 
   render() {
     if (this.props.inventories.Loading === true) {
@@ -148,7 +170,7 @@ class Inventories extends Component {
               <div className="AddClosingModal" onClick={this.closeAddModal}>
                 x
               </div>
-              <AddInventory></AddInventory>
+              <AddInventory history={this.props.history}></AddInventory>
             </div>
           </div>
           <div className="createdModal">
@@ -199,6 +221,9 @@ class Inventories extends Component {
                 ))}
               </div>
             </div>
+            <button className="btn-sm btn-success" onClick={this.exportReport}>
+              export
+            </button>
             <div className="printButton">
               <PrintButton
                 element="PrintInventories"
@@ -217,7 +242,7 @@ class Inventories extends Component {
               <div className="">No Inventories found</div>
             ) : (
               <div>
-                <table className="table table-striped table-dark">
+                <table className="table table-striped table-dark" id="InventoriesTable">
                   <thead>
                     <tr>
                       <th scope="col">#</th>
@@ -230,7 +255,7 @@ class Inventories extends Component {
                     </tr>
                   </thead>
                   <tbody>
-                    {this.state.Inventories.map((inventory, i) => (
+                    {Sort(this.state.Inventories, "Name", "ReturnLocation").map((inventory, i) => (
                       <tr className="Inventory" key={i} onClick={() => this.moreInfo(inventory._id)}>
                         <th scope="row">{i + 1}</th>
                         <td>{inventory.Name}</td>

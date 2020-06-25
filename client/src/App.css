@@ -22,7 +22,7 @@ p {
 }
 
 body {
-  font-family: one;
+  font-family: Arial, Helvetica, sans-serif;
   margin: 0;
 }
 
@@ -81,7 +81,7 @@ body {
 }
 
 .App .content {
-  padding: 2rem;
+  padding: 1rem;
 }
 
 .filter div {
@@ -124,6 +124,7 @@ body {
 .overviewCard {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
+  cursor: pointer;
 }
 
 .SuperAdminHome .card .card-header {
@@ -214,7 +215,7 @@ body {
 }
 .Navbar nav > div ul .sub-nav .badge {
   width: 100%;
-  padding: 8px;
+  padding: 2px;
 }
 .Navbar nav > div ul .sub-nav .badge img {
   max-width: 100%;
@@ -420,6 +421,7 @@ table.filteredInventory td.ItemsImage {
 .AddModalContainer .deleteModal,
 .AddModalContainer .galleryModal,
 .AddModalContainer .editModal {
+  position: relative;
   width: 50vw;
   min-height: 50vh;
   padding: 2rem;
@@ -551,12 +553,12 @@ table.filteredInventory td.ItemsImage {
 .AddModalContainer .editModal .galleryClosingModal,
 .AddModalContainer .editModal .editClosingModal,
 .AddModalContainer .editModal .AddClosingModal {
-  color: white;
+  color: black;
   font-size: 2rem;
   cursor: pointer;
   position: absolute;
-  top: 1rem;
-  right: 4rem;
+  top: 0.2rem;
+  right: 1rem;
 }
 .createdModal .galleryModal,
 .deleteModalContainer .galleryModal,

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { AddCategoriesAction, DeleteCategoriesAction, EditCategoriesAction } from "../../Actions/CategoriesActions";
 import { UnMountAlertAction } from "../../Actions/UnMountActions";
+import Sort from "../Comps/Sort";
 import PopAlert from "../Comps/PopAlert";
 
 function mapStateToProps(state) {
@@ -92,7 +93,7 @@ class Categories extends Component {
             </tr>
           </thead>
           <tbody>
-            {this.props.categories.Categories.map((cat, i) => (
+            {Sort(this.props.categories.Categories, "Name").map((cat, i) => (
               <tr key={i}>
                 <th scope="row">{i + 1}</th>
                 <td>{cat.Name}</td>

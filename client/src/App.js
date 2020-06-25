@@ -66,7 +66,7 @@ class App extends React.Component {
         <Route path="/Faculty" component={FacultyNavbar} />
         <Route path="/SuperAdmin" component={SuperAdminNavbar} />
         <Route exact path="/" component={Login} />
-        <div className="col-9 content">
+        <div className="col-10 content">
           <Switch>
             <Route exact path="/" render={() => <div></div>} />
             <PrivateRoute credential={this.props.credential} path="/Faculty" component={Faculty} />

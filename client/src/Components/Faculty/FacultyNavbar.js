@@ -23,7 +23,7 @@ class Navbar extends Component {
 
   render() {
     return (
-      <div className="Navbar col-3">
+      <div className="Navbar col-2">
         <h5 className="light-gray">Navigation</h5>
         <nav className="sidebar">
           <div className="sidebar-sticky">

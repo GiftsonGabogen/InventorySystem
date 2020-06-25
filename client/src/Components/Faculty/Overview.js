@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import InventoriesIcon from "../Images/Inventories.svg";
+import BorrowIcon from "../Images/borrow.png";
 import { UnMountAlertAction } from "../../Actions/UnMountActions";
 import moment from "moment";
 import { connect } from "react-redux";
@@ -27,6 +28,10 @@ class Overview extends Component {
     this.props.UnMountAlertAction();
   }
 
+  goToInventories = () => {
+    this.props.history.push(`/Reload/-Faculty-Inventories`);
+  };
+
   render() {
     return (
       <div className="FacultyOverview">
@@ -36,7 +41,7 @@ class Overview extends Component {
             <div className="card-deck">
               <div className="card">
                 <div className="card-body">
-                  <div className="overviewCard">
+                  <div className="overviewCard" onClick={this.goToInventories}>
                     <div className="image">
                       <img src={InventoriesIcon} className="w-25" alt="" />
                     </div>
@@ -49,9 +54,9 @@ class Overview extends Component {
               </div>
               <div className="card">
                 <div className="card-body">
-                  <div className="overviewCard">
+                  <div className="overviewCard" onClick={this.goToInventories}>
                     <div className="image">
-                      <img src={InventoriesIcon} className="w-25" alt="" />
+                      <img src={BorrowIcon} className="w-25" alt="" />
                     </div>
                     <div className="info">
                       <h2>{this.state.BorrowedNum}</h2>

@@ -249,9 +249,7 @@ class Modifies extends Component {
                   <td>{modify.Custodian}</td>
                   <td>{modify.Description}</td>
                   <td>{moment(modify.Date).format("MMM D YYYY hh A")}</td>
-                  <td>
-                    <button className="btn btn-sm btn-success">info</button>
-                  </td>
+                  <td></td>
                 </tr>
               ))}
             </tbody>
